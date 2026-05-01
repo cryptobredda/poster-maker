@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="650" height="862" viewBox="0 0 650 862">
+  <defs>
+    <style>
+      @font-face {
+        font-family: 'Playfair Display';
+        font-style: normal;
+        font-weight: 400;
+        src: url('https://cdn.jsdelivr.net/npm/@fontsource/playfair-display@5.0.24/files/playfair-display-latin-400-normal.woff') format('woff');
+      }
+      @font-face {
+        font-family: 'Playfair Display';
+        font-style: normal;
+        font-weight: 700;
+        src: url('https://cdn.jsdelivr.net/npm/@fontsource/playfair-display@5.0.24/files/playfair-display-latin-700-normal.woff') format('woff');
+      }
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        src: url('https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.20/files/inter-latin-400-normal.woff') format('woff');
+      }
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        src: url('https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.20/files/inter-latin-600-normal.woff') format('woff');
+      }
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 700;
+        src: url('https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.20/files/inter-latin-700-normal.woff') format('woff');
+      }
+    </style>
+  </defs>
+
+  <!--
+    PRAYER TIMES POSTER TEMPLATE
+    =============================
+    Design this template around the table placeholder.
+    The white dashed rectangle below marks where the prayer times table will be inserted.
+    
+    KEY ELEMENTS (do not remove IDs):
+    - id="background"        : Background rectangle (height auto-adjusted)
+    - id="dynamic-year"       : Year/Hijri text (content replaced by code)
+    - id="table-area"         : Group containing the table placeholder
+    - id="table-placeholder"  : Rectangle marking the table position/size
+    - id="below-table"        : Group shifted vertically based on actual table height
+    
+    HOW IT WORKS:
+    1. The code reads the table-placeholder rect to get x, y, width
+    2. The prayer times table is generated and replaces the placeholder
+    3. The below-table group is shifted down/up if the actual table height differs
+    4. The SVG height, viewBox, and background rect are adjusted accordingly
+    5. The dynamic-year text is updated with actual data
+  -->
+
+  <!-- Background -->
+  <rect id="background" width="650" height="862" fill="#faf8f3"/>
+
+  <!-- ==================== ABOVE TABLE (stays fixed) ==================== -->
+  <g id="above-table">
+    <!-- Top decoration: gold lines + star -->
+    <rect x="237" y="32" width="76" height="2" fill="#c9a227" rx="1"/>
+    <polygon points="325,25 326.9,30.4 332.6,30.5 328,34 329.7,39.5 325,36.2 320.3,39.5 322,34 317.4,30.5 323.1,30.4" fill="#c9a227"/>
+    <rect x="337" y="32" width="76" height="2" fill="#c9a227" rx="1"/>
+
+    <!-- Mosque title -->
+    <text x="325" y="55" dominant-baseline="central" text-anchor="middle" font-family="Playfair Display" font-size="36" font-weight="700" fill="#2d0a1f" letter-spacing="5">ZAWIA</text>
+
+    <!-- Season subtitle -->
+    <text x="325" y="85" dominant-baseline="central" text-anchor="middle" font-family="Playfair Display" font-size="28" font-weight="700" fill="#c9a227" font-style="italic">Ramadhan</text>
+
+    <!-- Dynamic year/ghijri text — content replaced by code at runtime -->
+    <text id="dynamic-year" x="325" y="117" dominant-baseline="central" text-anchor="middle" font-family="Playfair Display" font-size="22" font-weight="700" fill="#2d0a1f">2025 / Ramadān 1446 AH</text>
+  </g>
+
+  <!-- ==================== TABLE AREA (replaced by code at runtime) ==================== -->
+  <!-- TABLE_AREA_BEGIN -->
+  <g id="table-area">
+    <rect id="table-placeholder" x="26" y="145" width="598" height="480" fill="#ffffff" stroke="#cccccc" stroke-width="1" stroke-dasharray="6,3" rx="4"/>
+    <text x="325" y="385" dominant-baseline="central" text-anchor="middle" font-family="Inter" font-size="16" fill="#aaaaaa" font-style="italic" letter-spacing="3">TABLE AREA</text>
+  </g>
+  <!-- TABLE_AREA_END -->
+
+  <!-- ==================== BELOW TABLE (shifted vertically by code) ==================== -->
+  <g id="below-table" transform="translate(0, 0)">
+    <!-- Jumu'ah speech -->
+    <text x="325" y="639" dominant-baseline="central" text-anchor="middle" font-family="Inter" font-size="12" font-weight="700" fill="#2d0a1f" letter-spacing="1">JUMU&#x27;AH SPEECH (KHUTBAH) 12:30PM</text>
+
+    <!-- Badges row -->
+    <rect x="162" y="663" width="174" height="22" fill="#2d0a1f" rx="4"/>
+    <text x="249" y="674" dominant-baseline="central" text-anchor="middle" font-family="Inter" font-size="10" font-weight="700" fill="#c9a227">EID PRAYER JAMAT - 7:30AM</text>
+    <rect x="344" y="663" width="144" height="22" fill="#c9a227" rx="4"/>
+    <text x="416" y="674" dominant-baseline="central" text-anchor="middle" font-family="Inter" font-size="10" font-weight="700" fill="#2d0a1f">ZAKAT UL FITR &#xA3;5.00</text>
+
+    <!-- Donate text -->
+    <text x="325" y="697" dominant-baseline="central" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#2d0a1f">DONATE NOW TO OUR PARTNER CHARITY ZAWIA AID</text>
+
+    <!-- Bank details -->
+    <text x="325" y="721" dominant-baseline="central" text-anchor="middle" font-family="Inter" font-size="6" fill="#555555">Bank Name: Lloyds Bank | Account Name: Zawia Aid | Sort Code: 30-99-50 | Account No: 82762568</text>
+
+    <!-- Sponsor badges -->
+    <rect x="197" y="745" width="44" height="16" fill="#2d0a1f" rx="2"/>
+    <text x="219" y="753" dominant-baseline="central" text-anchor="middle" font-family="Inter" font-size="6" font-weight="700" fill="#ffffff">AL Badr</text>
+    <rect x="251" y="745" width="52" height="16" fill="#e74c3c" rx="2"/>
+    <text x="277" y="753" dominant-baseline="central" text-anchor="middle" font-family="Inter" font-size="6" font-weight="700" fill="#ffffff">Pizza Pro</text>
+    <rect x="313" y="745" width="36" height="16" fill="#3498db" rx="2"/>
+    <text x="331" y="753" dominant-baseline="central" text-anchor="middle" font-family="Inter" font-size="6" font-weight="700" fill="#ffffff">CRCIC</text>
+    <rect x="359" y="745" width="36" height="16" fill="#e91e63" rx="2"/>
+    <text x="377" y="753" dominant-baseline="central" text-anchor="middle" font-family="Inter" font-size="6" font-weight="700" fill="#ffffff">WBC</text>
+    <rect x="405" y="745" width="48" height="16" fill="#ffffff" stroke="#1a1a2e" stroke-width="1" rx="2"/>
+    <text x="429" y="753" dominant-baseline="central" text-anchor="middle" font-family="Inter" font-size="6" font-weight="700" fill="#1a1a2e">ZK Bakes</text>
+
+    <!-- Masjid name -->
+    <text x="325" y="779" dominant-baseline="central" text-anchor="middle" font-family="Playfair Display" font-size="12" font-weight="700" fill="#2d0a1f">MASJID AZ-ZAWIYA AL-ISLAMIA</text>
+
+    <!-- Address -->
+    <text x="325" y="803" dominant-baseline="central" text-anchor="middle" font-family="Inter" font-size="6" fill="#555555">294 EDWARD ROAD | BIRMINGHAM | B5 7PH | 0121 440 5205</text>
+
+    <!-- Bottom decoration: gold lines + star -->
+    <rect x="237" y="828" width="76" height="2" fill="#c9a227" rx="1"/>
+    <polygon points="325,821 326.9,826.4 332.6,826.5 328,830 329.7,835.5 325,832.2 320.3,835.5 322,830 317.4,826.5 323.1,826.4" fill="#c9a227"/>
+    <rect x="337" y="828" width="76" height="2" fill="#c9a227" rx="1"/>
+  </g>
+</svg>
