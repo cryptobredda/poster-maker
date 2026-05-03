@@ -25,6 +25,23 @@ function buildTitle(monthLabel: string, year: number, times: any[]): string {
   return `${monthLabel} ${year} - ${hijriYearStr}`;
 }
 
+function formatTime12h(time24: string): string {
+  const [h, m] = time24.split(':').map(Number);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 || 12;
+  return `${h12}:${String(m).padStart(2, '0')}${ampm}`;
+}
+
+function getTodaysJumuahTime(times: any[]): string {
+  const today = new Date();
+  const todayStr = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`;
+  const todayEntry = times.find(t => t.date === todayStr);
+  if (todayEntry && todayEntry.dhuhrJamat) {
+    return formatTime12h(todayEntry.dhuhrJamat);
+  }
+  return '';
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
@@ -105,7 +122,8 @@ export default {
       const timesWithJamaat = calculateJamaatTimes(prayerTimes);
 
       const title = buildTitle(monthLabel, today.getFullYear(), timesWithJamaat);
-      const result = await generatePoster(timesWithJamaat, today.getFullYear(), monthLabel, title);
+      const jumuahTime = getTodaysJumuahTime(timesWithJamaat);
+      const result = await generatePoster(timesWithJamaat, today.getFullYear(), monthLabel, title, jumuahTime);
 
       const response = new Response(result.data as any, {
         headers: {

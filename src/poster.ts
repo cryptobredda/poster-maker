@@ -140,13 +140,14 @@ function toBytes(input: string | ArrayBuffer | Uint8Array): Uint8Array {
 }
 
 const C = {
-  maroon: '#2d0a1f',
-  maroonLight: '#3d0f2f',
+  maroon: '#62121b',
+  maroonLight: '#62121b',
   gold: '#c9a227',
-  goldDark: '#b8860b',
-  cream: '#faf8f3',
-  creamAlt: '#f0ebe0',
-  text: '#1a1a2e',
+  goldDark: '#62121b',
+  headerText: '#ffffff',
+  cream: '#ffffff',
+  creamAlt: '#e8e8e8',
+  text: '#62121b',
   white: '#ffffff',
   border: '#e0d5c0',
 };
@@ -308,8 +309,8 @@ function getCellValue(current: string, previous: string | null, key: string): st
 }
 
 function getIslamicDateCell(t: PrayerTime, prevT: PrayerTime | null): { text: string; fontSize: number } {
-  if (prevT && t.hijriMonth !== prevT.hijriMonth) {
-    const monthName = t.hijriMonth.toUpperCase();
+  if (prevT && t.hijriMonthNumber !== prevT.hijriMonthNumber) {
+    const monthName = t.hijriMonth;
     // Use smaller font for longer month names
     const fontSize = monthName.length > 8 ? 5.5 : 7;
     return { text: monthName, fontSize };
@@ -323,7 +324,7 @@ function buildTable(times: PrayerTime[], monthName: string): string {
   const tableH = HEADER_H + times.length * ROW_H;
 
   // Determine Islamic month for header
-  const islamicMonthHeader = times[0]?.hijriMonthEn?.toUpperCase() || '';
+  const islamicMonthHeader = times[0]?.hijriMonthEn || '';
 
   p.push(el('rect', { x: 0, y: 0, width: TABLE_W, height: tableH, fill: C.cream, stroke: C.maroon, 'stroke-width': 2, rx: 4 }));
   p.push(`<clipPath id="tc"><rect x="1" y="1" width="${TABLE_W - 2}" height="${tableH - 2}" rx="3"/></clipPath>`);
@@ -338,42 +339,47 @@ function buildTable(times: PrayerTime[], monthName: string): string {
 
   const dateDayX = COL.date.x + (COL.day.x + COL.day.w - COL.date.x) / 2;
   p.push(el('rect', { x: COL.date.x, y: H1, width: COL.day.x + COL.day.w - COL.date.x, height: H2, fill: C.maroonLight }));
-  p.push(svgText('DATE', COL.date.x + COL.date.w / 2, H1 + H2 / 2, 6, C.gold, f.bold, 'middle'));
-  p.push(svgText('DAY', COL.day.x + COL.day.w / 2, H1 + H2 / 2, 6, C.gold, f.bold, 'middle'));
+  p.push(svgText('DATE', COL.date.x + COL.date.w / 2, H1 + H2 / 2, 6, C.headerText, f.bold, 'middle'));
+  p.push(svgText('DAY', COL.day.x + COL.day.w / 2, H1 + H2 / 2, 6, C.headerText, f.bold, 'middle'));
 
   // Islamic date column header
   p.push(el('rect', { x: COL.islamic.x, y: H1, width: COL.islamic.w, height: H2, fill: C.maroonLight }));
-  p.push(svgText(islamicMonthHeader, COL.islamic.x + COL.islamic.w / 2, H1 + H2 / 2, 5.5, C.gold, f.bold, 'middle'));
+  p.push(svgText(islamicMonthHeader, COL.islamic.x + COL.islamic.w / 2, H1 + H2 / 2, 5.5, C.headerText, f.bold, 'middle'));
 
   for (const g of PRAYER_GROUPS) {
     const cx = g.x + g.w / 2;
     if (g.headerSub) {
-      p.push(svgText(g.name, cx, H1 * 0.36, 8, C.white, f.regular, 'middle'));
-      p.push(svgText(g.headerSub, cx, H1 * 0.76, 5.5, C.white, f.regular, 'middle'));
+      p.push(svgText(g.name, cx, H1 * 0.36, 8, C.headerText, f.regular, 'middle'));
+      p.push(svgText(g.headerSub, cx, H1 * 0.76, 5.5, C.headerText, f.regular, 'middle'));
     } else {
-      p.push(svgText(g.name, cx, H1 / 2, 8, C.white, f.bold, 'middle'));
+      p.push(svgText(g.name, cx, H1 / 2, 8, C.headerText, f.bold, 'middle'));
     }
   }
 
   for (const g of PRAYER_GROUPS) {
     for (const sc of g.subs) {
       if (sc.label) {
-        p.push(svgText(sc.label, sc.x + sc.w / 2, H1 + H2 / 2, 6, C.gold, f.bold, 'middle'));
+        p.push(svgText(sc.label, sc.x + sc.w / 2, H1 + H2 / 2, 6, C.headerText, f.bold, 'middle'));
       }
     }
   }
 
+  let daysSinceFriday = 0;
   for (let i = 0; i < times.length; i++) {
     const t = times[i];
     const prevT = i > 0 ? times[i - 1] : null;
     const isFri = t.dayName === 'FRI';
-    const bg = isFri ? C.maroon : (i % 2 === 0 ? C.cream : C.creamAlt);
-    const dateC = isFri ? C.gold : C.text;
-    const dayC = isFri ? C.gold : C.text;
-    const islamicC = isFri ? C.gold : C.text;
+    if (isFri) {
+      daysSinceFriday = 0;
+    }
+    const bg = isFri ? C.maroon : (daysSinceFriday % 2 === 0 ? C.cream : C.creamAlt);
+    const dateC = isFri ? C.white : C.text;
+    const dayC = isFri ? C.white : C.text;
+    const islamicC = isFri ? C.white : C.text;
     const timeC = isFri ? C.white : C.text;
-    const maghribC = isFri ? C.gold : C.goldDark;
+    const maghribC = isFri ? C.white : C.goldDark;
     const font = isFri ? f.bold : f.regular;
+    daysSinceFriday++;
 
     const ry = HEADER_H + i * ROW_H;
 
@@ -476,11 +482,20 @@ function buildTitleSvg(titleText: string, fontSize: number): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${titleW}" height="${titleH}" viewBox="0 0 ${titleW} ${titleH}">${svg}</svg>`;
 }
 
+function buildJumuahTimeSvg(timeText: string, fontSize: number): string {
+  const f = FONTS.inter;
+  const w = 200;
+  const h = 40;
+  const svg = svgText(timeText, 0, h / 2, fontSize, '#601924', f.bold, 'left');
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${svg}</svg>`;
+}
+
 export async function generatePoster(
   times: PrayerTime[],
   year: number,
   monthLabel: string,
   titleText: string,
+  jumuahTimeText: string,
   _preferSvg = false,
 ): Promise<{ format: 'png'; data: Uint8Array }> {
   await initResvg();
@@ -507,6 +522,16 @@ export async function generatePoster(
     const titlePixmap = titleResvg.render();
     const titleRgba = new Uint8Array(titlePixmap.pixels as any);
     compositeRgba(outRgba, poster.width, poster.height, titleRgba, titlePixmap.width, titlePixmap.height, titlePos.x, titlePos.y);
+  }
+
+  // Render and composite Jumu'ah time
+  if (jumuahTimeText) {
+    const jPos = TEMPLATE_CONFIG.jumuahTimePosition;
+    const jSvg = buildJumuahTimeSvg(jumuahTimeText, jPos.fontSize);
+    const jResvg = new Resvg(jSvg, { fitTo: { mode: 'width', value: 200 } });
+    const jPixmap = jResvg.render();
+    const jRgba = new Uint8Array(jPixmap.pixels as any);
+    compositeRgba(outRgba, poster.width, poster.height, jRgba, jPixmap.width, jPixmap.height, jPos.x, jPos.y);
   }
 
   const resultPng = encodePNG(outRgba, poster.width, poster.height);

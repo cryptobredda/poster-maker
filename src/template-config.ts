@@ -19,4 +19,10 @@ export const TEMPLATE_CONFIG = {
     longitude: -1.9009277,
     timezone: 'Europe/London',
   },
+
+  jumuahTimePosition: {
+    x: 680,
+    y: 1265,
+    fontSize: 28,
+  },
 } as const;

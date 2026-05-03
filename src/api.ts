@@ -1,6 +1,26 @@
 import { formatTimeHHMM, isBST } from './utils';
 import { TEMPLATE_CONFIG } from './template-config';
 
+// Hijri month names indexed by month number (1-12)
+const HIJRI_MONTH_NAMES: Record<number, string> = {
+  1: 'MUHARRAM',
+  2: 'SAFAR',
+  3: 'RABI AL-AWWAL',
+  4: 'RABI AL-THANI',
+  5: 'JUMADA AL-AWWAL',
+  6: 'JUMADA AL-THANI',
+  7: 'RAJAB',
+  8: 'SHABAN',
+  9: 'RAMADAN',
+  10: 'SHAWWAL',
+  11: 'DHUL-QADAH',
+  12: 'DHUL-HIJJAH',
+};
+
+function getHijriMonthName(monthNumber: number): string {
+  return HIJRI_MONTH_NAMES[monthNumber] || 'UNKNOWN';
+}
+
 export interface PrayerTime {
   date: string;
   dayName: string;
@@ -10,6 +30,7 @@ export interface PrayerTime {
   hijriDay: string;
   hijriMonth: string;
   hijriMonthEn: string;
+  hijriMonthNumber: number;
   hijriYear: string;
   fajrStart: string;
   fajrJamat: string;
@@ -92,8 +113,9 @@ async function fetchSingleMonth(year: number, month: number): Promise<PrayerTime
       gregorianDate: `${gregorian.day} ${gregorian.month.en.substring(0, 3)}`,
       hijriDate: hijri.date,
       hijriDay: hijri.day,
-      hijriMonth: hijri.month.en,
-      hijriMonthEn: hijri.month.en,
+      hijriMonth: getHijriMonthName(hijri.month.number),
+      hijriMonthEn: getHijriMonthName(hijri.month.number),
+      hijriMonthNumber: hijri.month.number,
       hijriYear: hijri.year,
       fajrStart: formatTimeHHMM(t.Fajr),
       fajrJamat: '',
