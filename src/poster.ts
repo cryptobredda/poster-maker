@@ -181,8 +181,12 @@ function buildTable(times: PrayerTime[], monthName: string): string {
   const prayerW = COL.ishaJ.x + COL.ishaJ.w - prayerX;
   p.push(el('rect', { x: prayerX, y: H1, width: prayerW, height: H2, fill: C.maroonLight }));
 
-  p.push(svgText(monthName, COL.date.x + 8, HEADER_H / 2, 8, C.white, f.regular, 'left'));
-  p.push(svgText('DAY', COL.day.x + COL.day.w / 2, HEADER_H / 2, 8, C.white, f.regular, 'middle'));
+  p.push(svgText(monthName, (COL.date.x + COL.day.x + COL.day.w) / 2, H1 / 2, 8, C.white, f.regular, 'middle'));
+
+  const dateDayX = COL.date.x + (COL.day.x + COL.day.w - COL.date.x) / 2;
+  p.push(el('rect', { x: COL.date.x, y: H1, width: COL.day.x + COL.day.w - COL.date.x, height: H2, fill: C.maroonLight }));
+  p.push(svgText('DATE', COL.date.x + COL.date.w / 2, H1 + H2 / 2, 6, C.gold, f.bold, 'middle'));
+  p.push(svgText('DAY', COL.day.x + COL.day.w / 2, H1 + H2 / 2, 6, C.gold, f.bold, 'middle'));
 
   for (const g of PRAYER_GROUPS) {
     const cx = g.x + g.w / 2;
