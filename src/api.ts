@@ -1,4 +1,5 @@
-import { formatTimeHHMM } from './utils';
+import { formatTimeHHMM, isBST } from './utils';
+import { TEMPLATE_CONFIG } from './template-config';
 
 export interface PrayerTime {
   date: string;
@@ -8,6 +9,7 @@ export interface PrayerTime {
   hijriDate: string;
   hijriDay: string;
   hijriMonth: string;
+  hijriMonthEn: string;
   hijriYear: string;
   fajrStart: string;
   fajrJamat: string;
@@ -56,13 +58,11 @@ export interface AladhanResponse {
 
 // ISNA method = 2
 const CALCULATION_METHOD = 2;
-const LATITUDE = 52.4590857;
-const LONGITUDE = -1.9009277;
 
 async function fetchSingleMonth(year: number, month: number): Promise<PrayerTime[]> {
   const url = new URL('https://api.aladhan.com/v1/calendar');
-  url.searchParams.set('latitude', String(LATITUDE));
-  url.searchParams.set('longitude', String(LONGITUDE));
+  url.searchParams.set('latitude', String(TEMPLATE_CONFIG.location.latitude));
+  url.searchParams.set('longitude', String(TEMPLATE_CONFIG.location.longitude));
   url.searchParams.set('year', String(year));
   url.searchParams.set('month', String(month));
   url.searchParams.set('method', String(CALCULATION_METHOD));
@@ -93,6 +93,7 @@ async function fetchSingleMonth(year: number, month: number): Promise<PrayerTime
       hijriDate: hijri.date,
       hijriDay: hijri.day,
       hijriMonth: hijri.month.en,
+      hijriMonthEn: hijri.month.en,
       hijriYear: hijri.year,
       fajrStart: formatTimeHHMM(t.Fajr),
       fajrJamat: '',
@@ -161,8 +162,9 @@ export async function fetchPrayerTimesForRange(startDate: Date, endDate: Date): 
 // For the poster, we can derive reasonable jamaat times
 export function calculateJamaatTimes(times: PrayerTime[]): PrayerTime[] {
   return times.map((t, index) => {
-    const isFriday = t.dayName === 'FRI';
-    const isWeekend = t.dayName === 'SAT' || t.dayName === 'SUN';
+    const [day, month, year] = t.date.split('-').map(Number);
+    const date = new Date(year, month - 1, day);
+    const bst = isBST(date);
     
     // Helper to add minutes
     const addMins = (time: string, mins: number): string => {
@@ -174,7 +176,7 @@ export function calculateJamaatTimes(times: PrayerTime[]): PrayerTime[] {
     return {
       ...t,
       fajrJamat: addMins(t.fajrStart, 15),
-      dhuhrJamat: isFriday ? '12:30' : addMins(t.dhuhrStart, 15),
+      dhuhrJamat: bst ? '13:30' : '12:30',
       asrJamat: addMins(t.asrStart, 15),
       ishaJamat: addMins(t.ishaStart, 15),
     };

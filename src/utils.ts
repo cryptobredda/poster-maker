@@ -23,6 +23,21 @@ export function getUKTimezone(date: Date): string {
   return 'Europe/London';
 }
 
+export function isBST(date: Date): boolean {
+  const year = date.getFullYear();
+  const marchLastSunday = new Date(year, 2, 31);
+  while (marchLastSunday.getDay() !== 0) {
+    marchLastSunday.setDate(marchLastSunday.getDate() - 1);
+  }
+  marchLastSunday.setHours(1, 0, 0, 0);
+  const octLastSunday = new Date(year, 9, 31);
+  while (octLastSunday.getDay() !== 0) {
+    octLastSunday.setDate(octLastSunday.getDate() - 1);
+  }
+  octLastSunday.setHours(1, 0, 0, 0);
+  return date >= marchLastSunday && date < octLastSunday;
+}
+
 export function formatTimeHHMM(timeStr: string): string {
   // Aladhan returns times like "05:19 (GMT)" or just "05:19"
   const match = timeStr.match(/(\d{1,2}):(\d{2})/);

@@ -8,11 +8,122 @@ import fontPaths from './font-paths.json';
 
 let wasmInitialized = false;
 
+interface DecodedPoster {
+  rgba: Uint8Array;
+  width: number;
+  height: number;
+}
+
+let cachedPoster: DecodedPoster | null = null;
+
 async function initResvg() {
   if (wasmInitialized) return;
   const wasmInput = await resvgWasm;
   await initWasm(wasmInput as any);
   wasmInitialized = true;
+}
+
+function decodePoster(): DecodedPoster {
+  if (cachedPoster) return cachedPoster;
+  const posterBytes = toBytes(posterPng as any);
+  const posterImg = (UPNG as any).decode(posterBytes as any);
+  const posterRgba = new Uint8Array((UPNG as any).toRGBA8(posterImg)[0]);
+  cachedPoster = { rgba: posterRgba, width: posterImg.width, height: posterImg.height };
+  return cachedPoster;
+}
+
+function crc32(data: Uint8Array): number {
+  let crc = 0xFFFFFFFF;
+  for (let i = 0; i < data.length; i++) {
+    crc ^= data[i];
+    for (let j = 0; j < 8; j++) {
+      crc = (crc >>> 1) ^ (crc & 1 ? 0xEDB88320 : 0);
+    }
+  }
+  return (crc ^ 0xFFFFFFFF) >>> 0;
+}
+
+function encodePNG(rgba: Uint8Array, width: number, height: number): Uint8Array {
+  const rowBytes = 1 + width * 4;
+  const rawLen = height * rowBytes;
+
+  const raw = new Uint8Array(rawLen);
+  for (let y = 0; y < height; y++) {
+    const srcOff = y * width * 4;
+    raw[y * rowBytes] = 0;
+    raw.set(rgba.subarray(srcOff, srcOff + width * 4), y * rowBytes + 1);
+  }
+
+  let a = 1, b = 0;
+  for (let i = 0; i < raw.length; i++) {
+    a = (a + raw[i]) % 65521;
+    b = (b + a) % 65521;
+  }
+
+  const numBlocks = Math.ceil(rawLen / 65535);
+  const zlibLen = 2 + rawLen + numBlocks * 5 + 4;
+  const zlib = new Uint8Array(zlibLen);
+  let p = 0;
+  zlib[p++] = 0x78;
+  zlib[p++] = 0x01;
+  let rOff = 0;
+  while (rOff < rawLen) {
+    const remaining = rawLen - rOff;
+    const blockLen = Math.min(remaining, 65535);
+    zlib[p++] = blockLen === remaining ? 0x01 : 0x00;
+    zlib[p++] = blockLen & 0xFF;
+    zlib[p++] = (blockLen >> 8) & 0xFF;
+    zlib[p++] = ~blockLen & 0xFF;
+    zlib[p++] = (~blockLen >> 8) & 0xFF;
+    zlib.set(raw.subarray(rOff, rOff + blockLen), p);
+    p += blockLen;
+    rOff += blockLen;
+  }
+  zlib[p++] = (b >> 8) & 0xFF;
+  zlib[p++] = b & 0xFF;
+  zlib[p++] = (a >> 8) & 0xFF;
+  zlib[p++] = a & 0xFF;
+  const zlibFinal = zlib.subarray(0, p);
+
+  function chunk(type: string, data: Uint8Array): Uint8Array {
+    const len = data.length;
+    const out = new Uint8Array(12 + len);
+    const dv = new DataView(out.buffer);
+    dv.setUint32(0, len);
+    const typeBytes = new Uint8Array(4);
+    for (let i = 0; i < 4; i++) typeBytes[i] = type.charCodeAt(i);
+    out.set(typeBytes, 4);
+    out.set(data, 8);
+    const crcInput = new Uint8Array(4 + len);
+    crcInput.set(typeBytes, 0);
+    crcInput.set(data, 4);
+    dv.setUint32(8 + len, crc32(crcInput));
+    return out;
+  }
+
+  const ihdr = new Uint8Array(13);
+  const dv = new DataView(ihdr.buffer);
+  dv.setUint32(0, width);
+  dv.setUint32(4, height);
+  ihdr[8] = 8;
+  ihdr[9] = 6;
+  ihdr[10] = 0;
+  ihdr[11] = 0;
+  ihdr[12] = 0;
+
+  const sig = new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10]);
+  const ihdrChunk = chunk('IHDR', ihdr);
+  const idatChunk = chunk('IDAT', zlibFinal);
+  const iendChunk = chunk('IEND', new Uint8Array(0));
+
+  const total = sig.length + ihdrChunk.length + idatChunk.length + iendChunk.length;
+  const out = new Uint8Array(total);
+  let off = 0;
+  out.set(sig, off); off += sig.length;
+  out.set(ihdrChunk, off); off += ihdrChunk.length;
+  out.set(idatChunk, off); off += idatChunk.length;
+  out.set(iendChunk, off); off += iendChunk.length;
+  return out;
 }
 
 function toBytes(input: string | ArrayBuffer | Uint8Array): Uint8Array {
@@ -41,21 +152,21 @@ const C = {
 };
 
 const COL = {
-  date:    { x: 0,   w: 44 },
-  day:     { x: 44,  w: 36 },
-  fajrS:   { x: 80,  w: 50 },
-  fajrJ:   { x: 130, w: 50 },
-  sunrise: { x: 180, w: 54 },
-  dhuhrS:  { x: 234, w: 50 },
-  dhuhrJ:  { x: 284, w: 50 },
-  asrS:    { x: 334, w: 50 },
-  asrJ:    { x: 384, w: 50 },
-  maghrib: { x: 434, w: 64 },
-  ishaS:   { x: 498, w: 50 },
-  ishaJ:   { x: 548, w: 50 },
+  date:    { x: 0,   w: 36 },
+  day:     { x: 36,  w: 36 },
+  islamic: { x: 72,  w: 70 },
+  fajrS:   { x: 142, w: 48 },
+  fajrJ:   { x: 190, w: 48 },
+  sunrise: { x: 238, w: 48 },
+  dhuhrS:  { x: 286, w: 48 },
+  dhuhrJ:  { x: 334, w: 48 },
+  asrS:    { x: 382, w: 48 },
+  asrJ:    { x: 430, w: 48 },
+  maghrib: { x: 478, w: 56 },
+  ishaJ:   { x: 534, w: 56 },
 };
 
-const TABLE_W = 598;
+const TABLE_W = 590;
 const H1 = 20;
 const H2 = 14;
 const HEADER_H = H1 + H2;
@@ -72,12 +183,25 @@ interface PrayerGroupDef {
 }
 
 const PRAYER_GROUPS: PrayerGroupDef[] = [
-  { name: 'FAJR', x: COL.fajrS.x, w: COL.fajrS.w + COL.fajrJ.w, subs: [{ label: 'START', x: COL.fajrS.x, w: COL.fajrS.w }, { label: 'JAMAT', x: COL.fajrJ.x, w: COL.fajrJ.w }], headerSub: '(SUHOOR)' },
-  { name: 'SUNRISE', x: COL.sunrise.x, w: COL.sunrise.w, subs: [{ label: '', x: COL.sunrise.x, w: COL.sunrise.w }] },
-  { name: 'DHUHR', x: COL.dhuhrS.x, w: COL.dhuhrS.w + COL.dhuhrJ.w, subs: [{ label: 'START', x: COL.dhuhrS.x, w: COL.dhuhrS.w }, { label: 'JAMAT', x: COL.dhuhrJ.x, w: COL.dhuhrJ.w }] },
-  { name: 'ASR', x: COL.asrS.x, w: COL.asrS.w + COL.asrJ.w, subs: [{ label: 'START', x: COL.asrS.x, w: COL.asrS.w }, { label: 'JAMAT', x: COL.asrJ.x, w: COL.asrJ.w }] },
-  { name: 'MAGHRIB', x: COL.maghrib.x, w: COL.maghrib.w, subs: [{ label: 'JAMAT', x: COL.maghrib.x, w: COL.maghrib.w }], headerSub: '(IFTAAR)' },
-  { name: 'ISHA', x: COL.ishaS.x, w: COL.ishaS.w + COL.ishaJ.w, subs: [{ label: 'START', x: COL.ishaS.x, w: COL.ishaS.w }, { label: 'JAMAT', x: COL.ishaJ.x, w: COL.ishaJ.w }] },
+  { name: 'FAJR', x: COL.fajrS.x, w: COL.fajrS.w + COL.fajrJ.w + COL.sunrise.w, subs: [
+    { label: 'START', x: COL.fajrS.x, w: COL.fajrS.w },
+    { label: 'JAMAT', x: COL.fajrJ.x, w: COL.fajrJ.w },
+    { label: 'SUNRISE', x: COL.sunrise.x, w: COL.sunrise.w }
+  ]},
+  { name: 'DHUHR', x: COL.dhuhrS.x, w: COL.dhuhrS.w + COL.dhuhrJ.w, subs: [
+    { label: 'START', x: COL.dhuhrS.x, w: COL.dhuhrS.w },
+    { label: 'JAMAT', x: COL.dhuhrJ.x, w: COL.dhuhrJ.w }
+  ]},
+  { name: 'ASR', x: COL.asrS.x, w: COL.asrS.w + COL.asrJ.w, subs: [
+    { label: 'START', x: COL.asrS.x, w: COL.asrS.w },
+    { label: 'JAMAT', x: COL.asrJ.x, w: COL.asrJ.w }
+  ]},
+  { name: 'MAGHRIB', x: COL.maghrib.x, w: COL.maghrib.w, subs: [
+    { label: 'JAMAT', x: COL.maghrib.x, w: COL.maghrib.w }
+  ]},
+  { name: 'ISHA', x: COL.ishaJ.x, w: COL.ishaJ.w, subs: [
+    { label: 'JAMAT', x: COL.ishaJ.x, w: COL.ishaJ.w }
+  ]},
 ];
 
 const DATA_CELLS: { col: typeof COL.date; key: keyof PrayerTime; bold?: boolean }[] = [
@@ -89,7 +213,6 @@ const DATA_CELLS: { col: typeof COL.date; key: keyof PrayerTime; bold?: boolean 
   { col: COL.asrS, key: 'asrStart' },
   { col: COL.asrJ, key: 'asrJamat', bold: true },
   { col: COL.maghrib, key: 'maghribJamat', bold: true },
-  { col: COL.ishaS, key: 'ishaStart' },
   { col: COL.ishaJ, key: 'ishaJamat', bold: true },
 ];
 
@@ -152,6 +275,16 @@ function svgText(
       const tx = (x + offsetX + cursorX).toFixed(2);
       const ty = (y + baselineOffset).toFixed(2);
       paths.push(`<path d="${glyph.d}" transform="translate(${tx},${ty}) scale(${scale.toFixed(6)},${(-scale).toFixed(6)})" fill="${fill}"/>`);
+    } else if (char === '"') {
+      // Draw a double-quote as two vertical strokes in font units
+      const tx = (x + offsetX + cursorX).toFixed(2);
+      const ty = (y + baselineOffset).toFixed(2);
+      const upm = meta.unitsPerEm || 1000;
+      const h = upm * 0.35;
+      const w = upm * 0.06;
+      const gap = upm * 0.14;
+      const d = `M${w/2},${-h} L${w/2},0 M${gap+w/2},${-h} L${gap+w/2},0`;
+      paths.push(`<path d="${d}" transform="translate(${tx},${ty}) scale(${scale.toFixed(6)},${(-scale).toFixed(6)})" fill="none" stroke="${fill}" stroke-width="${(upm*0.04).toFixed(1)}" stroke-linecap="round"/>`);
     }
     cursorX += advances[i];
   }
@@ -167,10 +300,30 @@ function el(tag: string, attrs: Record<string, string | number | undefined>, chi
   return `<${tag} ${attrStr}/>`;
 }
 
+function getCellValue(current: string, previous: string | null, key: string): string {
+  if (previous !== null && current === previous && key.endsWith('Jamat')) {
+    return '" "';
+  }
+  return current;
+}
+
+function getIslamicDateCell(t: PrayerTime, prevT: PrayerTime | null): { text: string; fontSize: number } {
+  if (prevT && t.hijriMonth !== prevT.hijriMonth) {
+    const monthName = t.hijriMonth.toUpperCase();
+    // Use smaller font for longer month names
+    const fontSize = monthName.length > 8 ? 5.5 : 7;
+    return { text: monthName, fontSize };
+  }
+  return { text: t.hijriDay, fontSize: 7 };
+}
+
 function buildTable(times: PrayerTime[], monthName: string): string {
   const f = FONTS.inter;
   const p: string[] = [];
   const tableH = HEADER_H + times.length * ROW_H;
+
+  // Determine Islamic month for header
+  const islamicMonthHeader = times[0]?.hijriMonthEn?.toUpperCase() || '';
 
   p.push(el('rect', { x: 0, y: 0, width: TABLE_W, height: tableH, fill: C.cream, stroke: C.maroon, 'stroke-width': 2, rx: 4 }));
   p.push(`<clipPath id="tc"><rect x="1" y="1" width="${TABLE_W - 2}" height="${tableH - 2}" rx="3"/></clipPath>`);
@@ -187,6 +340,10 @@ function buildTable(times: PrayerTime[], monthName: string): string {
   p.push(el('rect', { x: COL.date.x, y: H1, width: COL.day.x + COL.day.w - COL.date.x, height: H2, fill: C.maroonLight }));
   p.push(svgText('DATE', COL.date.x + COL.date.w / 2, H1 + H2 / 2, 6, C.gold, f.bold, 'middle'));
   p.push(svgText('DAY', COL.day.x + COL.day.w / 2, H1 + H2 / 2, 6, C.gold, f.bold, 'middle'));
+
+  // Islamic date column header
+  p.push(el('rect', { x: COL.islamic.x, y: H1, width: COL.islamic.w, height: H2, fill: C.maroonLight }));
+  p.push(svgText(islamicMonthHeader, COL.islamic.x + COL.islamic.w / 2, H1 + H2 / 2, 5.5, C.gold, f.bold, 'middle'));
 
   for (const g of PRAYER_GROUPS) {
     const cx = g.x + g.w / 2;
@@ -208,10 +365,12 @@ function buildTable(times: PrayerTime[], monthName: string): string {
 
   for (let i = 0; i < times.length; i++) {
     const t = times[i];
+    const prevT = i > 0 ? times[i - 1] : null;
     const isFri = t.dayName === 'FRI';
     const bg = isFri ? C.maroon : (i % 2 === 0 ? C.cream : C.creamAlt);
     const dateC = isFri ? C.gold : C.text;
     const dayC = isFri ? C.gold : C.text;
+    const islamicC = isFri ? C.gold : C.text;
     const timeC = isFri ? C.white : C.text;
     const maghribC = isFri ? C.gold : C.goldDark;
     const font = isFri ? f.bold : f.regular;
@@ -224,8 +383,13 @@ function buildTable(times: PrayerTime[], monthName: string): string {
     p.push(svgText(String(t.dayNumber), COL.date.x + 8, ry + ROW_H / 2, 7, dateC, f.bold, 'left'));
     p.push(svgText(t.dayName, COL.day.x + COL.day.w / 2, ry + ROW_H / 2, 7, dayC, font, 'middle'));
 
+    // Islamic date
+    const islamicVal = getIslamicDateCell(t, prevT);
+    p.push(svgText(islamicVal.text, COL.islamic.x + COL.islamic.w / 2, ry + ROW_H / 2, islamicVal.fontSize, islamicC, font, 'middle'));
+
     for (const dc of DATA_CELLS) {
-      const val = String(t[dc.key] || '');
+      const prevVal = prevT ? String(prevT[dc.key] || '') : null;
+      const val = getCellValue(String(t[dc.key] || ''), prevVal, dc.key);
       if (!val) continue;
       const colFill = dc.key === 'maghribJamat' ? maghribC : timeC;
       p.push(svgText(val, dc.col.x + dc.col.w / 2, ry + ROW_H / 2, 7, colFill, dc.bold ? f.bold : font, 'middle'));
@@ -301,20 +465,26 @@ export async function renderTablePng(): Promise<Uint8Array> {
   const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: 600 } });
   const pixmap = resvg.render();
   const rgba = new Uint8Array(pixmap.pixels as any);
-  return (UPNG as any).encode([rgba.buffer], pixmap.width, pixmap.height, 0) as Uint8Array;
+  return encodePNG(rgba, pixmap.width, pixmap.height);
+}
+
+function buildTitleSvg(titleText: string, fontSize: number): string {
+  const f = FONTS.inter;
+  const titleW = 600;
+  const titleH = 40;
+  const svg = svgText(titleText, 0, titleH / 2, fontSize, C.gold, f.bold, 'left');
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${titleW}" height="${titleH}" viewBox="0 0 ${titleW} ${titleH}">${svg}</svg>`;
 }
 
 export async function generatePoster(
   times: PrayerTime[],
   year: number,
   monthLabel: string,
+  titleText: string,
   _preferSvg = false,
 ): Promise<{ format: 'png'; data: Uint8Array }> {
   await initResvg();
-
-  const posterBytes = toBytes(posterPng as any);
-  const posterImg = (UPNG as any).decode(posterBytes as any);
-  const posterRgba = new Uint8Array((UPNG as any).toRGBA8(posterImg)[0]);
+  const poster = decodePoster();
 
   const { tableArea } = TEMPLATE_CONFIG;
   const tableH = HEADER_H + times.length * ROW_H;
@@ -326,25 +496,33 @@ export async function generatePoster(
   const pixmap = resvg.render();
   const tableRgba = new Uint8Array(pixmap.pixels as any);
 
-  const outRgba = new Uint8Array(posterRgba);
-  compositeRgba(outRgba, (posterImg as any).width, (posterImg as any).height, tableRgba, pixmap.width, pixmap.height, tableArea.x, tableArea.y);
+  const outRgba = new Uint8Array(poster.rgba);
+  compositeRgba(outRgba, poster.width, poster.height, tableRgba, pixmap.width, pixmap.height, tableArea.x, tableArea.y);
 
-  const resultPng = (UPNG as any).encode([outRgba.buffer], (posterImg as any).width, (posterImg as any).height, 0) as Uint8Array;
+  // Render and composite title
+  if (titleText) {
+    const titlePos = TEMPLATE_CONFIG.titlePosition;
+    const titleSvg = buildTitleSvg(titleText, titlePos.fontSize);
+    const titleResvg = new Resvg(titleSvg, { fitTo: { mode: 'width', value: 600 } });
+    const titlePixmap = titleResvg.render();
+    const titleRgba = new Uint8Array(titlePixmap.pixels as any);
+    compositeRgba(outRgba, poster.width, poster.height, titleRgba, titlePixmap.width, titlePixmap.height, titlePos.x, titlePos.y);
+  }
+
+  const resultPng = encodePNG(outRgba, poster.width, poster.height);
   return { format: 'png', data: resultPng };
 }
 
 export async function generateTemplatePreview(): Promise<{ format: 'png'; data: Uint8Array }> {
-  const posterBytes = toBytes(posterPng as any);
-  const posterImg = (UPNG as any).decode(posterBytes as any);
-  const posterRgba = new Uint8Array((UPNG as any).toRGBA8(posterImg)[0]);
+  const poster = decodePoster();
 
   const { tableArea } = TEMPLATE_CONFIG;
-  const outRgba = new Uint8Array(posterRgba);
+  const outRgba = new Uint8Array(poster.rgba);
 
-  drawRect(outRgba, (posterImg as any).width, (posterImg as any).height,
+  drawRect(outRgba, poster.width, poster.height,
     tableArea.x, tableArea.y, tableArea.width, 480,
     255, 255, 255, 200);
 
-  const resultPng = (UPNG as any).encode([outRgba.buffer], (posterImg as any).width, (posterImg as any).height, 0) as Uint8Array;
+  const resultPng = encodePNG(outRgba, poster.width, poster.height);
   return { format: 'png', data: resultPng };
 }
