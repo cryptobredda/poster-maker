@@ -1,21 +1,26 @@
 {
-  "name": "prayer-poster-worker",
-  "version": "1.0.0",
+  "name": "prayer-poster",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "deploy": "wrangler deploy",
-    "dev": "wrangler dev",
-    "start": "wrangler dev"
+    "dev": "tsx src/index.ts",
+    "build": "tsc && cp src/*.png src/*.wasm src/*.svg src/*.json dist/src/ 2>/dev/null; exit 0",
+    "start": "node dist/src/index.js",
+    "deploy": "echo 'Deploy via Docker or Fly.io'"
   },
   "dependencies": {
     "@resvg/resvg-wasm": "^2.6.2",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "googleapis": "^144.0.0",
     "upng-js": "^2.1.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240512.0",
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.13.14",
     "opentype.js": "^1.3.5",
-    "typescript": "^5.4.5",
-    "wrangler": "^4.87.0"
+    "tsx": "^4.19.3",
+    "typescript": "^5.4.5"
   }
 }

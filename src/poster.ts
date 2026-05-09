@@ -1,10 +1,18 @@
 import { Resvg, initWasm } from '@resvg/resvg-wasm';
 import UPNG from 'upng-js';
+import { readFileSync } from 'node:fs';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import type { PrayerTime } from './api';
 import { TEMPLATE_CONFIG } from './template-config';
-import resvgWasm from './resvg.wasm';
-import posterPng from './poster.png';
 import fontPaths from './font-paths.json';
+import type { SheetColorScheme, SheetConfig, SheetGrid, SheetMerge } from './sheets';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+function loadAsset(name: string): Uint8Array {
+  return readFileSync(resolve(__dirname, name));
+}
 
 let wasmInitialized = false;
 
@@ -15,18 +23,19 @@ interface DecodedPoster {
 }
 
 let cachedPoster: DecodedPoster | null = null;
+let cachedWasm: Uint8Array | null = null;
 
 async function initResvg() {
   if (wasmInitialized) return;
-  const wasmInput = await resvgWasm;
-  await initWasm(wasmInput as any);
+  if (!cachedWasm) cachedWasm = loadAsset('resvg.wasm');
+  await initWasm(cachedWasm);
   wasmInitialized = true;
 }
 
 function decodePoster(): DecodedPoster {
   if (cachedPoster) return cachedPoster;
-  const posterBytes = toBytes(posterPng as any);
-  const posterImg = (UPNG as any).decode(posterBytes as any);
+  const posterBytes = loadAsset('poster.png');
+  const posterImg = (UPNG as any).decode(posterBytes);
   const posterRgba = new Uint8Array((UPNG as any).toRGBA8(posterImg)[0]);
   cachedPoster = { rgba: posterRgba, width: posterImg.width, height: posterImg.height };
   return cachedPoster;
@@ -126,20 +135,20 @@ function encodePNG(rgba: Uint8Array, width: number, height: number): Uint8Array 
   return out;
 }
 
-function toBytes(input: string | ArrayBuffer | Uint8Array): Uint8Array {
-  if (input instanceof Uint8Array) return input;
-  if (input instanceof ArrayBuffer) return new Uint8Array(input);
-  if (typeof input === 'string') {
-    const base64 = input.startsWith('data:') ? input.split(',')[1] : input;
-    const bin = atob(base64);
-    const bytes = new Uint8Array(bin.length);
-    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-    return bytes;
-  }
-  return new Uint8Array(0);
+interface ColorScheme {
+  maroon: string;
+  maroonLight: string;
+  gold: string;
+  goldDark: string;
+  headerText: string;
+  cream: string;
+  creamAlt: string;
+  text: string;
+  white: string;
+  border: string;
 }
 
-const C = {
+const DEFAULT_COLORS: ColorScheme = {
   maroon: '#62121b',
   maroonLight: '#62121b',
   gold: '#c9a227',
@@ -149,73 +158,86 @@ const C = {
   creamAlt: '#e8e8e8',
   text: '#62121b',
   white: '#ffffff',
-  border: '#e0d5c0',
+  border: '#000000',
 };
 
-const COL = {
-  date:    { x: 0,   w: 36 },
-  day:     { x: 36,  w: 36 },
-  islamic: { x: 72,  w: 70 },
-  fajrS:   { x: 142, w: 48 },
-  fajrJ:   { x: 190, w: 48 },
-  sunrise: { x: 238, w: 48 },
-  dhuhrS:  { x: 286, w: 48 },
-  dhuhrJ:  { x: 334, w: 48 },
-  asrS:    { x: 382, w: 48 },
-  asrJ:    { x: 430, w: 48 },
-  maghrib: { x: 478, w: 56 },
-  ishaJ:   { x: 534, w: 56 },
-};
+function buildColors(scheme?: SheetColorScheme): ColorScheme {
+  if (!scheme) return DEFAULT_COLORS;
+  return {
+    maroon: scheme.headerBg,
+    maroonLight: scheme.headerBg,
+    gold: DEFAULT_COLORS.gold,
+    goldDark: scheme.headerBg,
+    headerText: scheme.headerText,
+    cream: scheme.evenRowBg,
+    creamAlt: scheme.oddRowBg,
+    text: scheme.evenRowText,
+    white: scheme.headerText,
+    border: scheme.borderColor,
+  };
+}
 
-const TABLE_W = 590;
 const H1 = 20;
 const H2 = 14;
 const HEADER_H = H1 + H2;
-const ROW_H = 16;
+const ROW_H = 14;
 
-interface SubCol { label: string; x: number; w: number }
-
-interface PrayerGroupDef {
-  name: string;
+interface TableColumn {
   x: number;
   w: number;
-  subs: SubCol[];
-  headerSub?: string;
+  key?: string;
+  label?: string;
+  headerLabel?: string;
+  group?: string;
 }
 
-const PRAYER_GROUPS: PrayerGroupDef[] = [
-  { name: 'FAJR', x: COL.fajrS.x, w: COL.fajrS.w + COL.fajrJ.w + COL.sunrise.w, subs: [
-    { label: 'START', x: COL.fajrS.x, w: COL.fajrS.w },
-    { label: 'JAMAT', x: COL.fajrJ.x, w: COL.fajrJ.w },
-    { label: 'SUNRISE', x: COL.sunrise.x, w: COL.sunrise.w }
-  ]},
-  { name: 'DHUHR', x: COL.dhuhrS.x, w: COL.dhuhrS.w + COL.dhuhrJ.w, subs: [
-    { label: 'START', x: COL.dhuhrS.x, w: COL.dhuhrS.w },
-    { label: 'JAMAT', x: COL.dhuhrJ.x, w: COL.dhuhrJ.w }
-  ]},
-  { name: 'ASR', x: COL.asrS.x, w: COL.asrS.w + COL.asrJ.w, subs: [
-    { label: 'START', x: COL.asrS.x, w: COL.asrS.w },
-    { label: 'JAMAT', x: COL.asrJ.x, w: COL.asrJ.w }
-  ]},
-  { name: 'MAGHRIB', x: COL.maghrib.x, w: COL.maghrib.w, subs: [
-    { label: 'JAMAT', x: COL.maghrib.x, w: COL.maghrib.w }
-  ]},
-  { name: 'ISHA', x: COL.ishaJ.x, w: COL.ishaJ.w, subs: [
-    { label: 'JAMAT', x: COL.ishaJ.x, w: COL.ishaJ.w }
-  ]},
-];
+interface TableLayout {
+  columns: TableColumn[];
+  tableW: number;
+  groups: { name: string; x: number; w: number; headerSub?: string }[];
+}
 
-const DATA_CELLS: { col: typeof COL.date; key: keyof PrayerTime; bold?: boolean }[] = [
-  { col: COL.fajrS, key: 'fajrStart' },
-  { col: COL.fajrJ, key: 'fajrJamat', bold: true },
-  { col: COL.sunrise, key: 'sunrise' },
-  { col: COL.dhuhrS, key: 'dhuhrStart' },
-  { col: COL.dhuhrJ, key: 'dhuhrJamat', bold: true },
-  { col: COL.asrS, key: 'asrStart' },
-  { col: COL.asrJ, key: 'asrJamat', bold: true },
-  { col: COL.maghrib, key: 'maghribJamat', bold: true },
-  { col: COL.ishaJ, key: 'ishaJamat', bold: true },
-];
+function buildTableLayout(config?: SheetConfig): TableLayout {
+  const showMaghribStart = config?.showMaghribStart ?? TEMPLATE_CONFIG.prayerColumns.maghrib.showStart;
+  const showIshaStart = config?.showIshaStart ?? TEMPLATE_CONFIG.prayerColumns.isha.showStart;
+
+  const columns: TableColumn[] = [];
+  let x = 0;
+
+  columns.push({ x, w: 36, key: 'date', label: 'DATE' }); x += 36;
+  columns.push({ x, w: 36, key: 'day', label: 'DAY' }); x += 36;
+  columns.push({ x, w: 70, key: 'islamic', label: 'ISLAMIC' }); x += 70;
+
+  columns.push({ x, w: 48, key: 'fajrStart', label: 'START', headerLabel: 'FAJR' }); x += 48;
+  columns.push({ x, w: 48, key: 'fajrJamat', label: 'JAMAT', headerLabel: 'FAJR' }); x += 48;
+  columns.push({ x, w: 48, key: 'sunrise', label: 'SUNRISE', headerLabel: 'FAJR' }); x += 48;
+
+  columns.push({ x, w: 48, key: 'dhuhrStart', label: 'START', headerLabel: 'DHUHR' }); x += 48;
+  columns.push({ x, w: 48, key: 'dhuhrJamat', label: 'JAMAT', headerLabel: 'DHUHR' }); x += 48;
+
+  columns.push({ x, w: 48, key: 'asrStart', label: 'START', headerLabel: 'ASR' }); x += 48;
+  columns.push({ x, w: 48, key: 'asrJamat', label: 'JAMAT', headerLabel: 'ASR' }); x += 48;
+
+  if (showMaghribStart) {
+    columns.push({ x, w: 48, key: 'maghribStart', label: 'START', headerLabel: 'MAGHRIB' }); x += 48;
+  }
+  columns.push({ x, w: 48, key: 'maghribJamat', label: 'JAMAT', headerLabel: 'MAGHRIB' }); x += 48;
+
+  if (showIshaStart) {
+    columns.push({ x, w: 48, key: 'ishaStart', label: 'START', headerLabel: 'ISHA' }); x += 48;
+  }
+  columns.push({ x, w: 48, key: 'ishaJamat', label: 'JAMAT', headerLabel: 'ISHA' }); x += 48;
+
+  const groups: { name: string; x: number; w: number; headerSub?: string }[] = [
+    { name: 'FAJR', x: 142, w: 48 + 48 + 48 },
+    { name: 'DHUHR', x: 286, w: 48 + 48 },
+    { name: 'ASR', x: 382, w: 48 + 48 },
+    { name: 'MAGHRIB', x: 478, w: (showMaghribStart ? 48 : 0) + 48 },
+    { name: 'ISHA', x: 478 + (showMaghribStart ? 48 : 0) + 48, w: (showIshaStart ? 48 : 0) + 48 },
+  ];
+
+  return { columns, tableW: x, groups };
+}
 
 const FONTS = fontPaths as any;
 
@@ -277,7 +299,6 @@ function svgText(
       const ty = (y + baselineOffset).toFixed(2);
       paths.push(`<path d="${glyph.d}" transform="translate(${tx},${ty}) scale(${scale.toFixed(6)},${(-scale).toFixed(6)})" fill="${fill}"/>`);
     } else if (char === '"') {
-      // Draw a double-quote as two vertical strokes in font units
       const tx = (x + offsetX + cursorX).toFixed(2);
       const ty = (y + baselineOffset).toFixed(2);
       const upm = meta.unitsPerEm || 1000;
@@ -290,6 +311,18 @@ function svgText(
     cursorX += advances[i];
   }
   return paths.join('\n');
+}
+
+function svgTextRotated(
+  text: string,
+  x: number,
+  y: number,
+  fontSize: number,
+  fill: string,
+  font: any,
+): string {
+  const paths = svgText(text, 0, 0, fontSize, fill, font, 'middle');
+  return `<g transform="translate(${x.toFixed(2)},${y.toFixed(2)}) rotate(-90)">${paths}</g>`;
 }
 
 function el(tag: string, attrs: Record<string, string | number | undefined>, children?: string): string {
@@ -311,96 +344,88 @@ function getCellValue(current: string, previous: string | null, key: string): st
 function getIslamicDateCell(t: PrayerTime, prevT: PrayerTime | null): { text: string; fontSize: number } {
   if (prevT && t.hijriMonthNumber !== prevT.hijriMonthNumber) {
     const monthName = t.hijriMonth;
-    // Use smaller font for longer month names
     const fontSize = monthName.length > 8 ? 5.5 : 7;
     return { text: monthName, fontSize };
   }
   return { text: t.hijriDay, fontSize: 7 };
 }
 
-function buildTable(times: PrayerTime[], monthName: string): string {
+function buildTable(times: PrayerTime[], monthName: string, sheetColors?: SheetColorScheme, config?: SheetConfig): string {
+  const C = buildColors(sheetColors);
   const f = FONTS.inter;
   const p: string[] = [];
+  const layout = buildTableLayout(config);
+  const TABLE_W = layout.tableW;
   const tableH = HEADER_H + times.length * ROW_H;
-
-  // Determine Islamic month for header
   const islamicMonthHeader = times[0]?.hijriMonthEn || '';
 
-  p.push(el('rect', { x: 0, y: 0, width: TABLE_W, height: tableH, fill: C.cream, stroke: C.maroon, 'stroke-width': 2, rx: 4 }));
+  p.push(el('rect', { x: 0, y: 0, width: TABLE_W, height: tableH, fill: 'none', stroke: C.maroon, 'stroke-width': 2, rx: 4 }));
   p.push(`<clipPath id="tc"><rect x="1" y="1" width="${TABLE_W - 2}" height="${tableH - 2}" rx="3"/></clipPath>`);
   p.push('<g clip-path="url(#tc)">');
+
   p.push(el('rect', { x: 0, y: 0, width: TABLE_W, height: HEADER_H, fill: C.maroon }));
 
-  const prayerX = COL.fajrS.x;
-  const prayerW = COL.ishaJ.x + COL.ishaJ.w - prayerX;
-  p.push(el('rect', { x: prayerX, y: H1, width: prayerW, height: H2, fill: C.maroonLight }));
+  p.push(svgText(monthName, 72, H1 / 2, 8, C.white, f.bold, 'middle'));
 
-  p.push(svgText(monthName, (COL.date.x + COL.day.x + COL.day.w) / 2, H1 / 2, 8, C.white, f.regular, 'middle'));
-
-  const dateDayX = COL.date.x + (COL.day.x + COL.day.w - COL.date.x) / 2;
-  p.push(el('rect', { x: COL.date.x, y: H1, width: COL.day.x + COL.day.w - COL.date.x, height: H2, fill: C.maroonLight }));
-  p.push(svgText('DATE', COL.date.x + COL.date.w / 2, H1 + H2 / 2, 6, C.headerText, f.bold, 'middle'));
-  p.push(svgText('DAY', COL.day.x + COL.day.w / 2, H1 + H2 / 2, 6, C.headerText, f.bold, 'middle'));
-
-  // Islamic date column header
-  p.push(el('rect', { x: COL.islamic.x, y: H1, width: COL.islamic.w, height: H2, fill: C.maroonLight }));
-  p.push(svgText(islamicMonthHeader, COL.islamic.x + COL.islamic.w / 2, H1 + H2 / 2, 5.5, C.headerText, f.bold, 'middle'));
-
-  for (const g of PRAYER_GROUPS) {
+  for (const g of layout.groups) {
     const cx = g.x + g.w / 2;
-    if (g.headerSub) {
-      p.push(svgText(g.name, cx, H1 * 0.36, 8, C.headerText, f.regular, 'middle'));
-      p.push(svgText(g.headerSub, cx, H1 * 0.76, 5.5, C.headerText, f.regular, 'middle'));
-    } else {
-      p.push(svgText(g.name, cx, H1 / 2, 8, C.headerText, f.bold, 'middle'));
+    p.push(svgText(g.name, cx, H1 / 2, 8, C.headerText, f.bold, 'middle'));
+  }
+
+  for (const col of layout.columns) {
+    if (col.label) {
+      const label = col.key === 'islamic' ? islamicMonthHeader : col.label;
+      const fs = col.key === 'islamic' ? 5.5 : 6;
+      p.push(svgText(label, col.x + col.w / 2, H1 + H2 / 2, fs, C.headerText, f.bold, 'middle'));
     }
   }
 
-  for (const g of PRAYER_GROUPS) {
-    for (const sc of g.subs) {
-      if (sc.label) {
-        p.push(svgText(sc.label, sc.x + sc.w / 2, H1 + H2 / 2, 6, C.headerText, f.bold, 'middle'));
-      }
-    }
-  }
+  p.push(el('line', { x1: 0, y1: H1, x2: TABLE_W, y2: H1, stroke: C.border, 'stroke-width': 0.75 }));
 
   let daysSinceFriday = 0;
   for (let i = 0; i < times.length; i++) {
     const t = times[i];
     const prevT = i > 0 ? times[i - 1] : null;
     const isFri = t.dayName === 'FRI';
-    if (isFri) {
-      daysSinceFriday = 0;
-    }
+    if (isFri) daysSinceFriday = 0;
+
     const bg = isFri ? C.maroon : (daysSinceFriday % 2 === 0 ? C.cream : C.creamAlt);
-    const dateC = isFri ? C.white : C.text;
-    const dayC = isFri ? C.white : C.text;
-    const islamicC = isFri ? C.white : C.text;
-    const timeC = isFri ? C.white : C.text;
-    const maghribC = isFri ? C.white : C.goldDark;
-    const font = isFri ? f.bold : f.regular;
+    const textC = isFri ? C.white : C.text;
     daysSinceFriday++;
 
     const ry = HEADER_H + i * ROW_H;
 
     p.push(el('rect', { x: 0, y: ry, width: TABLE_W, height: ROW_H, fill: bg }));
-    p.push(el('line', { x1: 0, y1: ry + ROW_H, x2: TABLE_W, y2: ry + ROW_H, stroke: C.border, 'stroke-width': 0.5 }));
 
-    p.push(svgText(String(t.dayNumber), COL.date.x + 8, ry + ROW_H / 2, 7, dateC, f.bold, 'left'));
-    p.push(svgText(t.dayName, COL.day.x + COL.day.w / 2, ry + ROW_H / 2, 7, dayC, font, 'middle'));
+    p.push(el('line', { x1: 0, y1: ry + ROW_H, x2: TABLE_W, y2: ry + ROW_H, stroke: C.border, 'stroke-width': 0.75 }));
 
-    // Islamic date
+    const dateCol = layout.columns.find(c => c.key === 'date')!;
+    p.push(svgText(String(t.dayNumber), dateCol.x + 8, ry + ROW_H / 2, 7, textC, f.bold, 'left'));
+
+    const dayCol = layout.columns.find(c => c.key === 'day')!;
+    p.push(svgText(t.dayName, dayCol.x + dayCol.w / 2, ry + ROW_H / 2, 7, textC, f.bold, 'middle'));
+
+    const islamicCol = layout.columns.find(c => c.key === 'islamic')!;
     const islamicVal = getIslamicDateCell(t, prevT);
-    p.push(svgText(islamicVal.text, COL.islamic.x + COL.islamic.w / 2, ry + ROW_H / 2, islamicVal.fontSize, islamicC, font, 'middle'));
+    p.push(svgText(islamicVal.text, islamicCol.x + islamicCol.w / 2, ry + ROW_H / 2, islamicVal.fontSize, textC, f.bold, 'middle'));
 
-    for (const dc of DATA_CELLS) {
-      const prevVal = prevT ? String(prevT[dc.key] || '') : null;
-      const val = getCellValue(String(t[dc.key] || ''), prevVal, dc.key);
+    for (const col of layout.columns) {
+      if (!col.key || col.key === 'date' || col.key === 'day' || col.key === 'islamic') continue;
+      const prevVal = prevT ? String((prevT as any)[col.key] || '') : null;
+      const currentVal = String((t as any)[col.key] || '');
+      const val = getCellValue(currentVal, prevVal, col.key);
       if (!val) continue;
-      const colFill = dc.key === 'maghribJamat' ? maghribC : timeC;
-      p.push(svgText(val, dc.col.x + dc.col.w / 2, ry + ROW_H / 2, 7, colFill, dc.bold ? f.bold : font, 'middle'));
+      p.push(svgText(val, col.x + col.w / 2, ry + ROW_H / 2, 7, textC, f.bold, 'middle'));
     }
   }
+
+  for (const col of layout.columns) {
+    const bx = col.x + col.w;
+    if (bx >= TABLE_W) continue;
+    p.push(el('line', { x1: bx, y1: H1, x2: bx, y2: tableH, stroke: C.border, 'stroke-width': 0.75 }));
+  }
+
+  p.push(el('line', { x1: 0, y1: HEADER_H, x2: TABLE_W, y2: HEADER_H, stroke: C.border, 'stroke-width': 0.75 }));
 
   p.push('</g>');
   return p.join('\n');
@@ -458,16 +483,173 @@ function drawRect(
   }
 }
 
-export async function buildTableSvg(times: PrayerTime[], monthLabel: string): Promise<string> {
-  const tableH = HEADER_H + times.length * ROW_H;
-  const content = buildTable(times, monthLabel);
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${TABLE_W}" height="${tableH}" viewBox="0 0 ${TABLE_W} ${tableH}">${content}</svg>`;
+function isCellMerged(row: number, col: number, merges: SheetMerge[]): boolean {
+  return merges.some(m => row >= m.startRow && row < m.endRow && col >= m.startCol && col < m.endCol);
+}
+
+function findMerge(row: number, col: number, merges: SheetMerge[]): SheetMerge | null {
+  return merges.find(m => row >= m.startRow && row < m.endRow && col >= m.startCol && col < m.endCol) || null;
+}
+
+function buildTableFromGrid(grid: SheetGrid, monthName: string, sheetColors?: SheetColorScheme, config?: SheetConfig): string {
+  const C = buildColors(sheetColors);
+  const f = FONTS.inter;
+  const p: string[] = [];
+  const layout = buildTableLayout(config);
+  const TABLE_W = layout.tableW;
+  const dataRowCount = grid.rows.length;
+  const tableH = HEADER_H + dataRowCount * ROW_H;
+
+
+
+  p.push(el('rect', { x: 0, y: 0, width: TABLE_W, height: tableH, fill: 'none', stroke: C.maroon, 'stroke-width': 2, rx: 4 }));
+  p.push(`<clipPath id="tc"><rect x="1" y="1" width="${TABLE_W - 2}" height="${tableH - 2}" rx="3"/></clipPath>`);
+  p.push('<g clip-path="url(#tc)">');
+
+  // Headers
+  const headerRow1 = grid.headers[0] || [];
+  const headerRow2 = grid.headers[1] || [];
+
+  // Header background
+  p.push(el('rect', { x: 0, y: 0, width: TABLE_W, height: HEADER_H, fill: C.maroon }));
+
+  // Render header row 1 (group names)
+  for (let c = 0; c < layout.columns.length; c++) {
+    const val = headerRow1[c] || '';
+    if (!val) continue;
+    const col = layout.columns[c];
+    p.push(svgText(val, col.x + col.w / 2, H1 / 2, 8, C.headerText, f.bold, 'middle'));
+  }
+
+  // Render header row 2 (column labels)
+  for (let c = 0; c < layout.columns.length; c++) {
+    const val = headerRow2[c] || '';
+    if (!val) continue;
+    const col = layout.columns[c];
+    const fs = val.length > 8 ? 5.5 : 6;
+    p.push(svgText(val, col.x + col.w / 2, H1 + H2 / 2, fs, C.headerText, f.bold, 'middle'));
+  }
+
+  p.push(el('line', { x1: 0, y1: H1, x2: TABLE_W, y2: H1, stroke: C.border, 'stroke-width': 0.75 }));
+
+  // Pre-calculate merge rectangles
+  const mergeRects = new Map<string, SheetMerge>();
+  for (const m of grid.merges) {
+    for (let r = m.startRow; r < m.endRow; r++) {
+      for (let c = m.startCol; c < m.endCol; c++) {
+        mergeRects.set(`${r},${c}`, m);
+      }
+    }
+  }
+
+  // PASS 1: Draw all row backgrounds
+  for (let r = 0; r < dataRowCount; r++) {
+    const row = grid.rows[r];
+    const ry = HEADER_H + r * ROW_H;
+
+    let rowBg = '';
+    for (let c = 0; c < row.formats.length; c++) {
+      if (row.formats[c]?.bgColor) {
+        rowBg = row.formats[c].bgColor;
+        break;
+      }
+    }
+    if (!rowBg) {
+      rowBg = (r % 2 === 0) ? C.cream : C.creamAlt;
+    }
+    p.push(el('rect', { x: 0, y: ry, width: TABLE_W, height: ROW_H, fill: rowBg }));
+
+    // Horizontal line
+    p.push(el('line', { x1: 0, y1: ry + ROW_H, x2: TABLE_W, y2: ry + ROW_H, stroke: C.border, 'stroke-width': 0.75 }));
+  }
+
+  // PASS 2: Draw merge backgrounds on top of row backgrounds
+  for (const merge of grid.merges) {
+    const startCol = layout.columns[merge.startCol];
+    const mergeW = layout.columns
+      .slice(merge.startCol, merge.endCol)
+      .reduce((sum, col) => sum + col.w, 0);
+    const mergeH = (merge.endRow - merge.startRow) * ROW_H;
+    const ry = HEADER_H + merge.startRow * ROW_H;
+    const bg = merge.format.bgColor || C.maroon;
+    p.push(el('rect', { x: startCol.x, y: ry, width: mergeW, height: mergeH, fill: bg }));
+  }
+
+  // PASS 3: Draw cell text (regular cells and merge text)
+  for (let r = 0; r < dataRowCount; r++) {
+    const row = grid.rows[r];
+    const ry = HEADER_H + r * ROW_H;
+
+    for (let c = 0; c < layout.columns.length; c++) {
+      const col = layout.columns[c];
+      const merge = mergeRects.get(`${r},${c}`);
+
+      if (merge) {
+        if (r === merge.startRow && c === merge.startCol) {
+          const mergeW = layout.columns
+            .slice(merge.startCol, merge.endCol)
+            .reduce((sum, col) => sum + col.w, 0);
+          const mergeH = (merge.endRow - merge.startRow) * ROW_H;
+          const cx = col.x + mergeW / 2;
+          const cy = ry + mergeH / 2;
+          const textC = merge.format.textColor || C.text;
+
+          let fs = 7;
+          if (mergeH > ROW_H * 2) fs = 8;
+          if (mergeW < 40) fs = 5.5;
+
+          const font = merge.format.bold ? f.bold : f.regular;
+
+          // Render vertical text for tall narrow merges (height > width * 1.5)
+          const shouldRotate = merge.format.verticalText || (mergeH > mergeW * 1.5);
+          if (shouldRotate) {
+            p.push(svgTextRotated(merge.value, cx, cy, fs, textC, font));
+          } else {
+            p.push(svgText(merge.value, cx, cy, fs, textC, font, 'middle'));
+          }
+        }
+        continue;
+      }
+
+      const val = row.values[c] || '';
+      if (!val) continue;
+      const fmt = row.formats[c] || { bgColor: '', textColor: '', bold: false };
+      const textC = fmt.textColor || C.text;
+      const font = fmt.bold ? f.bold : f.regular;
+      let fs = fmt.fontSize ? Math.min(fmt.fontSize, 7) : 7;
+      if (val.length > 10) fs = 5.5;
+
+      p.push(svgText(val, col.x + col.w / 2, ry + ROW_H / 2, fs, textC, font, 'middle'));
+    }
+  }
+
+  // Vertical column lines
+  for (const col of layout.columns) {
+    const bx = col.x + col.w;
+    if (bx >= TABLE_W) continue;
+    p.push(el('line', { x1: bx, y1: H1, x2: bx, y2: tableH, stroke: C.border, 'stroke-width': 0.75 }));
+  }
+
+  p.push(el('line', { x1: 0, y1: HEADER_H, x2: TABLE_W, y2: HEADER_H, stroke: C.border, 'stroke-width': 0.75 }));
+
+  p.push('</g>');
+  return p.join('\n');
+}
+
+export async function buildTableSvg(times: PrayerTime[], monthLabel: string, colors?: SheetColorScheme, config?: SheetConfig, grid?: SheetGrid): Promise<string> {
+  const layout = buildTableLayout(config);
+  const dataRowCount = grid?.rows.length ?? times.length;
+  const tableH = HEADER_H + dataRowCount * ROW_H;
+  const content = grid
+    ? buildTableFromGrid(grid, monthLabel, colors, config)
+    : buildTable(times, monthLabel, colors, config);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${layout.tableW}" height="${tableH}" viewBox="0 0 ${layout.tableW} ${tableH}">${content}</svg>`;
 }
 
 export async function renderTablePng(): Promise<Uint8Array> {
   await initResvg();
   const f = FONTS.inter;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="200" viewBox="0 0 600 200"><rect x="0" y="0" width="600" height="200" fill="#2d0a1f"/>${svgText('INTER BOLD 24', 300, 50, 24, '#ffffff', f.bold, 'middle')}${svgText('inter regular 16', 300, 100, 16, '#c9a227', f.regular, 'middle')}${svgText('5:30 12:45', 300, 150, 12, '#ffffff', f.regular, 'middle')}</svg>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="200" viewBox="0 0 600 200"><rect x="0" y="0" width="600" height="200" fill="#2d0a1f"/>${svgText('INTER BOLD 24', 300, 50, 24, '#ffffff', f.bold, 'middle')}${svgText('inter regular 16', 300, 100, 16, '#c9a227', f.bold, 'middle')}${svgText('5:30 12:45', 300, 150, 12, '#ffffff', f.bold, 'middle')}</svg>`;
   const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: 600 } });
   const pixmap = resvg.render();
   const rgba = new Uint8Array(pixmap.pixels as any);
@@ -478,7 +660,7 @@ function buildTitleSvg(titleText: string, fontSize: number): string {
   const f = FONTS.inter;
   const titleW = 600;
   const titleH = 40;
-  const svg = svgText(titleText, 0, titleH / 2, fontSize, C.gold, f.bold, 'left');
+  const svg = svgText(titleText, 0, titleH / 2, fontSize, DEFAULT_COLORS.gold, f.bold, 'left');
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${titleW}" height="${titleH}" viewBox="0 0 ${titleW} ${titleH}">${svg}</svg>`;
 }
 
@@ -496,17 +678,23 @@ export async function generatePoster(
   monthLabel: string,
   titleText: string,
   jumuahTimeText: string,
-  _preferSvg = false,
+  colors?: SheetColorScheme,
+  config?: SheetConfig,
+  grid?: SheetGrid,
 ): Promise<{ format: 'png'; data: Uint8Array }> {
   await initResvg();
   const poster = decodePoster();
 
   const { tableArea } = TEMPLATE_CONFIG;
-  const tableH = HEADER_H + times.length * ROW_H;
-  const tableContent = buildTable(times, monthLabel);
+  const dataRowCount = grid?.rows.length ?? times.length;
+  const tableH = HEADER_H + dataRowCount * ROW_H;
+  const tableContent = grid
+    ? buildTableFromGrid(grid, monthLabel, colors, config)
+    : buildTable(times, monthLabel, colors, config);
+  const layout = buildTableLayout(config);
   const scaledW = Math.ceil(tableArea.width);
 
-  const tableSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${TABLE_W}" height="${tableH}" viewBox="0 0 ${TABLE_W} ${tableH}">${tableContent}</svg>`;
+  const tableSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${layout.tableW}" height="${tableH}" viewBox="0 0 ${layout.tableW} ${tableH}">${tableContent}</svg>`;
   const resvg = new Resvg(tableSvg, { fitTo: { mode: 'width', value: scaledW } });
   const pixmap = resvg.render();
   const tableRgba = new Uint8Array(pixmap.pixels as any);
@@ -514,7 +702,6 @@ export async function generatePoster(
   const outRgba = new Uint8Array(poster.rgba);
   compositeRgba(outRgba, poster.width, poster.height, tableRgba, pixmap.width, pixmap.height, tableArea.x, tableArea.y);
 
-  // Render and composite title
   if (titleText) {
     const titlePos = TEMPLATE_CONFIG.titlePosition;
     const titleSvg = buildTitleSvg(titleText, titlePos.fontSize);
@@ -524,7 +711,6 @@ export async function generatePoster(
     compositeRgba(outRgba, poster.width, poster.height, titleRgba, titlePixmap.width, titlePixmap.height, titlePos.x, titlePos.y);
   }
 
-  // Render and composite Jumu'ah time
   if (jumuahTimeText) {
     const jPos = TEMPLATE_CONFIG.jumuahTimePosition;
     const jSvg = buildJumuahTimeSvg(jumuahTimeText, jPos.fontSize);

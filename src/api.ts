@@ -39,6 +39,7 @@ export interface PrayerTime {
   dhuhrJamat: string;
   asrStart: string;
   asrJamat: string;
+  maghribStart: string;
   maghribJamat: string;
   ishaStart: string;
   ishaJamat: string;
@@ -77,8 +78,18 @@ export interface AladhanResponse {
   }>;
 }
 
-// ISNA method = 2
-const CALCULATION_METHOD = 2;
+function applyOffset(timeStr: string, offsetMinutes: number): string {
+  if (offsetMinutes === 0) return timeStr;
+  const match = timeStr.match(/(\d{1,2}):(\d{2})/);
+  if (!match) return timeStr;
+  let h = parseInt(match[1], 10);
+  let m = parseInt(match[2], 10) + offsetMinutes;
+  while (m >= 60) { m -= 60; h++; }
+  while (m < 0) { m += 60; h--; }
+  while (h >= 24) { h -= 24; }
+  while (h < 0) { h += 24; }
+  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+}
 
 async function fetchSingleMonth(year: number, month: number): Promise<PrayerTime[]> {
   const url = new URL('https://api.aladhan.com/v1/calendar');
@@ -86,9 +97,9 @@ async function fetchSingleMonth(year: number, month: number): Promise<PrayerTime
   url.searchParams.set('longitude', String(TEMPLATE_CONFIG.location.longitude));
   url.searchParams.set('year', String(year));
   url.searchParams.set('month', String(month));
-  url.searchParams.set('method', String(CALCULATION_METHOD));
+  url.searchParams.set('method', String(TEMPLATE_CONFIG.calculationMethod));
   url.searchParams.set('timezone', 'Europe/London');
-  url.searchParams.set('school', '1'); // Hanafi for Asr
+  url.searchParams.set('school', String(TEMPLATE_CONFIG.school));
 
   const response = await fetch(url.toString());
   if (!response.ok) {
@@ -106,26 +117,30 @@ async function fetchSingleMonth(year: number, month: number): Promise<PrayerTime
     const hijri = day.date.hijri;
     const t = day.timings;
 
+    const dayNum = String(parseInt(gregorian.day, 10));
+    const hijriDayNum = String(parseInt(hijri.day, 10));
+
     return {
       date: gregorian.date,
       dayName: gregorian.weekday.en.substring(0, 3).toUpperCase(),
-      dayNumber: gregorian.day,
-      gregorianDate: `${gregorian.day} ${gregorian.month.en.substring(0, 3)}`,
+      dayNumber: dayNum,
+      gregorianDate: `${dayNum} ${gregorian.month.en.substring(0, 3)}`,
       hijriDate: hijri.date,
-      hijriDay: hijri.day,
+      hijriDay: hijriDayNum,
       hijriMonth: getHijriMonthName(hijri.month.number),
       hijriMonthEn: getHijriMonthName(hijri.month.number),
       hijriMonthNumber: hijri.month.number,
       hijriYear: hijri.year,
-      fajrStart: formatTimeHHMM(t.Fajr),
+      fajrStart: formatTimeHHMM(applyOffset(t.Fajr, TEMPLATE_CONFIG.timeOffsets.fajr)),
       fajrJamat: '',
-      sunrise: formatTimeHHMM(t.Sunrise),
-      dhuhrStart: formatTimeHHMM(t.Dhuhr),
+      sunrise: formatTimeHHMM(applyOffset(t.Sunrise, TEMPLATE_CONFIG.timeOffsets.sunrise)),
+      dhuhrStart: formatTimeHHMM(applyOffset(t.Dhuhr, TEMPLATE_CONFIG.timeOffsets.dhuhr)),
       dhuhrJamat: '',
-      asrStart: formatTimeHHMM(t.Asr),
+      asrStart: formatTimeHHMM(applyOffset(t.Asr, TEMPLATE_CONFIG.timeOffsets.asr)),
       asrJamat: '',
-      maghribJamat: formatTimeHHMM(t.Maghrib),
-      ishaStart: formatTimeHHMM(t.Isha),
+      maghribStart: formatTimeHHMM(applyOffset(t.Maghrib, TEMPLATE_CONFIG.timeOffsets.maghrib)),
+      maghribJamat: '',
+      ishaStart: formatTimeHHMM(applyOffset(t.Isha, TEMPLATE_CONFIG.timeOffsets.isha)),
       ishaJamat: '',
     };
   });
@@ -198,8 +213,9 @@ export function calculateJamaatTimes(times: PrayerTime[]): PrayerTime[] {
     return {
       ...t,
       fajrJamat: addMins(t.fajrStart, 15),
-      dhuhrJamat: bst ? '13:30' : '12:30',
+      dhuhrJamat: bst ? '1:30' : '12:30',
       asrJamat: addMins(t.asrStart, 15),
+      maghribJamat: t.maghribStart,
       ishaJamat: addMins(t.ishaStart, 15),
     };
   });

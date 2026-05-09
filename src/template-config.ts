@@ -25,4 +25,25 @@ export const TEMPLATE_CONFIG = {
     y: 1265,
     fontSize: 28,
   },
+
+  // Calculation settings
+  calculationMethod: 15, // 15 = Moonsighting Committee
+  school: 0, // 0 = Shafi, 1 = Hanafi
+
+  // Time offsets in minutes (positive = later, negative = earlier)
+  timeOffsets: {
+    fajr: 0,
+    sunrise: 0,
+    dhuhr: 0,
+    asr: 0,
+    maghrib: 0,
+    isha: 0,
+  },
+
+  // Prayer column display config
+  // showStart: false = combined (JAMAT only), true = non-combined (START + JAMAT)
+  prayerColumns: {
+    maghrib: { showStart: false },
+    isha: { showStart: false },
+  },
 } as const;
