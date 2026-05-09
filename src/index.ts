@@ -1,9 +1,9 @@
 import 'dotenv/config';
 import express from 'express';
-import { generatePoster, generateTemplatePreview } from './poster';
-import { getCurrentMonthData, getSheetTabs, findCurrentMonthTab, ensureHowToTab, ensureConfigTab, readTabColors, readConfig, rewriteTab, readTabGrid } from './sheets';
-import { syncMonthlyTabs } from './cron';
-import { buildTitle, getTodaysJumuahTime } from './utils';
+import { generatePoster, generateTemplatePreview } from './poster.js';
+import { getCurrentMonthData, getSheetTabs, findCurrentMonthTab, ensureHowToTab, ensureConfigTab, readTabColors, readConfig, rewriteTab, readTabGrid } from './sheets.js';
+import { syncMonthlyTabs } from './cron.js';
+import { buildTitle, getTodaysJumuahTime } from './utils.js';
 
 const app = express();
 const PORT = parseInt(process.env.PORT || '3000', 10);
@@ -83,7 +83,7 @@ app.get('/table-svg', async (_req, res) => {
     const colors = await readTabColors(tabName);
     const config = await readConfig();
     const grid = await readTabGrid(tabName);
-    const { buildTableSvg } = await import('./poster');
+    const { buildTableSvg } = await import('./poster.js');
     const today = new Date();
     const monthLabel = today.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase();
     const svg = await buildTableSvg(times, monthLabel, colors, config, grid);
@@ -167,7 +167,7 @@ app.post('/cron/regenerate', async (req, res) => {
   }
 
   try {
-    const result = await import('./cron').then(m => m.regenerateTab(tabName));
+    const result = await import('./cron.js').then(m => m.regenerateTab(tabName));
     res.type('text').send(`Regenerated ${tabName}${result ? '' : ' (no data found)'}`);
   } catch (error) {
     console.error('Error in regenerate:', error);

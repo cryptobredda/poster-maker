@@ -1,5 +1,5 @@
-import { formatTimeHHMM, isBST } from './utils';
-import { TEMPLATE_CONFIG } from './template-config';
+import { formatTimeHHMM, isBST } from './utils.js';
+import { TEMPLATE_CONFIG } from './template-config.js';
 
 // Hijri month names indexed by month number (1-12)
 const HIJRI_MONTH_NAMES: Record<number, string> = {

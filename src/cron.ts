@@ -1,5 +1,5 @@
-import { fetchPrayerTimesForRange, calculateJamaatTimes } from './api';
-import { getSheetTabs, getSheetId, createTab, writeTab, monthTabName, parseMonthYearFromTab } from './sheets';
+import { fetchPrayerTimesForRange, calculateJamaatTimes } from './api.js';
+import { getSheetTabs, getSheetId, createTab, writeTab, monthTabName, parseMonthYearFromTab } from './sheets.js';
 
 export async function syncMonthlyTabs(): Promise<{ created: string[] }> {
   const created: string[] = [];

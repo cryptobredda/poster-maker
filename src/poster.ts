@@ -3,10 +3,10 @@ import UPNG from 'upng-js';
 import { readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { PrayerTime } from './api';
-import { TEMPLATE_CONFIG } from './template-config';
-import fontPaths from './font-paths.json';
-import type { SheetColorScheme, SheetConfig, SheetGrid, SheetMerge } from './sheets';
+import type { PrayerTime } from './api.js';
+import { TEMPLATE_CONFIG } from './template-config.js';
+import fontPaths from './font-paths.json' with { type: 'json' };
+import type { SheetColorScheme, SheetConfig, SheetGrid, SheetMerge } from './sheets.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

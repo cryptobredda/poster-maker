@@ -1,5 +1,5 @@
 import { google, sheets_v4 } from 'googleapis';
-import type { PrayerTime } from './api';
+import type { PrayerTime } from './api.js';
 
 function cleanPrivateKey(raw: string): string {
   let key = raw;
