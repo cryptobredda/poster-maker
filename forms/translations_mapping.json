@@ -1,0 +1,2982 @@
+{
+  "(For internal use after an incident to improve procedures)": {
+    "ar": "(للاستخدام الداخلي بعد وقوع حادث لتحسين الإجراءات)",
+    "combined": "(For internal use after an incident to improve procedures) / (للاستخدام الداخلي بعد وقوع حادث لتحسين الإجراءات)"
+  },
+  "(Include events leading up to incident, what occurred, and immediate actions taken)": {
+    "ar": "(قم بتضمين الأحداث التي سبقت الحادث وما حدث والإجراءات الفورية المتخذة)",
+    "combined": "(Include events leading up to incident, what occurred, and immediate actions taken) / (قم بتضمين الأحداث التي سبقت الحادث وما حدث والإجراءات الفورية المتخذة)"
+  },
+  "(Include specific details of behaviour, what was said/done, actions taken)": {
+    "ar": "(قم بتضمين تفاصيل محددة عن السلوك، وما قيل/تم، والإجراءات المتخذة)",
+    "combined": "(Include specific details of behaviour, what was said/done, actions taken) / (قم بتضمين تفاصيل محددة عن السلوك، وما قيل/تم، والإجراءات المتخذة)"
+  },
+  "(Include verbatim statements from the child if possible. Avoid interpretation or opinion.)": {
+    "ar": "(قم بتضمين بيانات حرفية من الطفل إن أمكن. وتجنب التفسير أو إبداء الرأي.)",
+    "combined": "(Include verbatim statements from the child if possible. Avoid interpretation or opinion.) / (قم بتضمين بيانات حرفية من الطفل إن أمكن. وتجنب التفسير أو إبداء الرأي.)"
+  },
+  "(To be completed by parent/carer when someone new is collecting the child)": {
+    "ar": "(يتم إكماله من قبل ولي الأمر/مقدم الرعاية عندما يقوم شخص جديد بجمع الطفل)",
+    "combined": "(To be completed by parent/carer when someone new is collecting the child) / (يتم إكماله من قبل ولي الأمر/مقدم الرعاية عندما يقوم شخص جديد بجمع الطفل)"
+  },
+  "(To be maintained in each child’s file and available at collection point)": {
+    "ar": "(يتم الاحتفاظ بها في ملف كل طفل وتكون متاحة في نقطة التجميع)",
+    "combined": "(To be maintained in each child’s file and available at collection point) / (يتم الاحتفاظ بها في ملف كل طفل وتكون متاحة في نقطة التجميع)"
+  },
+  "(What did you do? Who did you speak to?)": {
+    "ar": "(ماذا فعلت؟ مع من تحدثت؟)",
+    "combined": "(What did you do? Who did you speak to?) / (ماذا فعلت؟ مع من تحدثت؟)"
+  },
+  "(What have you observed? Include specific examples, frequency, impact on learning or participation.)": {
+    "ar": "(ما الذي لاحظته؟ قم بتضمين أمثلة محددة، والتكرار، والتأثير على التعلم أو المشاركة).",
+    "combined": "(What have you observed? Include specific examples, frequency, impact on learning or participation.) / (ما الذي لاحظته؟ قم بتضمين أمثلة محددة، والتكرار، والتأثير على التعلم أو المشاركة)."
+  },
+  "(e.g. visual aids, adjusted pace, 1:1 support)": {
+    "ar": "(على سبيل المثال، المساعدات البصرية، السرعة المعدلة، الدعم 1:1)",
+    "combined": "(e.g. visual aids, adjusted pace, 1:1 support) / (على سبيل المثال، المساعدات البصرية، السرعة المعدلة، الدعم 1:1)"
+  },
+  "(separate form for every incident)": {
+    "ar": "(نموذج منفصل لكل حادثة)",
+    "combined": "(separate form for every incident) / (نموذج منفصل لكل حادثة)"
+  },
+  "- _________________________________________________________________": {
+    "ar": "[ترجمة: - ______________________________________...]",
+    "combined": "- / [ترجمة: -_________________________________________________________________"
+  },
+  "1. Date of Report:": {
+    "ar": "1. تاريخ التقرير:",
+    "combined": "1. Date of Report: / 1. تاريخ التقرير:"
+  },
+  "2. Learner Progress Summary Form": {
+    "ar": "2. نموذج ملخص تقدم المتعلم",
+    "combined": "2. Learner Progress Summary Form / 2. نموذج ملخص تقدم المتعلم"
+  },
+  "2. Name of Person Raising Concern: (Optional) ________________________________________": {
+    "ar": "2. اسم الشخص الذي يثير المخاوف: (اختياري) ________________________________________",
+    "combined": "2. Name of Person Raising Concern: (Optional) / 2. اسم الشخص الذي يثير المخاوف: (اختياري)________________________________________"
+  },
+  "3. Role/Position:": {
+    "ar": "3. الدور / المنصب:",
+    "combined": "3. Role/Position: / 3. الدور / المنصب:"
+  },
+  "4. Contact Details: (Optional) ________________________________________": {
+    "ar": "4. تفاصيل الاتصال: (اختياري) ________________________________________",
+    "combined": "4. Contact Details: (Optional) / 4. تفاصيل الاتصال: (اختياري)________________________________________"
+  },
+  "5. Please describe your concern in detail (include what happened, where, and when):": {
+    "ar": "5. يرجى وصف مخاوفك بالتفصيل (بما في ذلك ما حدث وأين ومتى):",
+    "combined": "5. Please describe your concern in detail (include what happened, where, and when): / 5. يرجى وصف مخاوفك بالتفصيل (بما في ذلك ما حدث وأين ومتى):"
+  },
+  "6. Who was involved or witnessed the concern (if known)?": {
+    "ar": "6. من شارك في المشكلة أو شهد عليها (إذا كان معروفًا)؟",
+    "combined": "6. Who was involved or witnessed the concern (if known)? / 6. من شارك في المشكلة أو شهد عليها (إذا كان معروفًا)؟"
+  },
+  "7. Have you reported this concern to anyone else?": {
+    "ar": "7. هل أبلغت أي شخص آخر بهذا القلق؟",
+    "combined": "7. Have you reported this concern to anyone else? / 7. هل أبلغت أي شخص آخر بهذا القلق؟"
+  },
+  "8. Do you have any evidence to support your concern (documents, records, etc.)?": {
+    "ar": "8. هل لديك أي دليل يدعم مخاوفك (المستندات والسجلات وما إلى ذلك)؟",
+    "combined": "8. Do you have any evidence to support your concern (documents, records, etc.)? / 8. هل لديك أي دليل يدعم مخاوفك (المستندات والسجلات وما إلى ذلك)؟"
+  },
+  "9. Signature (if completing by hand): ______________________________________": {
+    "ar": "9. التوقيع (في حالة التوقيع باليد): ______________________________________",
+    "combined": "9. Signature (if completing by hand) / 9. التوقيع (في حالة التوقيع باليد):______________________________________"
+  },
+  "A form of photo ID will be provided and the shared security password for this collection is: [Password].": {
+    "ar": "سيتم توفير نموذج معرف يحمل صورة وكلمة مرور الأمان المشتركة لهذه المجموعة هي: [كلمة المرور].",
+    "combined": "A form of photo ID will be provided and the shared security password for this collection is: [Password]. / سيتم توفير نموذج معرف يحمل صورة وكلمة مرور الأمان المشتركة لهذه المجموعة هي: [كلمة المرور]."
+  },
+  "A summary tool for termly or annual reviews of digital safeguarding trends.": {
+    "ar": "أداة موجزة للمراجعات الفصلية أو السنوية لاتجاهات الحماية الرقمية.",
+    "combined": "A summary tool for termly or annual reviews of digital safeguarding trends. / أداة موجزة للمراجعات الفصلية أو السنوية لاتجاهات الحماية الرقمية."
+  },
+  "Action Taken": {
+    "ar": "تم اتخاذ الإجراء",
+    "combined": "Action Taken / تم اتخاذ الإجراء"
+  },
+  "Action Taken / Notes": {
+    "ar": "الإجراء المتخذ/الملاحظات",
+    "combined": "Action Taken / Notes / الإجراء المتخذ/الملاحظات"
+  },
+  "Action Taken/Future Recommendations:": {
+    "ar": "الإجراءات المتخذة/التوصيات المستقبلية:",
+    "combined": "Action Taken/Future Recommendations: / الإجراءات المتخذة/التوصيات المستقبلية:"
+  },
+  "Action Taken/Outcome:": {
+    "ar": "الإجراء المتخذ/النتيجة:",
+    "combined": "Action Taken/Outcome: / الإجراء المتخذ/النتيجة:"
+  },
+  "Actions Agreed": {
+    "ar": "الإجراءات المتفق عليها",
+    "combined": "Actions Agreed / الإجراءات المتفق عليها"
+  },
+  "Actions Taken": {
+    "ar": "الإجراءات المتخذة",
+    "combined": "Actions Taken / الإجراءات المتخذة"
+  },
+  "Actions Taken / Notes": {
+    "ar": "الإجراءات المتخذة / الملاحظات",
+    "combined": "Actions Taken / Notes / الإجراءات المتخذة / الملاحظات"
+  },
+  "Actions Taken:": {
+    "ar": "الإجراءات المتخذة:",
+    "combined": "Actions Taken: / الإجراءات المتخذة:"
+  },
+  "Actual Collection Time": {
+    "ar": "وقت التجميع الفعلي",
+    "combined": "Actual Collection Time / وقت التجميع الفعلي"
+  },
+  "Additional Notes:": {
+    "ar": "ملاحظات إضافية:",
+    "combined": "Additional Notes: / ملاحظات إضافية:"
+  },
+  "Address:": {
+    "ar": "عنوان:",
+    "combined": "Address: / عنوان:"
+  },
+  "Address: [Insert address if known]": {
+    "ar": "العنوان: [أدخل العنوان إذا كان معروفًا]",
+    "combined": "Address: [Insert address if known] / العنوان: [أدخل العنوان إذا كان معروفًا]"
+  },
+  "Adjustment or Support Provided": {
+    "ar": "التعديل أو الدعم المقدم",
+    "combined": "Adjustment or Support Provided / التعديل أو الدعم المقدم"
+  },
+  "Administered By (Name of First Aider):": {
+    "ar": "يديره (اسم المسعف الأول):",
+    "combined": "Administered By (Name of First Aider): / يديره (اسم المسعف الأول):"
+  },
+  "Administered By (Name)": {
+    "ar": "يديره (الاسم)",
+    "combined": "Administered By (Name) / يديره (الاسم)"
+  },
+  "Advice or Outcome Given:": {
+    "ar": "النصيحة أو النتيجة المقدمة:",
+    "combined": "Advice or Outcome Given: / النصيحة أو النتيجة المقدمة:"
+  },
+  "Age": {
+    "ar": "عمر",
+    "combined": "Age / عمر"
+  },
+  "Age:": {
+    "ar": "عمر:",
+    "combined": "Age: / عمر:"
+  },
+  "Age: _________________________": {
+    "ar": "عمر: _________________________",
+    "combined": "Age / عمر:_________________________"
+  },
+  "Agency Contacted:": {
+    "ar": "تم الاتصال بالوكالة:",
+    "combined": "Agency Contacted: / تم الاتصال بالوكالة:"
+  },
+  "Agreed Actions / Outcomes:": {
+    "ar": "الإجراءات/النتائج المتفق عليها:",
+    "combined": "Agreed Actions / Outcomes: / الإجراءات/النتائج المتفق عليها:"
+  },
+  "Agreed Password (if applicable)": {
+    "ar": "كلمة المرور المتفق عليها (إن وجدت)",
+    "combined": "Agreed Password (if applicable) / كلمة المرور المتفق عليها (إن وجدت)"
+  },
+  "Agreed Strategies and Support Plan:": {
+    "ar": "الاستراتيجيات المتفق عليها وخطة الدعم:",
+    "combined": "Agreed Strategies and Support Plan: / الاستراتيجيات المتفق عليها وخطة الدعم:"
+  },
+  "Alarm Activated By": {
+    "ar": "تم تفعيل المنبه بواسطة",
+    "combined": "Alarm Activated By / تم تفعيل المنبه بواسطة"
+  },
+  "Alarm Sounded (Y/N)": {
+    "ar": "تم إطلاق الإنذار (نعم/لا)",
+    "combined": "Alarm Sounded (Y/N) / تم إطلاق الإنذار (نعم/لا)"
+  },
+  "Alignment with organisational values": {
+    "ar": "التوافق مع القيم التنظيمية",
+    "combined": "Alignment with organisational values / التوافق مع القيم التنظيمية"
+  },
+  "Any Faults Found": {
+    "ar": "تم العثور على أي أخطاء",
+    "combined": "Any Faults Found / تم العثور على أي أخطاء"
+  },
+  "Appendix A – Safeguarding Concern / Disclosure Form": {
+    "ar": "الملحق أ – نموذج المخاوف المتعلقة بالحماية/الإفصاح",
+    "combined": "Appendix A – Safeguarding Concern / Disclosure Form / الملحق أ – نموذج المخاوف المتعلقة بالحماية/الإفصاح"
+  },
+  "Appendix A: Whistleblowing Report Form": {
+    "ar": "الملحق أ: نموذج تقرير الإبلاغ عن المخالفات",
+    "combined": "Appendix A: Whistleblowing Report Form / الملحق أ: نموذج تقرير الإبلاغ عن المخالفات"
+  },
+  "Appendix B – Allegation Against Staff or Volunteer Form": {
+    "ar": "الملحق ب - نموذج الادعاء ضد الموظفين أو المتطوعين",
+    "combined": "Appendix B – Allegation Against Staff or Volunteer Form / الملحق ب - نموذج الادعاء ضد الموظفين أو المتطوعين"
+  },
+  "Appendix C – Safeguarding Log / Chronology Tracker": {
+    "ar": "الملحق ج - سجل الحماية / متتبع التسلسل الزمني",
+    "combined": "Appendix C – Safeguarding Log / Chronology Tracker / الملحق ج - سجل الحماية / متتبع التسلسل الزمني"
+  },
+  "Appendix D – Lone Working / 1:1 Tuition Risk Assessment Template": {
+    "ar": "الملحق د – العمل المنفرد / نموذج تقييم مخاطر الرسوم الدراسية 1:1",
+    "combined": "Appendix D – Lone Working / 1:1 Tuition Risk Assessment Template / الملحق د – العمل المنفرد / نموذج تقييم مخاطر الرسوم الدراسية 1:1"
+  },
+  "Appendix E – External Safeguarding Referral Record": {
+    "ar": "الملحق هـ - سجل إحالة الحماية الخارجية",
+    "combined": "Appendix E – External Safeguarding Referral Record / الملحق هـ - سجل إحالة الحماية الخارجية"
+  },
+  "Applicant Name:": {
+    "ar": "اسم مقدم الطلب:",
+    "combined": "Applicant Name: / اسم مقدم الطلب:"
+  },
+  "Application form received and checked": {
+    "ar": "تم استلام نموذج الطلب والتحقق منه",
+    "combined": "Application form received and checked / تم استلام نموذج الطلب والتحقق منه"
+  },
+  "Arabic Language": {
+    "ar": "اللغة العربية",
+    "combined": "Arabic Language / اللغة العربية"
+  },
+  "Are you aware of any safeguarding concerns or conduct issues?": {
+    "ar": "هل أنت على علم بأي مخاوف متعلقة بالحماية أو مشكلات تتعلق بالسلوك؟",
+    "combined": "Are you aware of any safeguarding concerns or conduct issues? / هل أنت على علم بأي مخاوف متعلقة بالحماية أو مشكلات تتعلق بالسلوك؟"
+  },
+  "Are you barred from working with children under the DBS barred list?": {
+    "ar": "هل أنت ممنوع من العمل مع الأطفال ضمن قائمة DBS المحظورة؟",
+    "combined": "Are you barred from working with children under the DBS barred list? / هل أنت ممنوع من العمل مع الأطفال ضمن قائمة DBS المحظورة؟"
+  },
+  "Area": {
+    "ar": "منطقة",
+    "combined": "Area / منطقة"
+  },
+  "Area Assessed": {
+    "ar": "المنطقة التي تم تقييمها",
+    "combined": "Area Assessed / المنطقة التي تم تقييمها"
+  },
+  "Assessment for Learning (AfL):": {
+    "ar": "التقييم من أجل التعلم (AfL):",
+    "combined": "Assessment for Learning (AfL): / التقييم من أجل التعلم (AfL):"
+  },
+  "Assigned Room": {
+    "ar": "الغرفة المخصصة",
+    "combined": "Assigned Room / الغرفة المخصصة"
+  },
+  "Assigned Staff": {
+    "ar": "الموظفين المعينين",
+    "combined": "Assigned Staff / الموظفين المعينين"
+  },
+  "Attach additional sheets if needed.": {
+    "ar": "إرفاق أوراق إضافية إذا لزم الأمر.",
+    "combined": "Attach additional sheets if needed. / إرفاق أوراق إضافية إذا لزم الأمر."
+  },
+  "Attendance": {
+    "ar": "حضور",
+    "combined": "Attendance / حضور"
+  },
+  "Attendees": {
+    "ar": "الحضور",
+    "combined": "Attendees / الحضور"
+  },
+  "Attitude toward safer working practice": {
+    "ar": "الموقف تجاه ممارسة العمل الأكثر أمانا",
+    "combined": "Attitude toward safer working practice / الموقف تجاه ممارسة العمل الأكثر أمانا"
+  },
+  "Authorised Adult(s)": {
+    "ar": "البالغين المصرح لهم",
+    "combined": "Authorised Adult(s) / البالغين المصرح لهم"
+  },
+  "Authorised By (DSL or Manager):": {
+    "ar": "معتمد بواسطة (DSL أو المدير):",
+    "combined": "Authorised By (DSL or Manager): / معتمد بواسطة (DSL أو المدير):"
+  },
+  "Authorised Collection Form (Per Child)": {
+    "ar": "نموذج التحصيل المعتمد (لكل طفل)",
+    "combined": "Authorised Collection Form (Per Child) / نموذج التحصيل المعتمد (لكل طفل)"
+  },
+  "Authorised Collector List (Per Child)": {
+    "ar": "قائمة المجمعين المعتمدين (لكل طفل)",
+    "combined": "Authorised Collector List (Per Child) / قائمة المجمعين المعتمدين (لكل طفل)"
+  },
+  "Authorised by (Name & Position): _________________________": {
+    "ar": "المعتمد بواسطة (الاسم والمنصب): _________________________",
+    "combined": "Authorised by (Name & Position) / المعتمد بواسطة (الاسم والمنصب):_________________________"
+  },
+  "Authorised? (Y/N)": {
+    "ar": "مرخص؟ (نعم / لا)",
+    "combined": "Authorised? (Y/N) / مرخص؟ (نعم / لا)"
+  },
+  "Backup/Support Staff": {
+    "ar": "موظفو الدعم/النسخ الاحتياطي",
+    "combined": "Backup/Support Staff / موظفو الدعم/النسخ الاحتياطي"
+  },
+  "Baseline": {
+    "ar": "خط الأساس",
+    "combined": "Baseline / خط الأساس"
+  },
+  "Behaviour & Focus": {
+    "ar": "السلوك والتركيز",
+    "combined": "Behaviour & Focus / السلوك والتركيز"
+  },
+  "Behaviour Monitoring Log": {
+    "ar": "سجل مراقبة السلوك",
+    "combined": "Behaviour Monitoring Log / سجل مراقبة السلوك"
+  },
+  "Bullying and Harassment Incident Report Form": {
+    "ar": "نموذج الإبلاغ عن حادثة التنمر والتحرش",
+    "combined": "Bullying and Harassment Incident Report Form / نموذج الإبلاغ عن حادثة التنمر والتحرش"
+  },
+  "Child Name": {
+    "ar": "اسم الطفل",
+    "combined": "Child Name / اسم الطفل"
+  },
+  "Child/Staff Name": {
+    "ar": "اسم الطفل/الموظف",
+    "combined": "Child/Staff Name / اسم الطفل/الموظف"
+  },
+  "Child’s Full Name": {
+    "ar": "الاسم الكامل للطفل",
+    "combined": "Child’s Full Name / الاسم الكامل للطفل"
+  },
+  "Child’s Full Name:": {
+    "ar": "الاسم الكامل للطفل:",
+    "combined": "Child’s Full Name: / الاسم الكامل للطفل:"
+  },
+  "Child’s Full Name: _______________________Parent/Carer Name: _______________________": {
+    "ar": "الاسم الكامل للطفل: _______________________ اسم الوالد/مقدم الرعاية: _________",
+    "combined": "Child’s Full Name / الاسم الكامل للطفل:_______________________Parent/Carer Name / اسم الوالد/مقدم الرعاية:_______________________"
+  },
+  "Child’s Full Name: __________________________Parent/Carer Name: __________________________": {
+    "ar": "الاسم الكامل للطفل: __________________________ اسم الوالد/مقدم الرعاية: __________________________",
+    "combined": "Child’s Full Name / الاسم الكامل للطفل:__________________________Parent/Carer Name / اسم الوالد/مقدم الرعاية:__________________________"
+  },
+  "Child’s Full Name: ______________________________________": {
+    "ar": "الاسم الكامل للطفل: ______________________________________",
+    "combined": "Child’s Full Name / الاسم الكامل للطفل:______________________________________"
+  },
+  "Child’s Name": {
+    "ar": "اسم الطفل",
+    "combined": "Child’s Name / اسم الطفل"
+  },
+  "Child’s Name:": {
+    "ar": "اسم الطفل:",
+    "combined": "Child’s Name: / اسم الطفل:"
+  },
+  "Child’s Name: _________________": {
+    "ar": "اسم الطفل: _________________",
+    "combined": "Child’s Name / اسم الطفل:_________________"
+  },
+  "Child’s Name: _________________________": {
+    "ar": "اسم الطفل: _________________________",
+    "combined": "Child’s Name / اسم الطفل:_________________________"
+  },
+  "Child’s Name: __________________________": {
+    "ar": "اسم الطفل: __________________________",
+    "combined": "Child’s Name / اسم الطفل:__________________________"
+  },
+  "Class: _________________________": {
+    "ar": "فصل: _________________________",
+    "combined": "Class / فصل:_________________________"
+  },
+  "Co-Host Present": {
+    "ar": "المضيف المشارك الحاضر",
+    "combined": "Co-Host Present / المضيف المشارك الحاضر"
+  },
+  "Collected By (Name)": {
+    "ar": "تم جمعها بواسطة (الاسم)",
+    "combined": "Collected By (Name) / تم جمعها بواسطة (الاسم)"
+  },
+  "Collector's Name": {
+    "ar": "اسم المجمع",
+    "combined": "Collector's Name / اسم المجمع"
+  },
+  "Comments": {
+    "ar": "تعليقات",
+    "combined": "Comments / تعليقات"
+  },
+  "Comments (e.g. side effects)": {
+    "ar": "التعليقات (مثل الآثار الجانبية)",
+    "combined": "Comments (e.g. side effects) / التعليقات (مثل الآثار الجانبية)"
+  },
+  "Common Themes": {
+    "ar": "المواضيع المشتركة",
+    "combined": "Common Themes / المواضيع المشتركة"
+  },
+  "Communication skills": {
+    "ar": "مهارات الاتصال",
+    "combined": "Communication skills / مهارات الاتصال"
+  },
+  "Communication with Parents/Carers:": {
+    "ar": "التواصل مع أولياء الأمور/مقدمي الرعاية:",
+    "combined": "Communication with Parents/Carers: / التواصل مع أولياء الأمور/مقدمي الرعاية:"
+  },
+  "Community Reform CIC": {
+    "ar": "إصلاح المجتمع CIC",
+    "combined": "Community Reform CIC / إصلاح المجتمع CIC"
+  },
+  "Community Reform CIC – Device Confiscation Record": {
+    "ar": "إصلاح المجتمع CIC – سجل مصادرة الجهاز",
+    "combined": "Community Reform CIC – Device Confiscation Record / إصلاح المجتمع CIC – سجل مصادرة الجهاز"
+  },
+  "Community Reform CIC – First Aid Record": {
+    "ar": "إصلاح المجتمع CIC – سجل الإسعافات الأولية",
+    "combined": "Community Reform CIC – First Aid Record / إصلاح المجتمع CIC – سجل الإسعافات الأولية"
+  },
+  "Community Reform CIC – First Aider Training Log": {
+    "ar": "إصلاح المجتمع CIC – سجل تدريب الإسعافات الأولية",
+    "combined": "Community Reform CIC – First Aider Training Log / إصلاح المجتمع CIC – سجل تدريب الإسعافات الأولية"
+  },
+  "Community Reform CIC – For Ongoing Patterns of Concern": {
+    "ar": "إصلاح المجتمع CIC – لأنماط القلق المستمرة",
+    "combined": "Community Reform CIC – For Ongoing Patterns of Concern / إصلاح المجتمع CIC – لأنماط القلق المستمرة"
+  },
+  "Community Reform CIC – Incident & Accident Report": {
+    "ar": "إصلاح المجتمع CIC – تقرير الحوادث والحوادث",
+    "combined": "Community Reform CIC – Incident & Accident Report / إصلاح المجتمع CIC – تقرير الحوادث والحوادث"
+  },
+  "Community Reform CIC – Internal Use Only": {
+    "ar": "إصلاح المجتمع CIC – الاستخدام الداخلي فقط",
+    "combined": "Community Reform CIC – Internal Use Only / إصلاح المجتمع CIC – الاستخدام الداخلي فقط"
+  },
+  "Community Reform CIC – Mobile Phone & Device Misuse Log": {
+    "ar": "إصلاح المجتمع CIC – سجل إساءة استخدام الهاتف المحمول والأجهزة",
+    "combined": "Community Reform CIC – Mobile Phone & Device Misuse Log / إصلاح المجتمع CIC – سجل إساءة استخدام الهاتف المحمول والأجهزة"
+  },
+  "Community Reform CIC – Mobile Phone & Device Use Agreement for Parents/Guardians": {
+    "ar": "إصلاح المجتمع CIC – اتفاقية استخدام الهاتف المحمول والأجهزة للآباء/الأوصياء",
+    "combined": "Community Reform CIC – Mobile Phone & Device Use Agreement for Parents/Guardians / إصلاح المجتمع CIC – اتفاقية استخدام الهاتف المحمول والأجهزة للآباء/الأوصياء"
+  },
+  "Community Reform CIC – Near Miss Report": {
+    "ar": "إصلاح المجتمع CIC – تقرير القرب من الخسارة",
+    "combined": "Community Reform CIC – Near Miss Report / إصلاح المجتمع CIC – تقرير القرب من الخسارة"
+  },
+  "Community Reform CIC – Parent Feedback Form": {
+    "ar": "إصلاح المجتمع CIC – نموذج تعليقات أولياء الأمور",
+    "combined": "Community Reform CIC – Parent Feedback Form / إصلاح المجتمع CIC – نموذج تعليقات أولياء الأمور"
+  },
+  "Community Reform CIC – Positive Behaviour Plan": {
+    "ar": "إصلاح المجتمع CIC – خطة السلوك الإيجابي",
+    "combined": "Community Reform CIC – Positive Behaviour Plan / إصلاح المجتمع CIC – خطة السلوك الإيجابي"
+  },
+  "Community Reform CIC – Reasonable Adjustments & Support Record": {
+    "ar": "إصلاح المجتمع CIC – التعديلات المعقولة وسجل الدعم",
+    "combined": "Community Reform CIC – Reasonable Adjustments & Support Record / إصلاح المجتمع CIC – التعديلات المعقولة وسجل الدعم"
+  },
+  "Community Reform CIC – SEND Concern & Referral Form": {
+    "ar": "CIC لإصلاح المجتمع – أرسل نموذج المخاوف والإحالة",
+    "combined": "Community Reform CIC – SEND Concern & Referral Form / CIC لإصلاح المجتمع – أرسل نموذج المخاوف والإحالة"
+  },
+  "Community Reform CIC – Whistleblowing Report Form": {
+    "ar": "إصلاح المجتمع CIC – نموذج تقرير الإبلاغ عن المخالفات",
+    "combined": "Community Reform CIC – Whistleblowing Report Form / إصلاح المجتمع CIC – نموذج تقرير الإبلاغ عن المخالفات"
+  },
+  "Complainant": {
+    "ar": "المشتكي",
+    "combined": "Complainant / المشتكي"
+  },
+  "Complainant Name": {
+    "ar": "اسم مقدم الشكوى",
+    "combined": "Complainant Name / اسم مقدم الشكوى"
+  },
+  "Complaint Meeting Record Template": {
+    "ar": "نموذج سجل اجتماع الشكوى",
+    "combined": "Complaint Meeting Record Template / نموذج سجل اجتماع الشكوى"
+  },
+  "Complaint Outcome Letter Template": {
+    "ar": "نموذج رسالة نتائج الشكوى",
+    "combined": "Complaint Outcome Letter Template / نموذج رسالة نتائج الشكوى"
+  },
+  "Complaint Reference": {
+    "ar": "مرجع الشكوى",
+    "combined": "Complaint Reference / مرجع الشكوى"
+  },
+  "Complaint Summary for Six-Monthly Review": {
+    "ar": "ملخص الشكوى للمراجعة كل ستة أشهر",
+    "combined": "Complaint Summary for Six-Monthly Review / ملخص الشكوى للمراجعة كل ستة أشهر"
+  },
+  "Complaints Acknowledgement Letter Template": {
+    "ar": "نموذج رسالة شكر للشكاوى",
+    "combined": "Complaints Acknowledgement Letter Template / نموذج رسالة شكر للشكاوى"
+  },
+  "Complaints Appeal Request Form": {
+    "ar": "نموذج طلب استئناف الشكاوى",
+    "combined": "Complaints Appeal Request Form / نموذج طلب استئناف الشكاوى"
+  },
+  "Complaints Investigation Record Form": {
+    "ar": "نموذج سجل التحقيق في الشكاوى",
+    "combined": "Complaints Investigation Record Form / نموذج سجل التحقيق في الشكاوى"
+  },
+  "Complaints Log Template": {
+    "ar": "نموذج سجل الشكاوى",
+    "combined": "Complaints Log Template / نموذج سجل الشكاوى"
+  },
+  "Completed": {
+    "ar": "مكتمل",
+    "combined": "Completed / مكتمل"
+  },
+  "Completion Date": {
+    "ar": "تاريخ الانتهاء",
+    "combined": "Completion Date / تاريخ الانتهاء"
+  },
+  "Concerns Raised? (Y/N)": {
+    "ar": "المخاوف المثارة؟ (نعم / لا)",
+    "combined": "Concerns Raised? (Y/N) / المخاوف المثارة؟ (نعم / لا)"
+  },
+  "Confidential – Employment Reference Request": {
+    "ar": "سري - طلب مرجع التوظيف",
+    "combined": "Confidential – Employment Reference Request / سري - طلب مرجع التوظيف"
+  },
+  "Confidentiality Agreement Form": {
+    "ar": "نموذج اتفاقية السرية",
+    "combined": "Confidentiality Agreement Form / نموذج اتفاقية السرية"
+  },
+  "Contact Email:": {
+    "ar": "البريد الإلكتروني للاتصال:",
+    "combined": "Contact Email: / البريد الإلكتروني للاتصال:"
+  },
+  "Contact Number": {
+    "ar": "رقم الاتصال",
+    "combined": "Contact Number / رقم الاتصال"
+  },
+  "Contact Number: ________________________________________": {
+    "ar": "رقم الاتصال: ________________________________________",
+    "combined": "Contact Number / رقم الاتصال:________________________________________"
+  },
+  "Contactable on: _____________________": {
+    "ar": "يمكن الاتصال به على: _____________________",
+    "combined": "Contactable on / يمكن الاتصال به على:_____________________"
+  },
+  "Cover Required? (Y/N)": {
+    "ar": "التغطية مطلوبة؟ (نعم / لا)",
+    "combined": "Cover Required? (Y/N) / التغطية مطلوبة؟ (نعم / لا)"
+  },
+  "Criteria": {
+    "ar": "معايير",
+    "combined": "Criteria / معايير"
+  },
+  "DSL Notified (if lone)": {
+    "ar": "تم إخطار DSL (إذا كان وحيدًا)",
+    "combined": "DSL Notified (if lone) / تم إخطار DSL (إذا كان وحيدًا)"
+  },
+  "DSL or Registered Manager Signature: _____________________  Date: __________": {
+    "ar": "DSL أو توقيع المدير المسجل: _______ التاريخ: __________",
+    "combined": "DSL or Registered Manager Signature / DSL أو توقيع المدير المسجل:_____________________Date / التاريخ:__________"
+  },
+  "Daily Attendance & Collection Register": {
+    "ar": "سجل الحضور والتحصيل اليومي",
+    "combined": "Daily Attendance & Collection Register / سجل الحضور والتحصيل اليومي"
+  },
+  "Data Breach Log": {
+    "ar": "سجل خرق البيانات",
+    "combined": "Data Breach Log / سجل خرق البيانات"
+  },
+  "Data Involved": {
+    "ar": "البيانات المعنية",
+    "combined": "Data Involved / البيانات المعنية"
+  },
+  "Data Subject": {
+    "ar": "موضوع البيانات",
+    "combined": "Data Subject / موضوع البيانات"
+  },
+  "Date": {
+    "ar": "تاريخ",
+    "combined": "Date / تاريخ"
+  },
+  "Date Allegation Made: _____________________________": {
+    "ar": "تاريخ تقديم الادعاء: ___________________________________________",
+    "combined": "Date Allegation Made / تاريخ تقديم الادعاء:_____________________________"
+  },
+  "Date Closed": {
+    "ar": "تاريخ الإغلاق",
+    "combined": "Date Closed / تاريخ الإغلاق"
+  },
+  "Date Completed": {
+    "ar": "تاريخ الانتهاء",
+    "combined": "Date Completed / تاريخ الانتهاء"
+  },
+  "Date Obtained": {
+    "ar": "تاريخ الحصول عليها",
+    "combined": "Date Obtained / تاريخ الحصول عليها"
+  },
+  "Date Received": {
+    "ar": "تاريخ الاستلام",
+    "combined": "Date Received / تاريخ الاستلام"
+  },
+  "Date Received:": {
+    "ar": "تاريخ الاستلام:",
+    "combined": "Date Received: / تاريخ الاستلام:"
+  },
+  "Date Received: __________": {
+    "ar": "تاريخ الاستلام: __________",
+    "combined": "Date Received / تاريخ الاستلام:__________"
+  },
+  "Date of Birth:": {
+    "ar": "تاريخ الميلاد:",
+    "combined": "Date of Birth: / تاريخ الميلاد:"
+  },
+  "Date of Birth: ___________________________________________": {
+    "ar": "تاريخ الميلاد: ___________________________________________",
+    "combined": "Date of Birth / تاريخ الميلاد:___________________________________________"
+  },
+  "Date of Case Closure:": {
+    "ar": "تاريخ إغلاق الحالة:",
+    "combined": "Date of Case Closure: / تاريخ إغلاق الحالة:"
+  },
+  "Date of Complaint": {
+    "ar": "تاريخ الشكوى",
+    "combined": "Date of Complaint / تاريخ الشكوى"
+  },
+  "Date of Concern/Disclosure: ___________________________": {
+    "ar": "تاريخ القلق/الإفصاح: ___________________________",
+    "combined": "Date of Concern/Disclosure / تاريخ القلق/الإفصاح:___________________________"
+  },
+  "Date of Concern: ____________________": {
+    "ar": "تاريخ القلق: ____________________",
+    "combined": "Date of Concern / تاريخ القلق:____________________"
+  },
+  "Date of Incident": {
+    "ar": "تاريخ الحادث",
+    "combined": "Date of Incident / تاريخ الحادث"
+  },
+  "Date of Incident:": {
+    "ar": "تاريخ الحادث:",
+    "combined": "Date of Incident: / تاريخ الحادث:"
+  },
+  "Date of Incident: ______________________Time: __________________________": {
+    "ar": "تاريخ الحادثة: ______________________ الوقت: ____________",
+    "combined": "Date of Incident / تاريخ الحادثة:______________________Time / الوقت:__________________________"
+  },
+  "Date of Incident: ___________________________": {
+    "ar": "تاريخ الحادثة: ___________________________",
+    "combined": "Date of Incident / تاريخ الحادثة:___________________________"
+  },
+  "Date of Meeting: ______________": {
+    "ar": "تاريخ الاجتماع: ______________",
+    "combined": "Date of Meeting / تاريخ الاجتماع:______________"
+  },
+  "Date of Near Miss:": {
+    "ar": "تاريخ الوفاة الوشيكة:",
+    "combined": "Date of Near Miss: / تاريخ الوفاة الوشيكة:"
+  },
+  "Date of Plan": {
+    "ar": "تاريخ الخطة",
+    "combined": "Date of Plan / تاريخ الخطة"
+  },
+  "Date of Referral:": {
+    "ar": "تاريخ الإحالة:",
+    "combined": "Date of Referral: / تاريخ الإحالة:"
+  },
+  "Date of Referral: ____________________": {
+    "ar": "تاريخ الإحالة: ____________________",
+    "combined": "Date of Referral / تاريخ الإحالة:____________________"
+  },
+  "Date of Report:": {
+    "ar": "تاريخ التقرير:",
+    "combined": "Date of Report: / تاريخ التقرير:"
+  },
+  "Date of Request": {
+    "ar": "تاريخ الطلب",
+    "combined": "Date of Request / تاريخ الطلب"
+  },
+  "Date of Review: _______________________": {
+    "ar": "تاريخ المراجعة: _______________________",
+    "combined": "Date of Review / تاريخ المراجعة:_______________________"
+  },
+  "Date of Session(s): _____________________": {
+    "ar": "تاريخ الجلسة (الجلسات): _____________________",
+    "combined": "Date of Session(s) / تاريخ الجلسة (الجلسات):_____________________"
+  },
+  "Date/Time of Incident:": {
+    "ar": "تاريخ/وقت الحادث:",
+    "combined": "Date/Time of Incident: / تاريخ/وقت الحادث:"
+  },
+  "Date:": {
+    "ar": "تاريخ:",
+    "combined": "Date: / تاريخ:"
+  },
+  "Date: ___________": {
+    "ar": "تاريخ: ___________",
+    "combined": "Date / تاريخ:___________"
+  },
+  "Date: ________________": {
+    "ar": "تاريخ: ________________",
+    "combined": "Date / تاريخ:________________"
+  },
+  "Date: ___________________": {
+    "ar": "تاريخ: ___________________",
+    "combined": "Date / تاريخ:___________________"
+  },
+  "Date: ____________________": {
+    "ar": "تاريخ: ____________________",
+    "combined": "Date / تاريخ:____________________"
+  },
+  "Date: _________________________": {
+    "ar": "تاريخ: _________________________",
+    "combined": "Date / تاريخ:_________________________"
+  },
+  "Date: __________________________": {
+    "ar": "تاريخ: __________________________",
+    "combined": "Date / تاريخ:__________________________"
+  },
+  "Date: _____________________________": {
+    "ar": "تاريخ: _____________________________",
+    "combined": "Date / تاريخ:_____________________________"
+  },
+  "Days and times this applies: _____________________________________": {
+    "ar": "الأيام والأوقات التي ينطبق عليها ذلك: _____________________________________",
+    "combined": "Days and times this applies / الأيام والأوقات التي ينطبق عليها ذلك:_____________________________________"
+  },
+  "Dear [Complainant’s Name],": {
+    "ar": "عزيزي [اسم صاحب الشكوى]،",
+    "combined": "Dear [Complainant’s Name], / عزيزي [اسم صاحب الشكوى]،"
+  },
+  "Dear [Visitor’s Name],": {
+    "ar": "عزيزي [اسم الزائر]،",
+    "combined": "Dear [Visitor’s Name], / عزيزي [اسم الزائر]،"
+  },
+  "Decision:": {
+    "ar": "قرار:",
+    "combined": "Decision: / قرار:"
+  },
+  "Description of Breach": {
+    "ar": "وصف الخرق",
+    "combined": "Description of Breach / وصف الخرق"
+  },
+  "Description of Concerns:": {
+    "ar": "وصف المخاوف:",
+    "combined": "Description of Concerns: / وصف المخاوف:"
+  },
+  "Description of Incident": {
+    "ar": "وصف الحادث",
+    "combined": "Description of Incident / وصف الحادث"
+  },
+  "Description of Incident (facts only):": {
+    "ar": "وصف الحادث (الحقائق فقط):",
+    "combined": "Description of Incident (facts only): / وصف الحادث (الحقائق فقط):"
+  },
+  "Description of Incident:": {
+    "ar": "وصف الحادث:",
+    "combined": "Description of Incident: / وصف الحادث:"
+  },
+  "Description of Misuse": {
+    "ar": "وصف سوء الاستخدام",
+    "combined": "Description of Misuse / وصف سوء الاستخدام"
+  },
+  "Description of What Happened:": {
+    "ar": "وصف ما حدث:",
+    "combined": "Description of What Happened: / وصف ما حدث:"
+  },
+  "Desired Outcome": {
+    "ar": "النتيجة المرجوة",
+    "combined": "Desired Outcome / النتيجة المرجوة"
+  },
+  "Details": {
+    "ar": "تفاصيل",
+    "combined": "Details / تفاصيل"
+  },
+  "Details of Concern/Disclosure:": {
+    "ar": "تفاصيل القلق/الإفصاح:",
+    "combined": "Details of Concern/Disclosure: / تفاصيل القلق/الإفصاح:"
+  },
+  "Device Confiscation Record": {
+    "ar": "سجل مصادرة الجهاز",
+    "combined": "Device Confiscation Record / سجل مصادرة الجهاز"
+  },
+  "Devices will be kept out of sight and switched off during sessions.": {
+    "ar": "سيتم إبقاء الأجهزة بعيدًا عن الأنظار وإيقاف تشغيلها أثناء الجلسات.",
+    "combined": "Devices will be kept out of sight and switched off during sessions. / سيتم إبقاء الأجهزة بعيدًا عن الأنظار وإيقاف تشغيلها أثناء الجلسات."
+  },
+  "Differentiation:": {
+    "ar": "التمايز:",
+    "combined": "Differentiation: / التمايز:"
+  },
+  "Do you feel safe and supported during tuition?": {
+    "ar": "هل تشعر بالأمان والدعم أثناء الدراسة؟",
+    "combined": "Do you feel safe and supported during tuition? / هل تشعر بالأمان والدعم أثناء الدراسة؟"
+  },
+  "Do you have any reason to believe they should not work with children?": {
+    "ar": "هل لديك أي سبب للاعتقاد بأنه لا ينبغي عليهم العمل مع الأطفال؟",
+    "combined": "Do you have any reason to believe they should not work with children? / هل لديك أي سبب للاعتقاد بأنه لا ينبغي عليهم العمل مع الأطفال؟"
+  },
+  "Do you live in a household with anyone who has been disqualified from working with children?": {
+    "ar": "هل تعيش في منزل مع أي شخص تم استبعاده من العمل مع الأطفال؟",
+    "combined": "Do you live in a household with anyone who has been disqualified from working with children? / هل تعيش في منزل مع أي شخص تم استبعاده من العمل مع الأطفال؟"
+  },
+  "Dosage (as per prescription): _____________________________": {
+    "ar": "الجرعة (حسب الوصفة الطبية): ___________________________________________",
+    "combined": "Dosage (as per prescription) / الجرعة (حسب الوصفة الطبية):_____________________________"
+  },
+  "Dose Given": {
+    "ar": "الجرعة المعطاة",
+    "combined": "Dose Given / الجرعة المعطاة"
+  },
+  "EHCP or School IEP in Place?": {
+    "ar": "EHCP أو برنامج التعليم الفردي (IEP) المدرسي في مكانه؟",
+    "combined": "EHCP or School IEP in Place? / EHCP أو برنامج التعليم الفردي (IEP) المدرسي في مكانه؟"
+  },
+  "Emergency Collection Authorisation": {
+    "ar": "إذن التحصيل في حالات الطوارئ",
+    "combined": "Emergency Collection Authorisation / إذن التحصيل في حالات الطوارئ"
+  },
+  "Emergency Collection Authorisation Form": {
+    "ar": "نموذج تفويض تحصيل الطوارئ",
+    "combined": "Emergency Collection Authorisation Form / نموذج تفويض تحصيل الطوارئ"
+  },
+  "Emergency Collection Authorisation Template": {
+    "ar": "نموذج ترخيص جمع الطوارئ",
+    "combined": "Emergency Collection Authorisation Template / نموذج ترخيص جمع الطوارئ"
+  },
+  "Emergency Contact Called?": {
+    "ar": "هل تم الاتصال بجهة اتصال الطوارئ؟",
+    "combined": "Emergency Contact Called? / هل تم الاتصال بجهة اتصال الطوارئ؟"
+  },
+  "Emergency Evacuation Report Form": {
+    "ar": "نموذج تقرير الإخلاء في حالات الطوارئ",
+    "combined": "Emergency Evacuation Report Form / نموذج تقرير الإخلاء في حالات الطوارئ"
+  },
+  "Emergency Services Contacted (Y/N)": {
+    "ar": "تم الاتصال بخدمات الطوارئ (نعم / لا)",
+    "combined": "Emergency Services Contacted (Y/N) / تم الاتصال بخدمات الطوارئ (نعم / لا)"
+  },
+  "Enhanced DBS with Barred List check completed": {
+    "ar": "تم إكمال فحص DBS المحسّن مع القائمة المحظورة",
+    "combined": "Enhanced DBS with Barred List check completed / تم إكمال فحص DBS المحسّن مع القائمة المحظورة"
+  },
+  "Equipment Needed": {
+    "ar": "المعدات اللازمة",
+    "combined": "Equipment Needed / المعدات اللازمة"
+  },
+  "Escalated to Manager (Y/N)": {
+    "ar": "تم التصعيد إلى المدير (نعم/لا)",
+    "combined": "Escalated to Manager (Y/N) / تم التصعيد إلى المدير (نعم/لا)"
+  },
+  "Evacuation Route": {
+    "ar": "طريق الإخلاء",
+    "combined": "Evacuation Route / طريق الإخلاء"
+  },
+  "Evacuation Start Time": {
+    "ar": "وقت بدء الإخلاء",
+    "combined": "Evacuation Start Time / وقت بدء الإخلاء"
+  },
+  "Expected Collection Time": {
+    "ar": "وقت التحصيل المتوقع",
+    "combined": "Expected Collection Time / وقت التحصيل المتوقع"
+  },
+  "Experience with children or vulnerable learners": {
+    "ar": "خبرة مع الأطفال أو المتعلمين الضعفاء",
+    "combined": "Experience with children or vulnerable learners / خبرة مع الأطفال أو المتعلمين الضعفاء"
+  },
+  "Expiry Date": {
+    "ar": "تاريخ انتهاء الصلاحية",
+    "combined": "Expiry Date / تاريخ انتهاء الصلاحية"
+  },
+  "External Agency Contacted?": {
+    "ar": "هل تم الاتصال بالوكالة الخارجية؟",
+    "combined": "External Agency Contacted? / هل تم الاتصال بالوكالة الخارجية؟"
+  },
+  "Findings:": {
+    "ar": "النتائج:",
+    "combined": "Findings: / النتائج:"
+  },
+  "Fire Drill Record Form": {
+    "ar": "نموذج سجل تدريبات مكافحة الحرائق",
+    "combined": "Fire Drill Record Form / نموذج سجل تدريبات مكافحة الحرائق"
+  },
+  "First Aid Administered By:": {
+    "ar": "الإسعافات الأولية بإشراف:",
+    "combined": "First Aid Administered By: / الإسعافات الأولية بإشراف:"
+  },
+  "First Aid Administered:": {
+    "ar": "الإسعافات الأولية تدار:",
+    "combined": "First Aid Administered: / الإسعافات الأولية تدار:"
+  },
+  "First Aid Administered?": {
+    "ar": "الإسعافات الأولية تدار؟",
+    "combined": "First Aid Administered? / الإسعافات الأولية تدار؟"
+  },
+  "First Aid Record": {
+    "ar": "سجل الإسعافات الأولية",
+    "combined": "First Aid Record / سجل الإسعافات الأولية"
+  },
+  "First Aid Record Form": {
+    "ar": "نموذج سجل الإسعافات الأولية",
+    "combined": "First Aid Record Form / نموذج سجل الإسعافات الأولية"
+  },
+  "First Aider Training & Qualification Tracker": {
+    "ar": "متتبع تدريب وتأهيل الإسعافات الأولية",
+    "combined": "First Aider Training & Qualification Tracker / متتبع تدريب وتأهيل الإسعافات الأولية"
+  },
+  "Follow-Up Action (if any):": {
+    "ar": "إجراءات المتابعة (إن وجدت):",
+    "combined": "Follow-Up Action (if any): / إجراءات المتابعة (إن وجدت):"
+  },
+  "Follow-Up Action Suggested:": {
+    "ar": "إجراءات المتابعة المقترحة:",
+    "combined": "Follow-Up Action Suggested: / إجراءات المتابعة المقترحة:"
+  },
+  "Follow-Up Actions": {
+    "ar": "إجراءات المتابعة",
+    "combined": "Follow-Up Actions / إجراءات المتابعة"
+  },
+  "Follow-Up Actions Required:": {
+    "ar": "إجراءات المتابعة المطلوبة:",
+    "combined": "Follow-Up Actions Required: / إجراءات المتابعة المطلوبة:"
+  },
+  "Follow-Up Required?": {
+    "ar": "المتابعة مطلوبة؟",
+    "combined": "Follow-Up Required? / المتابعة مطلوبة؟"
+  },
+  "Follow-Up Required? ☐ Yes ☐ No": {
+    "ar": "المتابعة مطلوبة؟ ☐ نعم ☐ لا",
+    "combined": "☐ Yes / نعم ☐ No / لا"
+  },
+  "Follow-Up or Support Offered": {
+    "ar": "المتابعة أو الدعم المقدم",
+    "combined": "Follow-Up or Support Offered / المتابعة أو الدعم المقدم"
+  },
+  "Follow-up Action Required:": {
+    "ar": "إجراءات المتابعة المطلوبة:",
+    "combined": "Follow-up Action Required: / إجراءات المتابعة المطلوبة:"
+  },
+  "Following a full investigation of your complaint dated [Date], I am writing to share the outcome.": {
+    "ar": "بعد إجراء تحقيق كامل في شكواك بتاريخ [التاريخ]، أكتب إليكم لمشاركة النتيجة.",
+    "combined": "Following a full investigation of your complaint dated [Date], I am writing to share the outcome. / بعد إجراء تحقيق كامل في شكواك بتاريخ [التاريخ]، أكتب إليكم لمشاركة النتيجة."
+  },
+  "For Designated Person Use Only": {
+    "ar": "لاستخدام الشخص المعين فقط",
+    "combined": "For Designated Person Use Only / لاستخدام الشخص المعين فقط"
+  },
+  "For students requiring structured behavioural support.": {
+    "ar": "للطلاب الذين يحتاجون إلى دعم سلوكي منظم.",
+    "combined": "For students requiring structured behavioural support. / للطلاب الذين يحتاجون إلى دعم سلوكي منظم."
+  },
+  "Full Name": {
+    "ar": "الاسم الكامل",
+    "combined": "Full Name / الاسم الكامل"
+  },
+  "Full Name of Collector": {
+    "ar": "الاسم الكامل للجامع",
+    "combined": "Full Name of Collector / الاسم الكامل للجامع"
+  },
+  "Full Name:": {
+    "ar": "الاسم الكامل:",
+    "combined": "Full Name: / الاسم الكامل:"
+  },
+  "Have parents been informed of this concern?": {
+    "ar": "هل تم إبلاغ أولياء الأمور بهذا القلق؟",
+    "combined": "Have parents been informed of this concern? / هل تم إبلاغ أولياء الأمور بهذا القلق؟"
+  },
+  "Have you ever been cautioned, reprimanded, or convicted of any offence?": {
+    "ar": "هل تم تحذيرك أو توبيخك أو إدانتك بأي جريمة من قبل؟",
+    "combined": "Have you ever been cautioned, reprimanded, or convicted of any offence? / هل تم تحذيرك أو توبيخك أو إدانتك بأي جريمة من قبل؟"
+  },
+  "Have you ever been disqualified from working with children under the Childcare Disqualification Regulations 2018?": {
+    "ar": "هل سبق لك أن تم استبعادك من العمل مع الأطفال بموجب لوائح استبعاد رعاية الأطفال لعام 2018؟",
+    "combined": "Have you ever been disqualified from working with children under the Childcare Disqualification Regulations 2018? / هل سبق لك أن تم استبعادك من العمل مع الأطفال بموجب لوائح استبعاد رعاية الأطفال لعام 2018؟"
+  },
+  "Have your own children ever been subject to child protection procedures?": {
+    "ar": "هل سبق أن خضع أطفالك لإجراءات حماية الطفل؟",
+    "combined": "Have your own children ever been subject to child protection procedures? / هل سبق أن خضع أطفالك لإجراءات حماية الطفل؟"
+  },
+  "How Can It Be Prevented?": {
+    "ar": "كيف يمكن الوقاية منه؟",
+    "combined": "How Can It Be Prevented? / كيف يمكن الوقاية منه؟"
+  },
+  "How confident do you feel about your child’s progress here?": {
+    "ar": "ما مدى ثقتك في تقدم طفلك هنا؟",
+    "combined": "How confident do you feel about your child’s progress here? / ما مدى ثقتك في تقدم طفلك هنا؟"
+  },
+  "How long have you known them in this capacity?": {
+    "ar": "منذ متى وأنت تعرفهم بهذه الصفة؟",
+    "combined": "How long have you known them in this capacity? / منذ متى وأنت تعرفهم بهذه الصفة؟"
+  },
+  "How satisfied are you with the communication from staff?": {
+    "ar": "ما مدى رضاك ​​عن التواصل مع الموظفين؟",
+    "combined": "How satisfied are you with the communication from staff? / ما مدى رضاك ​​عن التواصل مع الموظفين؟"
+  },
+  "I acknowledge that I have read and understood Community Reform CIC’s Mobile Phone & Device Policy. I agree that:": {
+    "ar": "أقر بأنني قرأت وفهمت سياسة الهاتف المحمول والأجهزة الخاصة بـ Community Reform CIC. أوافق على أن:",
+    "combined": "I acknowledge that I have read and understood Community Reform CIC’s Mobile Phone & Device Policy. I agree that: / أقر بأنني قرأت وفهمت سياسة الهاتف المحمول والأجهزة الخاصة بـ Community Reform CIC. أوافق على أن:"
+  },
+  "I confirm I will uphold confidentiality and data protection as outlined in the policy": {
+    "ar": "أؤكد أنني سألتزم بالسرية وحماية البيانات على النحو المبين في السياسة",
+    "combined": "I confirm I will uphold confidentiality and data protection as outlined in the policy / أؤكد أنني سألتزم بالسرية وحماية البيانات على النحو المبين في السياسة"
+  },
+  "I confirm that the above medication is prescribed for my child. I give consent for Community Reform CIC staff to administer it as directed. I will inform the centre immediately of any changes.": {
+    "ar": "أؤكد أن الدواء المذكور أعلاه موصوف لطفلي. أعطي موافقتي لموظفي CIC لإصلاح المجتمع لإدارتها وفقًا للتوجيهات. وسوف أبلغ المركز على الفور بأي تغييرات.",
+    "combined": "I confirm that the above medication is prescribed for my child. I give consent for Community Reform CIC staff to administer it as directed. I will inform the centre immediately of any changes. / أؤكد أن الدواء المذكور أعلاه موصوف لطفلي. أعطي موافقتي لموظفي CIC لإصلاح المجتمع لإدارتها وفقًا للتوجيهات. وسوف أبلغ المركز على الفور بأي تغييرات."
+  },
+  "I confirm this arrangement is for today only.": {
+    "ar": "أؤكد أن هذا الترتيب لليوم فقط.",
+    "combined": "I confirm this arrangement is for today only. / أؤكد أن هذا الترتيب لليوم فقط."
+  },
+  "I declare that the information provided is true to the best of my knowledge.": {
+    "ar": "أقر بأن المعلومات المقدمة صحيحة على حد علمي.",
+    "combined": "I declare that the information provided is true to the best of my knowledge. / أقر بأن المعلومات المقدمة صحيحة على حد علمي."
+  },
+  "I give permission for my child to:": {
+    "ar": "أسمح لطفلي بما يلي:",
+    "combined": "I give permission for my child to: / أسمح لطفلي بما يلي:"
+  },
+  "I understand Community Reform CIC is not responsible for my child’s supervision outside of these hours.": {
+    "ar": "أدرك أن Community Reform CIC ليست مسؤولة عن الإشراف على طفلي خارج هذه الساعات.",
+    "combined": "I understand Community Reform CIC is not responsible for my child’s supervision outside of these hours. / أدرك أن Community Reform CIC ليست مسؤولة عن الإشراف على طفلي خارج هذه الساعات."
+  },
+  "I will support staff in enforcing these rules, and I understand that misuse may lead to confiscation, behaviour agreements, or safeguarding action.": {
+    "ar": "سأدعم الموظفين في تطبيق هذه القواعد، وأدرك أن سوء الاستخدام قد يؤدي إلى المصادرة، أو اتفاقيات السلوك، أو إجراءات الحماية.",
+    "combined": "I will support staff in enforcing these rules, and I understand that misuse may lead to confiscation, behaviour agreements, or safeguarding action. / سأدعم الموظفين في تطبيق هذه القواعد، وأدرك أن سوء الاستخدام قد يؤدي إلى المصادرة، أو اتفاقيات السلوك، أو إجراءات الحماية."
+  },
+  "I would like to confirm that your complaint will now be investigated in accordance with our Complaints Policy. You will receive a formal response within 10 working days.": {
+    "ar": "أود أن أؤكد أنه سيتم الآن التحقيق في شكواك وفقًا لسياسة الشكاوى الخاصة بنا. سوف تتلقى ردًا رسميًا خلال 10 أيام عمل.",
+    "combined": "I would like to confirm that your complaint will now be investigated in accordance with our Complaints Policy. You will receive a formal response within 10 working days. / أود أن أؤكد أنه سيتم الآن التحقيق في شكواك وفقًا لسياسة الشكاوى الخاصة بنا. سوف تتلقى ردًا رسميًا خلال 10 أيام عمل."
+  },
+  "I, [Parent/Carer Name], authorise [Full Name of Collector] to collect my child, [Child’s Name], from Community Reform CIC on [Date].": {
+    "ar": "أنا، [اسم ولي الأمر/مقدم الرعاية]، أفوض [الاسم الكامل للمحصل] لاستلام طفلي، [اسم الطفل]، من Community Reform CIC في [التاريخ].",
+    "combined": "I, [Parent/Carer Name], authorise [Full Name of Collector] to collect my child, [Child’s Name], from Community Reform CIC on [Date]. / أنا، [اسم ولي الأمر/مقدم الرعاية]، أفوض [الاسم الكامل للمحصل] لاستلام طفلي، [اسم الطفل]، من Community Reform CIC في [التاريخ]."
+  },
+  "I, [Parent/Carer Name], authorise the following person to collect my child, [Child’s Full Name], from Community Reform CIC today:": {
+    "ar": "أنا، [اسم ولي الأمر/مقدم الرعاية]، أفوض الشخص التالي لاستلام طفلي، [الاسم الكامل للطفل]، من Community Reform CIC اليوم:",
+    "combined": "I, [Parent/Carer Name], authorise the following person to collect my child, [Child’s Full Name], from Community Reform CIC today: / أنا، [اسم ولي الأمر/مقدم الرعاية]، أفوض الشخص التالي لاستلام طفلي، [الاسم الكامل للطفل]، من Community Reform CIC اليوم:"
+  },
+  "ICO Notified?": {
+    "ar": "هل تم إخطار ICO؟",
+    "combined": "ICO Notified? / هل تم إخطار ICO؟"
+  },
+  "ID Checked (Y/N)": {
+    "ar": "تم التحقق من الهوية (نعم / لا)",
+    "combined": "ID Checked (Y/N) / تم التحقق من الهوية (نعم / لا)"
+  },
+  "Identity verified (passport, photo ID, etc.)": {
+    "ar": "تم التحقق من الهوية (جواز السفر، بطاقة هوية تحمل صورة، وما إلى ذلك)",
+    "combined": "Identity verified (passport, photo ID, etc.) / تم التحقق من الهوية (جواز السفر، بطاقة هوية تحمل صورة، وما إلى ذلك)"
+  },
+  "If No, how was it returned?": {
+    "ar": "إذا لا، كيف تم إعادتها؟",
+    "combined": "If No, how was it returned? / إذا لا، كيف تم إعادتها؟"
+  },
+  "If Yes, date for review: ____________": {
+    "ar": "إذا كانت الإجابة بنعم، تاريخ المراجعة: ____________",
+    "combined": "If Yes, date for review / إذا كانت الإجابة بنعم، تاريخ المراجعة:____________"
+  },
+  "If any further information is required during the investigation, we will contact you directly.": {
+    "ar": "إذا كانت هناك حاجة إلى أي معلومات إضافية أثناء التحقيق، فسنتصل بك مباشرة.",
+    "combined": "If any further information is required during the investigation, we will contact you directly. / إذا كانت هناك حاجة إلى أي معلومات إضافية أثناء التحقيق، فسنتصل بك مباشرة."
+  },
+  "If yes, describe the injury and area of body affected:": {
+    "ar": "إذا كانت الإجابة بنعم، قم بوصف الإصابة ومنطقة الجسم المتضررة:",
+    "combined": "If yes, describe the injury and area of body affected: / إذا كانت الإجابة بنعم، قم بوصف الإصابة ومنطقة الجسم المتضررة:"
+  },
+  "If yes, please describe or attach if submitting in hard copy:": {
+    "ar": "إذا كانت الإجابة بنعم، يرجى الوصف أو إرفاق نسخة مطبوعة إذا تم تقديمها:",
+    "combined": "If yes, please describe or attach if submitting in hard copy: / إذا كانت الإجابة بنعم، يرجى الوصف أو إرفاق نسخة مطبوعة إذا تم تقديمها:"
+  },
+  "If yes, please provide details (name, date, outcome):": {
+    "ar": "إذا كانت الإجابة بنعم، يرجى تقديم التفاصيل (الاسم والتاريخ والنتيجة):",
+    "combined": "If yes, please provide details (name, date, outcome): / إذا كانت الإجابة بنعم، يرجى تقديم التفاصيل (الاسم والتاريخ والنتيجة):"
+  },
+  "If yes, provide name(s) and role(s):": {
+    "ar": "إذا كانت الإجابة بنعم، فاذكر الاسم (الأسماء) والدور (الأدوار):",
+    "combined": "If yes, provide name(s) and role(s): / إذا كانت الإجابة بنعم، فاذكر الاسم (الأسماء) والدور (الأدوار):"
+  },
+  "If yes, to whom: ___________________________": {
+    "ar": "إذا كانت الإجابة بنعم، لمن: _________________________________________",
+    "combined": "If yes, to whom / إذا كانت الإجابة بنعم، لمن:___________________________"
+  },
+  "Immediate Action Taken": {
+    "ar": "تم اتخاذ الإجراء الفوري",
+    "combined": "Immediate Action Taken / تم اتخاذ الإجراء الفوري"
+  },
+  "Immediate Action Taken:": {
+    "ar": "الإجراءات الفورية المتخذة:",
+    "combined": "Immediate Action Taken: / الإجراءات الفورية المتخذة:"
+  },
+  "Immediate Actions Taken": {
+    "ar": "تم اتخاذ الإجراءات الفورية",
+    "combined": "Immediate Actions Taken / تم اتخاذ الإجراءات الفورية"
+  },
+  "Immediate Safeguarding Actions Taken:": {
+    "ar": "إجراءات الحماية الفورية المتخذة:",
+    "combined": "Immediate Safeguarding Actions Taken: / إجراءات الحماية الفورية المتخذة:"
+  },
+  "In urgent situations, I will contact the centre directly and not my child’s personal phone.": {
+    "ar": "في الحالات الطارئة سأتصل بالمركز مباشرة وليس على الهاتف الشخصي لطفلي.",
+    "combined": "In urgent situations, I will contact the centre directly and not my child’s personal phone. / في الحالات الطارئة سأتصل بالمركز مباشرة وليس على الهاتف الشخصي لطفلي."
+  },
+  "In what capacity do you know the applicant?": {
+    "ar": "بأي صفة تعرف مقدم الطلب؟",
+    "combined": "In what capacity do you know the applicant? / بأي صفة تعرف مقدم الطلب؟"
+  },
+  "Incident & Accident Report Form": {
+    "ar": "نموذج تقرير الحوادث والحوادث",
+    "combined": "Incident & Accident Report Form / نموذج تقرير الحوادث والحوادث"
+  },
+  "Individual(s) Involved": {
+    "ar": "الفرد (الأفراد) المشاركين",
+    "combined": "Individual(s) Involved / الفرد (الأفراد) المشاركين"
+  },
+  "Induction and safeguarding training arranged": {
+    "ar": "تم ترتيب التدريب التعريفي والوقائي",
+    "combined": "Induction and safeguarding training arranged / تم ترتيب التدريب التعريفي والوقائي"
+  },
+  "Informal/Formal": {
+    "ar": "غير رسمية/رسمية",
+    "combined": "Informal/Formal / غير رسمية/رسمية"
+  },
+  "Initials": {
+    "ar": "الأحرف الأولى",
+    "combined": "Initials / الأحرف الأولى"
+  },
+  "Initials of DSL": {
+    "ar": "الأحرف الأولى من DSL",
+    "combined": "Initials of DSL / الأحرف الأولى من DSL"
+  },
+  "Initials: __________": {
+    "ar": "الأحرف الأولى: __________",
+    "combined": "Initials / الأحرف الأولى:__________"
+  },
+  "Injury Sustained?": {
+    "ar": "الإصابة مستمرة؟",
+    "combined": "Injury Sustained? / الإصابة مستمرة؟"
+  },
+  "Internal SEND Concern & Referral Form": {
+    "ar": "إرسال المخاوف الداخلية ونموذج الإحالة",
+    "combined": "Internal SEND Concern & Referral Form / إرسال المخاوف الداخلية ونموذج الإحالة"
+  },
+  "Interview Assessment Form completed": {
+    "ar": "تم إكمال نموذج تقييم المقابلة",
+    "combined": "Interview Assessment Form completed / تم إكمال نموذج تقييم المقابلة"
+  },
+  "Interview Assessment Record": {
+    "ar": "سجل تقييم المقابلة",
+    "combined": "Interview Assessment Record / سجل تقييم المقابلة"
+  },
+  "Interview Date:": {
+    "ar": "تاريخ المقابلة:",
+    "combined": "Interview Date: / تاريخ المقابلة:"
+  },
+  "Interviewed by:": {
+    "ar": "أجرى المقابلة:",
+    "combined": "Interviewed by: / أجرى المقابلة:"
+  },
+  "Investigation Conducted By": {
+    "ar": "التحقيق الذي أجراه",
+    "combined": "Investigation Conducted By / التحقيق الذي أجراه"
+  },
+  "Is there anything you feel we could improve?": {
+    "ar": "هل هناك أي شيء تشعر أنه يمكننا تحسينه؟",
+    "combined": "Is there anything you feel we could improve? / هل هناك أي شيء تشعر أنه يمكننا تحسينه؟"
+  },
+  "Is there anything you would change or add?": {
+    "ar": "هل هناك أي شيء تود تغييره أو إضافته؟",
+    "combined": "Is there anything you would change or add? / هل هناك أي شيء تود تغييره أو إضافته؟"
+  },
+  "Islamic Studies (Fiqh & Tarbiya Islamia)": {
+    "ar": "الدراسات الإسلامية (الفقه والتربية الإسلامية)",
+    "combined": "Islamic Studies (Fiqh & Tarbiya Islamia) / الدراسات الإسلامية (الفقه والتربية الإسلامية)"
+  },
+  "Issues Identified": {
+    "ar": "تم تحديد المشكلات",
+    "combined": "Issues Identified / تم تحديد المشكلات"
+  },
+  "Keep securely with the child’s tuition record.": {
+    "ar": "احتفظ بشكل آمن بسجل الرسوم الدراسية للطفل.",
+    "combined": "Keep securely with the child’s tuition record. / احتفظ بشكل آمن بسجل الرسوم الدراسية للطفل."
+  },
+  "Keep this form at reception or entry point.": {
+    "ar": "احتفظ بهذا النموذج في مكتب الاستقبال أو عند نقطة الدخول.",
+    "combined": "Keep this form at reception or entry point. / احتفظ بهذا النموذج في مكتب الاستقبال أو عند نقطة الدخول."
+  },
+  "Key Issues Discussed": {
+    "ar": "القضايا الرئيسية التي تمت مناقشتها",
+    "combined": "Key Issues Discussed / القضايا الرئيسية التي تمت مناقشتها"
+  },
+  "Key Staff Responsible: _______________________________________________": {
+    "ar": "الموظف الرئيسي المسؤول: _______________________________________________",
+    "combined": "Key Staff Responsible / الموظف الرئيسي المسؤول:_______________________________________________"
+  },
+  "Key Stage / Age Group: _____________________________": {
+    "ar": "المرحلة الرئيسية / الفئة العمرية: _____________________________",
+    "combined": "Key Stage / Age Group / المرحلة الرئيسية / الفئة العمرية:_____________________________"
+  },
+  "Kind regards,": {
+    "ar": "أطيب التحيات،",
+    "combined": "Kind regards, / أطيب التحيات،"
+  },
+  "Known SEND (if any):": {
+    "ar": "إرسال معروف (إن وجد):",
+    "combined": "Known SEND (if any): / إرسال معروف (إن وجد):"
+  },
+  "Known or Suspected Needs:": {
+    "ar": "الاحتياجات المعروفة أو المشتبه فيها:",
+    "combined": "Known or Suspected Needs: / الاحتياجات المعروفة أو المشتبه فيها:"
+  },
+  "Last Seen (Location & Time)": {
+    "ar": "آخر ظهور (الموقع والوقت)",
+    "combined": "Last Seen (Location & Time) / آخر ظهور (الموقع والوقت)"
+  },
+  "Late Collection Log": {
+    "ar": "سجل التحصيل المتأخر",
+    "combined": "Late Collection Log / سجل التحصيل المتأخر"
+  },
+  "Late or Failed Collection Log": {
+    "ar": "سجل التجميع المتأخر أو الفاشل",
+    "combined": "Late or Failed Collection Log / سجل التجميع المتأخر أو الفاشل"
+  },
+  "Learner Feedback Form (Child-Friendly)": {
+    "ar": "نموذج ملاحظات المتعلم (مناسب للأطفال)",
+    "combined": "Learner Feedback Form (Child-Friendly) / نموذج ملاحظات المتعلم (مناسب للأطفال)"
+  },
+  "Learner Name: _________________________": {
+    "ar": "اسم المتعلم: _________________________",
+    "combined": "Learner Name / اسم المتعلم:_________________________"
+  },
+  "Learner Task / Activity:": {
+    "ar": "مهمة / نشاط المتعلم:",
+    "combined": "Learner Task / Activity: / مهمة / نشاط المتعلم:"
+  },
+  "Learning Objectives:": {
+    "ar": "أهداف التعلم:",
+    "combined": "Learning Objectives: / أهداف التعلم:"
+  },
+  "Location (Room): _______________________": {
+    "ar": "الموقع (الغرفة): _______________________",
+    "combined": "Location (Room) / الموقع (الغرفة):_______________________"
+  },
+  "Location Tested": {
+    "ar": "تم اختبار الموقع",
+    "combined": "Location Tested / تم اختبار الموقع"
+  },
+  "Location of Incident:": {
+    "ar": "موقع الحادث:",
+    "combined": "Location of Incident: / موقع الحادث:"
+  },
+  "Location of Incident: ___________________________": {
+    "ar": "موقع الحادثة: ___________________________",
+    "combined": "Location of Incident / موقع الحادثة:___________________________"
+  },
+  "Location:": {
+    "ar": "موقع:",
+    "combined": "Location: / موقع:"
+  },
+  "Location: ____________________________________________": {
+    "ar": "موقع: ____________________________________________",
+    "combined": "Location / موقع:____________________________________________"
+  },
+  "Logged By": {
+    "ar": "تم التسجيل بواسطة",
+    "combined": "Logged By / تم التسجيل بواسطة"
+  },
+  "Lone Working (Y/N)": {
+    "ar": "العمل المنفرد (نعم / لا)",
+    "combined": "Lone Working (Y/N) / العمل المنفرد (نعم / لا)"
+  },
+  "Main Contact (Parent/Carer):": {
+    "ar": "جهة الاتصال الرئيسية (الوالد/مقدم الرعاية):",
+    "combined": "Main Contact (Parent/Carer): / جهة الاتصال الرئيسية (الوالد/مقدم الرعاية):"
+  },
+  "Main Teaching Input:": {
+    "ar": "مدخلات التدريس الرئيسية:",
+    "combined": "Main Teaching Input: / مدخلات التدريس الرئيسية:"
+  },
+  "Manager Comments:": {
+    "ar": "تعليقات المدير:",
+    "combined": "Manager Comments: / تعليقات المدير:"
+  },
+  "Manager Review/Comments: __________________________________________________________________________________________________________________________________": {
+    "ar": "مراجعة/تعليقات المدير: __________________________________________________________________________",
+    "combined": "Manager Review/Comments / مراجعة/تعليقات المدير:__________________________________________________________________________________________________________________________________"
+  },
+  "Medical Condition: ______________________________________": {
+    "ar": "الحالة الطبية: ______________________________________",
+    "combined": "Medical Condition / الحالة الطبية:______________________________________"
+  },
+  "Medication Involved: ____________________": {
+    "ar": "الدواء المعني: ____________________",
+    "combined": "Medication Involved / الدواء المعني:____________________"
+  },
+  "Medication Name": {
+    "ar": "اسم الدواء",
+    "combined": "Medication Name / اسم الدواء"
+  },
+  "Meeting Record Template (for concerns or formal discussions)": {
+    "ar": "نموذج سجل الاجتماع (للاهتمامات أو المناقشات الرسمية)",
+    "combined": "Meeting Record Template (for concerns or formal discussions) / نموذج سجل الاجتماع (للاهتمامات أو المناقشات الرسمية)"
+  },
+  "Meets Policy (Y/N)": {
+    "ar": "يفي بالسياسة (نعم / لا)",
+    "combined": "Meets Policy (Y/N) / يفي بالسياسة (نعم / لا)"
+  },
+  "Method of Administration (e.g. oral/inhaler/injection): __________": {
+    "ar": "طريقة الإعطاء (مثلاً عن طريق الفم/الاستنشاق/الحقن): __________",
+    "combined": "Method of Administration (e.g. oral/inhaler/injection) / طريقة الإعطاء (مثلاً عن طريق الفم/الاستنشاق/الحقن):__________"
+  },
+  "Minutes Taken By": {
+    "ar": "الدقائق التي استغرقها",
+    "combined": "Minutes Taken By / الدقائق التي استغرقها"
+  },
+  "Missing Child Incident Report Form": {
+    "ar": "نموذج الإبلاغ عن حادث طفل مفقود",
+    "combined": "Missing Child Incident Report Form / نموذج الإبلاغ عن حادث طفل مفقود"
+  },
+  "Missing Persons?": {
+    "ar": "الأشخاص المفقودين؟",
+    "combined": "Missing Persons? / الأشخاص المفقودين؟"
+  },
+  "Mobile Device Misuse Incident Record": {
+    "ar": "سجل حوادث إساءة استخدام الجهاز المحمول",
+    "combined": "Mobile Device Misuse Incident Record / سجل حوادث إساءة استخدام الجهاز المحمول"
+  },
+  "Mr Anas Abdulbaset Abdulnoor Mohammed": {
+    "ar": "السيد أنس عبد الباسط عبد النور محمد",
+    "combined": "Mr Anas Abdulbaset Abdulnoor Mohammed / السيد أنس عبد الباسط عبد النور محمد"
+  },
+  "Must be completed by all visitors, regardless of duration or purpose.": {
+    "ar": "يجب أن يتم إكماله من قبل جميع الزوار، بغض النظر عن المدة أو الغرض.",
+    "combined": "Must be completed by all visitors, regardless of duration or purpose. / يجب أن يتم إكماله من قبل جميع الزوار، بغض النظر عن المدة أو الغرض."
+  },
+  "My child will not use their phone or device during tuition hours unless explicitly authorised by staff.": {
+    "ar": "لن يستخدم طفلي هاتفه أو جهازه أثناء ساعات الدراسة ما لم يسمح له الموظفون بذلك صراحة.",
+    "combined": "My child will not use their phone or device during tuition hours unless explicitly authorised by staff. / لن يستخدم طفلي هاتفه أو جهازه أثناء ساعات الدراسة ما لم يسمح له الموظفون بذلك صراحة."
+  },
+  "Name": {
+    "ar": "اسم",
+    "combined": "Name / اسم"
+  },
+  "Name (optional): _________________________": {
+    "ar": "الاسم (اختياري): _________________________",
+    "combined": "Name (optional) / الاسم (اختياري):_________________________"
+  },
+  "Name of Authorised Adult": {
+    "ar": "اسم الشخص البالغ المعتمد",
+    "combined": "Name of Authorised Adult / اسم الشخص البالغ المعتمد"
+  },
+  "Name of Child": {
+    "ar": "اسم الطفل",
+    "combined": "Name of Child / اسم الطفل"
+  },
+  "Name of Child: ____________________________________": {
+    "ar": "اسم الطفل: ____________________________________",
+    "combined": "Name of Child / اسم الطفل:____________________________________"
+  },
+  "Name of Child: _________________________________________": {
+    "ar": "اسم الطفل: _________________________________________",
+    "combined": "Name of Child / اسم الطفل:_________________________________________"
+  },
+  "Name of Complainant": {
+    "ar": "اسم مقدم الشكوى",
+    "combined": "Name of Complainant / اسم مقدم الشكوى"
+  },
+  "Name of DSL or Senior Person Receiving Report:": {
+    "ar": "اسم DSL أو تقرير استلام الشخص الكبير:",
+    "combined": "Name of DSL or Senior Person Receiving Report: / اسم DSL أو تقرير استلام الشخص الكبير:"
+  },
+  "Name of Injured Person:": {
+    "ar": "اسم المصاب:",
+    "combined": "Name of Injured Person: / اسم المصاب:"
+  },
+  "Name of Medication: ____________________________________": {
+    "ar": "اسم الدواء: ____________________________________",
+    "combined": "Name of Medication / اسم الدواء:____________________________________"
+  },
+  "Name of Officer (if known): ______________________Phone/Email: ____________________________________": {
+    "ar": "اسم المسؤول (إذا كان معروفًا): ______________________ الهاتف/البريد الإلكتروني: ______________________",
+    "combined": "Name of Officer (if known) / اسم المسؤول (إذا كان معروفًا):______________________Phone/Email / الهاتف/البريد الإلكتروني:____________________________________"
+  },
+  "Name of Person Alleged Against: ____________________________": {
+    "ar": "اسم الشخص المتهم ضده: ____________________________",
+    "combined": "Name of Person Alleged Against / اسم الشخص المتهم ضده:____________________________"
+  },
+  "Name of Person Involved:": {
+    "ar": "اسم الشخص المعني:",
+    "combined": "Name of Person Involved: / اسم الشخص المعني:"
+  },
+  "Name of Person Treated:": {
+    "ar": "اسم الشخص المعالج:",
+    "combined": "Name of Person Treated: / اسم الشخص المعالج:"
+  },
+  "Name of Pupil:": {
+    "ar": "اسم التلميذ:",
+    "combined": "Name of Pupil: / اسم التلميذ:"
+  },
+  "Name of Referring Staff Member:": {
+    "ar": "اسم الموظف المُحيل:",
+    "combined": "Name of Referring Staff Member: / اسم الموظف المُحيل:"
+  },
+  "Name of Reporter:": {
+    "ar": "اسم المراسل:",
+    "combined": "Name of Reporter: / اسم المراسل:"
+  },
+  "Name of Reporting Staff:": {
+    "ar": "اسم طاقم التقارير:",
+    "combined": "Name of Reporting Staff: / اسم طاقم التقارير:"
+  },
+  "Name(s) of Person(s) Involved:": {
+    "ar": "اسم (أسماء) الشخص (الأشخاص) المعني:",
+    "combined": "Name(s) of Person(s) Involved: / اسم (أسماء) الشخص (الأشخاص) المعني:"
+  },
+  "Name: ___________________": {
+    "ar": "اسم: ___________________",
+    "combined": "Name / اسم:___________________"
+  },
+  "Name: _____________________________________Role: ______________________________________Signature: ____________________ Date: _____________": {
+    "ar": "الاسم: _____________________________________ الدور: __________ التوقيع: ______ التاريخ: _____________",
+    "combined": "Name / الاسم:_____________________________________Role / الدور:______________________________________Signature / التوقيع:____________________Date / التاريخ:_____________"
+  },
+  "Name: ___________________________ Date: ___________ Signature: ___________": {
+    "ar": "الاسم: _____________ التاريخ: ___________ التوقيع: ___________",
+    "combined": "Name / الاسم:___________________________Date / التاريخ:___________Signature / التوقيع:___________"
+  },
+  "Name: _______________________ Role: _______________________": {
+    "ar": "الاسم: _______________________ الدور: _________",
+    "combined": "Name / الاسم:_______________________Role / الدور:_______________________"
+  },
+  "Name: ____________________ Date: ___________ Signature: ___________": {
+    "ar": "الاسم: ______ التاريخ: ___________ التوقيع: ___________",
+    "combined": "Name / الاسم:____________________Date / التاريخ:___________Signature / التوقيع:___________"
+  },
+  "Nature of Allegation (tick all that apply):": {
+    "ar": "طبيعة الادعاء (ضع علامة على كل ما ينطبق):",
+    "combined": "Nature of Allegation (tick all that apply): / طبيعة الادعاء (ضع علامة على كل ما ينطبق):"
+  },
+  "Nature of Illness/Injury:": {
+    "ar": "طبيعة المرض/الإصابة:",
+    "combined": "Nature of Illness/Injury: / طبيعة المرض/الإصابة:"
+  },
+  "Nature of Incident:": {
+    "ar": "طبيعة الحادثة:",
+    "combined": "Nature of Incident: / طبيعة الحادثة:"
+  },
+  "Nature of Injury:": {
+    "ar": "طبيعة الإصابة:",
+    "combined": "Nature of Injury: / طبيعة الإصابة:"
+  },
+  "Near Miss Log": {
+    "ar": "بالقرب من ملكة جمال السجل",
+    "combined": "Near Miss Log / بالقرب من ملكة جمال السجل"
+  },
+  "Next Steps": {
+    "ar": "الخطوات التالية",
+    "combined": "Next Steps / الخطوات التالية"
+  },
+  "No": {
+    "ar": "لا",
+    "combined": "No / لا"
+  },
+  "No. of Children": {
+    "ar": "عدد الأطفال",
+    "combined": "No. of Children / عدد الأطفال"
+  },
+  "No. of Children Present": {
+    "ar": "عدد الأطفال الحاضرين",
+    "combined": "No. of Children Present / عدد الأطفال الحاضرين"
+  },
+  "No. of Staff": {
+    "ar": "عدد الموظفين",
+    "combined": "No. of Staff / عدد الموظفين"
+  },
+  "No. of Staff Present": {
+    "ar": "عدد الموظفين الحاضرين",
+    "combined": "No. of Staff Present / عدد الموظفين الحاضرين"
+  },
+  "Notes": {
+    "ar": "ملحوظات",
+    "combined": "Notes / ملحوظات"
+  },
+  "Notes (e.g. passwords)": {
+    "ar": "ملاحظات (مثل كلمات المرور)",
+    "combined": "Notes (e.g. passwords) / ملاحظات (مثل كلمات المرور)"
+  },
+  "Notes / Additional Information:": {
+    "ar": "ملاحظات / معلومات إضافية:",
+    "combined": "Notes / Additional Information: / ملاحظات / معلومات إضافية:"
+  },
+  "Notes / Reflection:": {
+    "ar": "ملاحظات / انعكاس:",
+    "combined": "Notes / Reflection: / ملاحظات / انعكاس:"
+  },
+  "Notes:": {
+    "ar": "ملحوظات:",
+    "combined": "Notes: / ملحوظات:"
+  },
+  "Number of Complaints": {
+    "ar": "عدد الشكاوى",
+    "combined": "Number of Complaints / عدد الشكاوى"
+  },
+  "Number of Online Incidents": {
+    "ar": "عدد الحوادث عبر الإنترنت",
+    "combined": "Number of Online Incidents / عدد الحوادث عبر الإنترنت"
+  },
+  "Observation Record Form (For Spot Checks or Room Walkthroughs)": {
+    "ar": "نموذج سجل الملاحظة (للفحوصات الفورية أو الإرشادات التفصيلية للغرفة)",
+    "combined": "Observation Record Form (For Spot Checks or Room Walkthroughs) / نموذج سجل الملاحظة (للفحوصات الفورية أو الإرشادات التفصيلية للغرفة)"
+  },
+  "Observation Window Present (Y/N)": {
+    "ar": "نافذة المراقبة الحالية (نعم / لا)",
+    "combined": "Observation Window Present (Y/N) / نافذة المراقبة الحالية (نعم / لا)"
+  },
+  "Observed Behaviour or Incident": {
+    "ar": "السلوك أو الحادث الملحوظ",
+    "combined": "Observed Behaviour or Incident / السلوك أو الحادث الملحوظ"
+  },
+  "Observer Name": {
+    "ar": "اسم المراقب",
+    "combined": "Observer Name / اسم المراقب"
+  },
+  "Online Safety Concern Summary Sheet (Internal Review)": {
+    "ar": "ورقة ملخص المخاوف المتعلقة بالسلامة عبر الإنترنت (المراجعة الداخلية)",
+    "combined": "Online Safety Concern Summary Sheet (Internal Review) / ورقة ملخص المخاوف المتعلقة بالسلامة عبر الإنترنت (المراجعة الداخلية)"
+  },
+  "Online Safety Incident Report Form": {
+    "ar": "نموذج تقرير حادث السلامة عبر الإنترنت",
+    "combined": "Online Safety Incident Report Form / نموذج تقرير حادث السلامة عبر الإنترنت"
+  },
+  "Online Tuition Session Log (Optional)": {
+    "ar": "سجل جلسات التعليم عبر الإنترنت (اختياري)",
+    "combined": "Online Tuition Session Log (Optional) / سجل جلسات التعليم عبر الإنترنت (اختياري)"
+  },
+  "Organisation (if applicable)": {
+    "ar": "المنظمة (إن وجدت)",
+    "combined": "Organisation (if applicable) / المنظمة (إن وجدت)"
+  },
+  "Organisation (if applicable): ___________________________": {
+    "ar": "المنظمة (إن وجدت): _________________________________________",
+    "combined": "Organisation (if applicable) / المنظمة (إن وجدت):___________________________"
+  },
+  "Organisation Name:": {
+    "ar": "اسم المنظمة:",
+    "combined": "Organisation Name: / اسم المنظمة:"
+  },
+  "Organisation:": {
+    "ar": "منظمة:",
+    "combined": "Organisation: / منظمة:"
+  },
+  "Original Complaint Ref No.": {
+    "ar": "رقم الشكوى الأصلي",
+    "combined": "Original Complaint Ref No. / رقم الشكوى الأصلي"
+  },
+  "Outcome": {
+    "ar": "حصيلة",
+    "combined": "Outcome / حصيلة"
+  },
+  "Outcome and follow-up actions:": {
+    "ar": "النتائج وإجراءات المتابعة:",
+    "combined": "Outcome and follow-up actions: / النتائج وإجراءات المتابعة:"
+  },
+  "Outcome/Effectiveness": {
+    "ar": "النتيجة/الفعالية",
+    "combined": "Outcome/Effectiveness / النتيجة/الفعالية"
+  },
+  "Outcome/Referral Made": {
+    "ar": "النتيجة/الإحالة المقدمة",
+    "combined": "Outcome/Referral Made / النتيجة/الإحالة المقدمة"
+  },
+  "Outcome:": {
+    "ar": "حصيلة:",
+    "combined": "Outcome: / حصيلة:"
+  },
+  "Panel Member Signatures:": {
+    "ar": "توقيعات أعضاء اللجنة:",
+    "combined": "Panel Member Signatures: / توقيعات أعضاء اللجنة:"
+  },
+  "Parent Agreement on Device Use (Optional Add-On for Enrolment)": {
+    "ar": "اتفاقية الوالدين بشأن استخدام الجهاز (وظيفة إضافية اختيارية للتسجيل)",
+    "combined": "Parent Agreement on Device Use (Optional Add-On for Enrolment) / اتفاقية الوالدين بشأن استخدام الجهاز (وظيفة إضافية اختيارية للتسجيل)"
+  },
+  "Parent Communication Log Template": {
+    "ar": "قالب سجل اتصالات الوالدين",
+    "combined": "Parent Communication Log Template / قالب سجل اتصالات الوالدين"
+  },
+  "Parent Communication Log – Community Reform CIC": {
+    "ar": "سجل اتصالات أولياء الأمور – إصلاح المجتمع CIC",
+    "combined": "Parent Communication Log – Community Reform CIC / سجل اتصالات أولياء الأمور – إصلاح المجتمع CIC"
+  },
+  "Parent Contacted? (Y/N)": {
+    "ar": "هل تم التواصل مع ولي الأمر؟ (نعم / لا)",
+    "combined": "Parent Contacted? (Y/N) / هل تم التواصل مع ولي الأمر؟ (نعم / لا)"
+  },
+  "Parent Feedback Form": {
+    "ar": "نموذج ملاحظات الوالدين",
+    "combined": "Parent Feedback Form / نموذج ملاحظات الوالدين"
+  },
+  "Parent Informed?": {
+    "ar": "أبلغ ولي الأمر؟",
+    "combined": "Parent Informed? / أبلغ ولي الأمر؟"
+  },
+  "Parent Meeting Record – Community Reform CIC": {
+    "ar": "سجل اجتماع أولياء الأمور – إصلاح المجتمع CIC",
+    "combined": "Parent Meeting Record – Community Reform CIC / سجل اجتماع أولياء الأمور – إصلاح المجتمع CIC"
+  },
+  "Parent Name": {
+    "ar": "اسم الوالدين",
+    "combined": "Parent Name / اسم الوالدين"
+  },
+  "Parent/Carer Informed:": {
+    "ar": "إبلاغ ولي الأمر/مقدم الرعاية:",
+    "combined": "Parent/Carer Informed: / إبلاغ ولي الأمر/مقدم الرعاية:"
+  },
+  "Parent/Carer Informed?": {
+    "ar": "هل أبلغ ولي الأمر/مقدم الرعاية؟",
+    "combined": "Parent/Carer Informed? / هل أبلغ ولي الأمر/مقدم الرعاية؟"
+  },
+  "Parent/Carer Name": {
+    "ar": "اسم الوالد/مقدم الرعاية",
+    "combined": "Parent/Carer Name / اسم الوالد/مقدم الرعاية"
+  },
+  "Parent/Carer Name:": {
+    "ar": "اسم ولي الأمر/مقدم الرعاية:",
+    "combined": "Parent/Carer Name: / اسم ولي الأمر/مقدم الرعاية:"
+  },
+  "Parent/Carer Name: __________________________": {
+    "ar": "اسم ولي الأمر/مقدم الرعاية: __________________________",
+    "combined": "Parent/Carer Name / اسم ولي الأمر/مقدم الرعاية:__________________________"
+  },
+  "Parent/Carer Name: ____________________________________": {
+    "ar": "اسم ولي الأمر/مقدم الرعاية: ____________________________________",
+    "combined": "Parent/Carer Name / اسم ولي الأمر/مقدم الرعاية:____________________________________"
+  },
+  "Parent/Carer Notified?": {
+    "ar": "هل تم إخطار ولي الأمر/مقدم الرعاية؟",
+    "combined": "Parent/Carer Notified? / هل تم إخطار ولي الأمر/مقدم الرعاية؟"
+  },
+  "Parent/Carer Present: ________________": {
+    "ar": "حضور الوالد/مقدم الرعاية: ________________",
+    "combined": "Parent/Carer Present / حضور الوالد/مقدم الرعاية:________________"
+  },
+  "Parent/Carer Signature: _____________________Date: _______________": {
+    "ar": "توقيع ولي الأمر/مقدم الرعاية: _____________________ التاريخ: _______________",
+    "combined": "Parent/Carer Signature / توقيع ولي الأمر/مقدم الرعاية:_____________________Date / التاريخ:_______________"
+  },
+  "Parent/Guardian Medication Consent Form": {
+    "ar": "نموذج موافقة ولي الأمر/الوصي على الدواء",
+    "combined": "Parent/Guardian Medication Consent Form / نموذج موافقة ولي الأمر/الوصي على الدواء"
+  },
+  "Password or ID Confirmed": {
+    "ar": "تم تأكيد كلمة المرور أو المعرف",
+    "combined": "Password or ID Confirmed / تم تأكيد كلمة المرور أو المعرف"
+  },
+  "Period Reviewed": {
+    "ar": "تمت مراجعة الفترة",
+    "combined": "Period Reviewed / تمت مراجعة الفترة"
+  },
+  "Person Completing Form:": {
+    "ar": "نموذج تعبئة الشخص:",
+    "combined": "Person Completing Form: / نموذج تعبئة الشخص:"
+  },
+  "Person Responsible": {
+    "ar": "الشخص المسؤول",
+    "combined": "Person Responsible / الشخص المسؤول"
+  },
+  "Personal Emergency Evacuation Plan (PEEP) Template": {
+    "ar": "نموذج خطة الإخلاء في حالات الطوارئ الشخصية (PEEP).",
+    "combined": "Personal Emergency Evacuation Plan (PEEP) Template / نموذج خطة الإخلاء في حالات الطوارئ الشخصية (PEEP)."
+  },
+  "Photo ID Verified (Y/N)": {
+    "ar": "تم التحقق من هوية الصورة (نعم / لا)",
+    "combined": "Photo ID Verified (Y/N) / تم التحقق من هوية الصورة (نعم / لا)"
+  },
+  "Physical Development": {
+    "ar": "التنمية البدنية",
+    "combined": "Physical Development / التنمية البدنية"
+  },
+  "Plan Start Date: _______________________  Review Date: _______________": {
+    "ar": "تاريخ بدء الخطة: _______________________ تاريخ المراجعة: _______________",
+    "combined": "Plan Start Date / تاريخ بدء الخطة:_______________________Review Date / تاريخ المراجعة:_______________"
+  },
+  "Platform Used": {
+    "ar": "المنصة المستخدمة",
+    "combined": "Platform Used / المنصة المستخدمة"
+  },
+  "Please answer the following questions by ticking the appropriate box:": {
+    "ar": "يرجى الإجابة على الأسئلة التالية بوضع علامة في المربع المناسب:",
+    "combined": "Please answer the following questions by ticking the appropriate box: / يرجى الإجابة على الأسئلة التالية بوضع علامة في المربع المناسب:"
+  },
+  "Please respond to the following:": {
+    "ar": "الرجاء الرد على ما يلي:",
+    "combined": "Please respond to the following: / الرجاء الرد على ما يلي:"
+  },
+  "Please tell us what you think about the following areas:": {
+    "ar": "من فضلك أخبرنا برأيك في المجالات التالية:",
+    "combined": "Please tell us what you think about the following areas: / من فضلك أخبرنا برأيك في المجالات التالية:"
+  },
+  "Plenary:": {
+    "ar": "الجلسة العامة:",
+    "combined": "Plenary: / الجلسة العامة:"
+  },
+  "Policy Changes Needed": {
+    "ar": "هناك حاجة إلى تغييرات في السياسة",
+    "combined": "Policy Changes Needed / هناك حاجة إلى تغييرات في السياسة"
+  },
+  "Policy Changes Required": {
+    "ar": "تغييرات السياسة مطلوبة",
+    "combined": "Policy Changes Required / تغييرات السياسة مطلوبة"
+  },
+  "Position Applied For:": {
+    "ar": "الوظيفة المتقدم عليها:",
+    "combined": "Position Applied For: / الوظيفة المتقدم عليها:"
+  },
+  "Positive Behaviour Plan Template": {
+    "ar": "قالب خطة السلوك الإيجابي",
+    "combined": "Positive Behaviour Plan Template / قالب خطة السلوك الإيجابي"
+  },
+  "Possible Side Effects: ____________________________________": {
+    "ar": "الآثار الجانبية المحتملة: ____________________________________",
+    "combined": "Possible Side Effects / الآثار الجانبية المحتملة:____________________________________"
+  },
+  "Pre-Employment Checklist": {
+    "ar": "قائمة مراجعة ما قبل التوظيف",
+    "combined": "Pre-Employment Checklist / قائمة مراجعة ما قبل التوظيف"
+  },
+  "Pre-Employment Recruitment Checklist": {
+    "ar": "قائمة التحقق من التوظيف قبل التوظيف",
+    "combined": "Pre-Employment Recruitment Checklist / قائمة التحقق من التوظيف قبل التوظيف"
+  },
+  "Prescribing Doctor/Health Professional Name: ______________": {
+    "ar": "اسم الطبيب/المهني الصحي: ______________",
+    "combined": "Prescribing Doctor/Health Professional Name / اسم الطبيب/المهني الصحي:______________"
+  },
+  "Preventive Measures Recommended:": {
+    "ar": "التدابير الوقائية الموصى بها:",
+    "combined": "Preventive Measures Recommended: / التدابير الوقائية الموصى بها:"
+  },
+  "Pupil Name": {
+    "ar": "اسم التلميذ",
+    "combined": "Pupil Name / اسم التلميذ"
+  },
+  "Pupils Present": {
+    "ar": "التلاميذ حاضرون",
+    "combined": "Pupils Present / التلاميذ حاضرون"
+  },
+  "Purpose of Visit": {
+    "ar": "الغرض من الزيارة",
+    "combined": "Purpose of Visit / الغرض من الزيارة"
+  },
+  "Qa’idah": {
+    "ar": "القاعدة",
+    "combined": "Qa’idah / القاعدة"
+  },
+  "Qualifications checked and verified": {
+    "ar": "تم فحص المؤهلات والتحقق منها",
+    "combined": "Qualifications checked and verified / تم فحص المؤهلات والتحقق منها"
+  },
+  "Question": {
+    "ar": "سؤال",
+    "combined": "Question / سؤال"
+  },
+  "Qu’ran": {
+    "ar": "القرآن",
+    "combined": "Qu’ran / القرآن"
+  },
+  "Ratio": {
+    "ar": "نسبة",
+    "combined": "Ratio / نسبة"
+  },
+  "Reason for 1:1 Session:": {
+    "ar": "سبب الجلسة 1:1:",
+    "combined": "Reason for 1:1 Session: / سبب الجلسة 1:1:"
+  },
+  "Reason for Appeal": {
+    "ar": "سبب الاستئناف",
+    "combined": "Reason for Appeal / سبب الاستئناف"
+  },
+  "Reason for Confiscation:": {
+    "ar": "سبب المصادرة:",
+    "combined": "Reason for Confiscation: / سبب المصادرة:"
+  },
+  "Reason for Meeting: _______________": {
+    "ar": "سبب الاجتماع: _______________",
+    "combined": "Reason for Meeting / سبب الاجتماع:_______________"
+  },
+  "Reason for Referral (tick all that apply):": {
+    "ar": "سبب الإحالة (ضع علامة على كل ما ينطبق):",
+    "combined": "Reason for Referral (tick all that apply): / سبب الإحالة (ضع علامة على كل ما ينطبق):"
+  },
+  "Reason/Purpose": {
+    "ar": "السبب/الغرض",
+    "combined": "Reason/Purpose / السبب/الغرض"
+  },
+  "Reasonable Adjustments & Support Log": {
+    "ar": "التعديلات المعقولة وسجل الدعم",
+    "combined": "Reasonable Adjustments & Support Log / التعديلات المعقولة وسجل الدعم"
+  },
+  "Received By": {
+    "ar": "تم الاستلام بواسطة",
+    "combined": "Received By / تم الاستلام بواسطة"
+  },
+  "Recent Progress": {
+    "ar": "التقدم الأخير",
+    "combined": "Recent Progress / التقدم الأخير"
+  },
+  "Recorded By (DSL):": {
+    "ar": "مسجل بواسطة (DSL):",
+    "combined": "Recorded By (DSL): / مسجل بواسطة (DSL):"
+  },
+  "Ref No.": {
+    "ar": "رقم المرجع",
+    "combined": "Ref No. / رقم المرجع"
+  },
+  "Referee Name:": {
+    "ar": "اسم الحكم:",
+    "combined": "Referee Name: / اسم الحكم:"
+  },
+  "Reference Request Form": {
+    "ar": "نموذج الطلب المرجعي",
+    "combined": "Reference Request Form / نموذج الطلب المرجعي"
+  },
+  "Reference Request Template": {
+    "ar": "نموذج الطلب المرجعي",
+    "combined": "Reference Request Template / نموذج الطلب المرجعي"
+  },
+  "References obtained and checked": {
+    "ar": "تم الحصول على المراجع وفحصها",
+    "combined": "References obtained and checked / تم الحصول على المراجع وفحصها"
+  },
+  "Referral to LADO?": {
+    "ar": "الإحالة إلى LADO؟",
+    "combined": "Referral to LADO? / الإحالة إلى LADO؟"
+  },
+  "Registered Manager": {
+    "ar": "مدير مسجل",
+    "combined": "Registered Manager / مدير مسجل"
+  },
+  "Registered Manager Signature: _____________________________": {
+    "ar": "توقيع المدير المسجل: _____________________________",
+    "combined": "Registered Manager Signature / توقيع المدير المسجل:_____________________________"
+  },
+  "Relationship to Child": {
+    "ar": "العلاقة بالطفل",
+    "combined": "Relationship to Child / العلاقة بالطفل"
+  },
+  "Relationship to Incident:": {
+    "ar": "العلاقة بالحادث:",
+    "combined": "Relationship to Incident: / العلاقة بالحادث:"
+  },
+  "Reported By": {
+    "ar": "تم الإبلاغ عنها بواسطة",
+    "combined": "Reported By / تم الإبلاغ عنها بواسطة"
+  },
+  "Reported By (Name & Role):": {
+    "ar": "تم الإبلاغ عنه بواسطة (الاسم والدور):",
+    "combined": "Reported By (Name & Role): / تم الإبلاغ عنه بواسطة (الاسم والدور):"
+  },
+  "Reported To:": {
+    "ar": "تم الإبلاغ عنه إلى:",
+    "combined": "Reported To: / تم الإبلاغ عنه إلى:"
+  },
+  "Requestor": {
+    "ar": "الطالب",
+    "combined": "Requestor / الطالب"
+  },
+  "Resolved By": {
+    "ar": "تم الحل بواسطة",
+    "combined": "Resolved By / تم الحل بواسطة"
+  },
+  "Resources Used:": {
+    "ar": "الموارد المستخدمة:",
+    "combined": "Resources Used: / الموارد المستخدمة:"
+  },
+  "Responded By": {
+    "ar": "تم الرد بواسطة",
+    "combined": "Responded By / تم الرد بواسطة"
+  },
+  "Review Date": {
+    "ar": "تاريخ المراجعة",
+    "combined": "Review Date / تاريخ المراجعة"
+  },
+  "Reviewed By": {
+    "ar": "تمت المراجعة بواسطة",
+    "combined": "Reviewed By / تمت المراجعة بواسطة"
+  },
+  "Reviewed By (Manager):": {
+    "ar": "تمت المراجعة بواسطة (المدير):",
+    "combined": "Reviewed By (Manager): / تمت المراجعة بواسطة (المدير):"
+  },
+  "Reviewed By:": {
+    "ar": "تمت المراجعة بواسطة:",
+    "combined": "Reviewed By: / تمت المراجعة بواسطة:"
+  },
+  "Reviewed by Registered Manager: _________________________________": {
+    "ar": "تمت المراجعة من قبل المدير المسجل: _________________________________",
+    "combined": "Reviewed by Registered Manager / تمت المراجعة من قبل المدير المسجل:_________________________________"
+  },
+  "Rewards or Incentives Agreed:": {
+    "ar": "المكافآت أو الحوافز المتفق عليها:",
+    "combined": "Rewards or Incentives Agreed: / المكافآت أو الحوافز المتفق عليها:"
+  },
+  "Right to work in the UK confirmed": {
+    "ar": "تم تأكيد الحق في العمل في المملكة المتحدة",
+    "combined": "Right to work in the UK confirmed / تم تأكيد الحق في العمل في المملكة المتحدة"
+  },
+  "Risk Assessment – Missing Child Review Tool (Internal Use)": {
+    "ar": "تقييم المخاطر – أداة مراجعة الطفل المفقود (الاستخدام الداخلي)",
+    "combined": "Risk Assessment – Missing Child Review Tool (Internal Use) / تقييم المخاطر – أداة مراجعة الطفل المفقود (الاستخدام الداخلي)"
+  },
+  "Role": {
+    "ar": "دور",
+    "combined": "Role / دور"
+  },
+  "Role Applied For:": {
+    "ar": "الدور المتقدم عليه:",
+    "combined": "Role Applied For: / الدور المتقدم عليه:"
+  },
+  "Role(s):": {
+    "ar": "الدور (الأدوار):",
+    "combined": "Role(s): / الدور (الأدوار):"
+  },
+  "Role:": {
+    "ar": "دور:",
+    "combined": "Role: / دور:"
+  },
+  "Role: ___________________________________________": {
+    "ar": "دور: ___________________________________________",
+    "combined": "Role / دور:___________________________________________"
+  },
+  "Room No.": {
+    "ar": "رقم الغرفة",
+    "combined": "Room No. / رقم الغرفة"
+  },
+  "Room Observed": {
+    "ar": "تمت ملاحظة الغرفة",
+    "combined": "Room Observed / تمت ملاحظة الغرفة"
+  },
+  "Room Supervision Checklist": {
+    "ar": "قائمة مراجعة الإشراف على الغرفة",
+    "combined": "Room Supervision Checklist / قائمة مراجعة الإشراف على الغرفة"
+  },
+  "Safeguarding Concern?": {
+    "ar": "حماية القلق؟",
+    "combined": "Safeguarding Concern? / حماية القلق؟"
+  },
+  "Safeguarding Controls in Place:": {
+    "ar": "ضوابط الحماية المعمول بها:",
+    "combined": "Safeguarding Controls in Place: / ضوابط الحماية المعمول بها:"
+  },
+  "Scheduled Collection Time": {
+    "ar": "وقت التجميع المقرر",
+    "combined": "Scheduled Collection Time / وقت التجميع المقرر"
+  },
+  "School Attended:": {
+    "ar": "التحق بالمدرسة:",
+    "combined": "School Attended: / التحق بالمدرسة:"
+  },
+  "Score (1–5)": {
+    "ar": "النتيجة (1-5)",
+    "combined": "Score (1–5) / النتيجة (1-5)"
+  },
+  "Section": {
+    "ar": "قسم",
+    "combined": "Section / قسم"
+  },
+  "Session Plan Template": {
+    "ar": "قالب خطة الجلسة",
+    "combined": "Session Plan Template / قالب خطة الجلسة"
+  },
+  "Session Recorded (Y/N)": {
+    "ar": "الجلسة المسجلة (نعم/لا)",
+    "combined": "Session Recorded (Y/N) / الجلسة المسجلة (نعم/لا)"
+  },
+  "Session Time": {
+    "ar": "وقت الجلسة",
+    "combined": "Session Time / وقت الجلسة"
+  },
+  "Session Topic": {
+    "ar": "موضوع الجلسة",
+    "combined": "Session Topic / موضوع الجلسة"
+  },
+  "Should you wish to request a review of this decision, you may write to the Registered Manager at the above address within 10 working days of the date of this letter.": {
+    "ar": "إذا كنت ترغب في طلب مراجعة هذا القرار، فيمكنك الكتابة إلى المدير المسجل على العنوان المذكور أعلاه خلال 10 أيام عمل من تاريخ هذه الرسالة.",
+    "combined": "Should you wish to request a review of this decision, you may write to the Registered Manager at the above address within 10 working days of the date of this letter. / إذا كنت ترغب في طلب مراجعة هذا القرار، فيمكنك الكتابة إلى المدير المسجل على العنوان المذكور أعلاه خلال 10 أيام عمل من تاريخ هذه الرسالة."
+  },
+  "Signature": {
+    "ar": "إمضاء",
+    "combined": "Signature / إمضاء"
+  },
+  "Signature (Pupil):": {
+    "ar": "التوقيع (التلميذ):",
+    "combined": "Signature (Pupil): / التوقيع (التلميذ):"
+  },
+  "Signature (Staff):": {
+    "ar": "التوقيع (الموظفون):",
+    "combined": "Signature (Staff): / التوقيع (الموظفون):"
+  },
+  "Signature of First Aider:": {
+    "ar": "توقيع المسعف الأول:",
+    "combined": "Signature of First Aider: / توقيع المسعف الأول:"
+  },
+  "Signature of Manager (reviewed):": {
+    "ar": "توقيع المدير (مراجعة):",
+    "combined": "Signature of Manager (reviewed): / توقيع المدير (مراجعة):"
+  },
+  "Signature of Person Completing Form:": {
+    "ar": "توقيع الشخص الذي يكمل النموذج:",
+    "combined": "Signature of Person Completing Form: / توقيع الشخص الذي يكمل النموذج:"
+  },
+  "Signature of Referrer:": {
+    "ar": "توقيع المُحيل:",
+    "combined": "Signature of Referrer: / توقيع المُحيل:"
+  },
+  "Signature:": {
+    "ar": "إمضاء:",
+    "combined": "Signature: / إمضاء:"
+  },
+  "Signature: _____________________": {
+    "ar": "إمضاء: _____________________",
+    "combined": "Signature / إمضاء:_____________________"
+  },
+  "Signature: _________________________": {
+    "ar": "إمضاء: _________________________",
+    "combined": "Signature / إمضاء:_________________________"
+  },
+  "Signature: __________________________": {
+    "ar": "إمضاء: __________________________",
+    "combined": "Signature / إمضاء:__________________________"
+  },
+  "Signature: __________________________Date: _____________________": {
+    "ar": "التوقيع: ________________________________________ التاريخ: _______",
+    "combined": "Signature / التوقيع:__________________________Date / التاريخ:_____________________"
+  },
+  "Signature: ___________________________ Date: ___________": {
+    "ar": "التوقيع: ___________________________ التاريخ: ___________",
+    "combined": "Signature / التوقيع:___________________________Date / التاريخ:___________"
+  },
+  "Signature: _____________________________  Position: _____________________________": {
+    "ar": "التوقيع: ___________________________________________  المنصب: _____________________________",
+    "combined": "Signature / التوقيع:_____________________________Position / المنصب:_____________________________"
+  },
+  "Signature: ___________________________ Date: ______________": {
+    "ar": "التوقيع: ___________________________ التاريخ: ______________",
+    "combined": "Signature / التوقيع:___________________________Date / التاريخ:______________"
+  },
+  "Signature: ____________________  Date: ____________________": {
+    "ar": "التوقيع: ______  التاريخ: ____________________",
+    "combined": "Signature / التوقيع:____________________Date / التاريخ:____________________"
+  },
+  "Signed (Staff): ____________________  Signed (Parent/Carer): ____________________": {
+    "ar": "التوقيع (الموظفون): ______  التوقيع (ولي الأمر/مقدم الرعاية): ____________________",
+    "combined": "Signed (Staff) / التوقيع (الموظفون):____________________Signed (Parent/Carer) / التوقيع (ولي الأمر/مقدم الرعاية):____________________"
+  },
+  "Signed: ____________________": {
+    "ar": "التوقيع: ____________________",
+    "combined": "Signed / التوقيع:____________________"
+  },
+  "Specific Need (e.g. mobility, anxiety)": {
+    "ar": "الحاجة المحددة (مثل الحركة والقلق)",
+    "combined": "Specific Need (e.g. mobility, anxiety) / الحاجة المحددة (مثل الحركة والقلق)"
+  },
+  "Staff Assigned": {
+    "ar": "الموظفين المعينين",
+    "combined": "Staff Assigned / الموظفين المعينين"
+  },
+  "Staff Contact": {
+    "ar": "الاتصال بالموظفين",
+    "combined": "Staff Contact / الاتصال بالموظفين"
+  },
+  "Staff Deployment & Cover Plan": {
+    "ar": "خطة نشر الموظفين والتغطية",
+    "combined": "Staff Deployment & Cover Plan / خطة نشر الموظفين والتغطية"
+  },
+  "Staff Fire Safety Training Log": {
+    "ar": "سجل التدريب على السلامة من الحرائق للموظفين",
+    "combined": "Staff Fire Safety Training Log / سجل التدريب على السلامة من الحرائق للموظفين"
+  },
+  "Staff Involved": {
+    "ar": "الموظفين المشاركين",
+    "combined": "Staff Involved / الموظفين المشاركين"
+  },
+  "Staff Member": {
+    "ar": "عضو فريق العمل",
+    "combined": "Staff Member / عضو فريق العمل"
+  },
+  "Staff Member Reporting": {
+    "ar": "تقارير أعضاء هيئة التدريس",
+    "combined": "Staff Member Reporting / تقارير أعضاء هيئة التدريس"
+  },
+  "Staff Member Reporting Incident: ___________________________": {
+    "ar": "الإبلاغ عن حادثة من قبل الموظف: ___________________________",
+    "combined": "Staff Member Reporting Incident / الإبلاغ عن حادثة من قبل الموظف:___________________________"
+  },
+  "Staff Member Reporting Incident: _________________________________": {
+    "ar": "الإبلاغ عن حادثة من قبل الموظف: _________________________________",
+    "combined": "Staff Member Reporting Incident / الإبلاغ عن حادثة من قبل الموظف:_________________________________"
+  },
+  "Staff Name": {
+    "ar": "اسم الموظفين",
+    "combined": "Staff Name / اسم الموظفين"
+  },
+  "Staff Present": {
+    "ar": "طاقم العمل حاضر",
+    "combined": "Staff Present / طاقم العمل حاضر"
+  },
+  "Staff Present: ________________": {
+    "ar": "الموظفون الحاضرون: ________________",
+    "combined": "Staff Present / الموظفون الحاضرون:________________"
+  },
+  "Staff Receiving Medication: ________________________________": {
+    "ar": "الموظفون الذين يتلقون الأدوية: ________________________________",
+    "combined": "Staff Receiving Medication / الموظفون الذين يتلقون الأدوية:________________________________"
+  },
+  "Staff Signature": {
+    "ar": "توقيع الموظفين",
+    "combined": "Staff Signature / توقيع الموظفين"
+  },
+  "Staff Signature: ____________________________": {
+    "ar": "توقيع الموظف: ____________________________",
+    "combined": "Staff Signature / توقيع الموظف:____________________________"
+  },
+  "Staff Suitability Declaration Form": {
+    "ar": "نموذج إقرار ملاءمة الموظفين",
+    "combined": "Staff Suitability Declaration Form / نموذج إقرار ملاءمة الموظفين"
+  },
+  "Staff Suitability Declaration received": {
+    "ar": "تم استلام إعلان ملاءمة الموظفين",
+    "combined": "Staff Suitability Declaration received / تم استلام إعلان ملاءمة الموظفين"
+  },
+  "Staff Training Delivered": {
+    "ar": "تم تسليم تدريب الموظفين",
+    "combined": "Staff Training Delivered / تم تسليم تدريب الموظفين"
+  },
+  "Staff-to-Pupil Ratio Log": {
+    "ar": "سجل نسبة الموظفين إلى التلاميذ",
+    "combined": "Staff-to-Pupil Ratio Log / سجل نسبة الموظفين إلى التلاميذ"
+  },
+  "Start Date": {
+    "ar": "تاريخ البدء",
+    "combined": "Start Date / تاريخ البدء"
+  },
+  "Start Date: _________________ End Date: _________________": {
+    "ar": "تاريخ البدء: _________________ تاريخ الانتهاء: _________________",
+    "combined": "Start Date / تاريخ البدء:_________________End Date / تاريخ الانتهاء:_________________"
+  },
+  "Start date confirmed": {
+    "ar": "تم تأكيد تاريخ البدء",
+    "combined": "Start date confirmed / تم تأكيد تاريخ البدء"
+  },
+  "Starter Activity:": {
+    "ar": "النشاط المبتدئ:",
+    "combined": "Starter Activity: / النشاط المبتدئ:"
+  },
+  "Storage Instructions (e.g. fridge): _________________________": {
+    "ar": "تعليمات التخزين (مثل الثلاجة): _________________________",
+    "combined": "Storage Instructions (e.g. fridge) / تعليمات التخزين (مثل الثلاجة):_________________________"
+  },
+  "Strategies Already Tried:": {
+    "ar": "الاستراتيجيات التي تمت تجربتها بالفعل:",
+    "combined": "Strategies Already Tried: / الاستراتيجيات التي تمت تجربتها بالفعل:"
+  },
+  "Student Name: ___________________________  DOB: ___________________": {
+    "ar": "اسم الطالب: _________________________________________ تاريخ الميلاد: _____",
+    "combined": "Student Name / اسم الطالب:___________________________DOB / تاريخ الميلاد:___________________"
+  },
+  "Subject / Topic: _____________________________": {
+    "ar": "الموضوع / الموضوع: _____________________________",
+    "combined": "Subject / Topic / الموضوع / الموضوع:_____________________________"
+  },
+  "Subject Access Request (SAR) Log": {
+    "ar": "سجل طلب الوصول للموضوع (SAR).",
+    "combined": "Subject Access Request (SAR) Log / سجل طلب الوصول للموضوع (SAR)."
+  },
+  "Subject Discussed": {
+    "ar": "تمت مناقشة الموضوع",
+    "combined": "Subject Discussed / تمت مناقشة الموضوع"
+  },
+  "Subject(s): _________________________": {
+    "ar": "الموضوع (المواضيع): _________________________",
+    "combined": "Subject(s) / الموضوع (المواضيع):_________________________"
+  },
+  "Subject: Ban from Premises": {
+    "ar": "الموضوع: منع من الدخول",
+    "combined": "Subject: Ban from Premises / الموضوع: منع من الدخول"
+  },
+  "Subject: _________________________": {
+    "ar": "موضوع: _________________________",
+    "combined": "Subject / موضوع:_________________________"
+  },
+  "Summary": {
+    "ar": "ملخص",
+    "combined": "Summary / ملخص"
+  },
+  "Summary of Allegation:": {
+    "ar": "ملخص الادعاء:",
+    "combined": "Summary of Allegation: / ملخص الادعاء:"
+  },
+  "Summary of Behavioural Concerns:": {
+    "ar": "ملخص المخاوف السلوكية:",
+    "combined": "Summary of Behavioural Concerns: / ملخص المخاوف السلوكية:"
+  },
+  "Summary of Complaint": {
+    "ar": "ملخص الشكوى",
+    "combined": "Summary of Complaint / ملخص الشكوى"
+  },
+  "Summary of Concern/Incident": {
+    "ar": "ملخص القلق/الحادث",
+    "combined": "Summary of Concern/Incident / ملخص القلق/الحادث"
+  },
+  "Summary of Concern:": {
+    "ar": "ملخص القلق:",
+    "combined": "Summary of Concern: / ملخص القلق:"
+  },
+  "Summary of Data Requested": {
+    "ar": "ملخص البيانات المطلوبة",
+    "combined": "Summary of Data Requested / ملخص البيانات المطلوبة"
+  },
+  "Summary of Discussion:": {
+    "ar": "ملخص المناقشة:",
+    "combined": "Summary of Discussion: / ملخص المناقشة:"
+  },
+  "Summary of Investigation:": {
+    "ar": "ملخص التحقيق:",
+    "combined": "Summary of Investigation: / ملخص التحقيق:"
+  },
+  "Supervision Arrangement:": {
+    "ar": "ترتيب الإشراف:",
+    "combined": "Supervision Arrangement: / ترتيب الإشراف:"
+  },
+  "Targets for Next Period:": {
+    "ar": "أهداف الفترة القادمة:",
+    "combined": "Targets for Next Period: / أهداف الفترة القادمة:"
+  },
+  "Task": {
+    "ar": "مهمة",
+    "combined": "Task / مهمة"
+  },
+  "Term": {
+    "ar": "شرط",
+    "combined": "Term / شرط"
+  },
+  "Test Date": {
+    "ar": "تاريخ الاختبار",
+    "combined": "Test Date / تاريخ الاختبار"
+  },
+  "Tested By": {
+    "ar": "تم اختباره بواسطة",
+    "combined": "Tested By / تم اختباره بواسطة"
+  },
+  "Thank you for your written complaint received on [Date].": {
+    "ar": "نشكرك على شكواك المكتوبة التي تلقيتها في [التاريخ].",
+    "combined": "Thank you for your written complaint received on [Date]. / نشكرك على شكواك المكتوبة التي تلقيتها في [التاريخ]."
+  },
+  "The ban will remain in place until further notice. Any attempt to access the premises during this period will be treated as trespassing and may result in police involvement.": {
+    "ar": "وسيبقى الحظر ساري المفعول حتى إشعار آخر. سيتم التعامل مع أي محاولة للوصول إلى المبنى خلال هذه الفترة على أنها تعدٍ على ممتلكات الغير وقد تؤدي إلى تدخل الشرطة.",
+    "combined": "The ban will remain in place until further notice. Any attempt to access the premises during this period will be treated as trespassing and may result in police involvement. / وسيبقى الحظر ساري المفعول حتى إشعار آخر. سيتم التعامل مع أي محاولة للوصول إلى المبنى خلال هذه الفترة على أنها تعدٍ على ممتلكات الغير وقد تؤدي إلى تدخل الشرطة."
+  },
+  "They can be contacted on [Mobile Number].": {
+    "ar": "ويمكن الاتصال بهم على [رقم الجوال].",
+    "combined": "They can be contacted on [Mobile Number]. / ويمكن الاتصال بهم على [رقم الجوال]."
+  },
+  "This action has been taken due to [brief explanation of the incident or breach, e.g., “your refusal to comply with our visitor procedures on 10/07/2025 and the resulting safeguarding concern”].": {
+    "ar": "تم اتخاذ هذا الإجراء بسبب [شرح موجز للحادث أو الانتهاك، على سبيل المثال، \"رفضك الالتزام بإجراءات الزيارة الخاصة بنا بتاريخ 2025/07/10 والمخاوف المتعلقة بالحماية الناتجة\"].",
+    "combined": "This action has been taken due to [brief explanation of the incident or breach, e.g., “your refusal to comply with our visitor procedures on 10/07/2025 and the resulting safeguarding concern”]. / تم اتخاذ هذا الإجراء بسبب [شرح موجز للحادث أو الانتهاك، على سبيل المثال، \"رفضك الالتزام بإجراءات الزيارة الخاصة بنا بتاريخ 2025/07/10 والمخاوف المتعلقة بالحماية الناتجة\"]."
+  },
+  "This ensures the applicant is not disqualified from working with children under the Childcare Disqualification Regulations.": {
+    "ar": "وهذا يضمن عدم استبعاد مقدم الطلب من العمل مع الأطفال بموجب لوائح استبعاد رعاية الطفل.",
+    "combined": "This ensures the applicant is not disqualified from working with children under the Childcare Disqualification Regulations. / وهذا يضمن عدم استبعاد مقدم الطلب من العمل مع الأطفال بموجب لوائح استبعاد رعاية الطفل."
+  },
+  "This form is maintained securely by the DSL to monitor emerging patterns over time.": {
+    "ar": "يتم الاحتفاظ بهذا النموذج بشكل آمن بواسطة DSL لمراقبة الأنماط الناشئة مع مرور الوقت.",
+    "combined": "This form is maintained securely by the DSL to monitor emerging patterns over time. / يتم الاحتفاظ بهذا النموذج بشكل آمن بواسطة DSL لمراقبة الأنماط الناشئة مع مرور الوقت."
+  },
+  "This form is to be used by staff, volunteers, or others working with Community Reform CIC who wish to raise a concern under the organisation’s Whistleblowing Policy. Reports can be made anonymously, though providing your name and contact details will assist with follow-up.": {
+    "ar": "يُستخدم هذا النموذج من قبل الموظفين أو المتطوعين أو غيرهم من العاملين مع Community Reform CIC الذين يرغبون في إثارة مخاوفهم بموجب سياسة الإبلاغ عن المخالفات الخاصة بالمنظمة. يمكن تقديم البلاغات بشكل مجهول، على الرغم من أن تقديم اسمك وتفاصيل الاتصال بك سيساعد في المتابعة.",
+    "combined": "This form is to be used by staff, volunteers, or others working with Community Reform CIC who wish to raise a concern under the organisation’s Whistleblowing Policy. Reports can be made anonymously, though providing your name and contact details will assist with follow-up. / يُستخدم هذا النموذج من قبل الموظفين أو المتطوعين أو غيرهم من العاملين مع Community Reform CIC الذين يرغبون في إثارة مخاوفهم بموجب سياسة الإبلاغ عن المخالفات الخاصة بالمنظمة. يمكن تقديم البلاغات بشكل مجهول، على الرغم من أن تقديم اسمك وتفاصيل الاتصال بك سيساعد في المتابعة."
+  },
+  "This form is updated as needed and must be kept in each child’s file.": {
+    "ar": "يتم تحديث هذا النموذج حسب الحاجة ويجب الاحتفاظ به في ملف كل طفل.",
+    "combined": "This form is updated as needed and must be kept in each child’s file. / يتم تحديث هذا النموذج حسب الحاجة ويجب الاحتفاظ به في ملف كل طفل."
+  },
+  "This form must be stored securely in accordance with UK GDPR.": {
+    "ar": "يجب تخزين هذا النموذج بشكل آمن وفقًا للقانون العام لحماية البيانات في المملكة المتحدة.",
+    "combined": "This form must be stored securely in accordance with UK GDPR. / يجب تخزين هذا النموذج بشكل آمن وفقًا للقانون العام لحماية البيانات في المملكة المتحدة."
+  },
+  "This form should be updated at least termly or following any major change in support strategy.": {
+    "ar": "يجب تحديث هذا النموذج كل فصل على الأقل أو بعد أي تغيير كبير في استراتيجية الدعم.",
+    "combined": "This form should be updated at least termly or following any major change in support strategy. / يجب تحديث هذا النموذج كل فصل على الأقل أو بعد أي تغيير كبير في استراتيجية الدعم."
+  },
+  "This letter serves as formal notification that you are prohibited from entering the premises of Community Reform CIC, located at 294 Edward Road, Balsall Heath, Birmingham, B5 7PH, effective immediately.": {
+    "ar": "تعد هذه الرسالة بمثابة إشعار رسمي بأنه محظور عليك دخول مقر Community Reform CIC، الواقع في 294 Edward Road, Balsall Heath, Birmingham, B5 7PH، ويسري هذا الخطاب على الفور.",
+    "combined": "This letter serves as formal notification that you are prohibited from entering the premises of Community Reform CIC, located at 294 Edward Road, Balsall Heath, Birmingham, B5 7PH, effective immediately. / تعد هذه الرسالة بمثابة إشعار رسمي بأنه محظور عليك دخول مقر Community Reform CIC، الواقع في 294 Edward Road, Balsall Heath, Birmingham, B5 7PH، ويسري هذا الخطاب على الفور."
+  },
+  "This log should be reviewed termly and stored by the Registered Manager. Refreshers must be booked at least 3 months before expiry.": {
+    "ar": "يجب مراجعة هذا السجل بشكل دوري وتخزينه بواسطة المدير المسجل. يجب حجز المنعشات قبل 3 أشهر على الأقل من انتهاء صلاحيتها.",
+    "combined": "This log should be reviewed termly and stored by the Registered Manager. Refreshers must be booked at least 3 months before expiry. / يجب مراجعة هذا السجل بشكل دوري وتخزينه بواسطة المدير المسجل. يجب حجز المنعشات قبل 3 أشهر على الأقل من انتهاء صلاحيتها."
+  },
+  "This log should be stored securely and reviewed termly by the Registered Manager.": {
+    "ar": "يجب تخزين هذا السجل بشكل آمن ومراجعته بشكل دوري من قبل المدير المسجل.",
+    "combined": "This log should be stored securely and reviewed termly by the Registered Manager. / يجب تخزين هذا السجل بشكل آمن ومراجعته بشكل دوري من قبل المدير المسجل."
+  },
+  "This log should be updated after each relevant incident and reviewed fortnightly by the Registered Manager to identify emerging patterns.": {
+    "ar": "يجب تحديث هذا السجل بعد كل حادث ذي صلة ومراجعته كل أسبوعين بواسطة المدير المسجل لتحديد الأنماط الناشئة.",
+    "combined": "This log should be updated after each relevant incident and reviewed fortnightly by the Registered Manager to identify emerging patterns. / يجب تحديث هذا السجل بعد كل حادث ذي صلة ومراجعته كل أسبوعين بواسطة المدير المسجل لتحديد الأنماط الناشئة."
+  },
+  "Tick the boxes that match how you feel:": {
+    "ar": "ضع علامة في المربعات التي تطابق ما تشعر به:",
+    "combined": "Tick the boxes that match how you feel: / ضع علامة في المربعات التي تطابق ما تشعر به:"
+  },
+  "Time": {
+    "ar": "وقت",
+    "combined": "Time / وقت"
+  },
+  "Time Administered:": {
+    "ar": "الوقت المُدار:",
+    "combined": "Time Administered: / الوقت المُدار:"
+  },
+  "Time Collected": {
+    "ar": "الوقت المجمع",
+    "combined": "Time Collected / الوقت المجمع"
+  },
+  "Time In": {
+    "ar": "الوقت في",
+    "combined": "Time In / الوقت في"
+  },
+  "Time Noticed Missing": {
+    "ar": "الوقت الملاحظ في عداد المفقودين",
+    "combined": "Time Noticed Missing / الوقت الملاحظ في عداد المفقودين"
+  },
+  "Time Notified: ___________": {
+    "ar": "وقت الإخطار: ___________",
+    "combined": "Time Notified / وقت الإخطار:___________"
+  },
+  "Time Out": {
+    "ar": "نفذ الوقت",
+    "combined": "Time Out / نفذ الوقت"
+  },
+  "Time Parents Contacted": {
+    "ar": "وقت اتصال أولياء الأمور",
+    "combined": "Time Parents Contacted / وقت اتصال أولياء الأمور"
+  },
+  "Time Police Contacted": {
+    "ar": "اتصلت شرطة الوقت",
+    "combined": "Time Police Contacted / اتصلت شرطة الوقت"
+  },
+  "Time Reached Assembly Point": {
+    "ar": "الوقت الذي وصل إلى نقطة التجمع",
+    "combined": "Time Reached Assembly Point / الوقت الذي وصل إلى نقطة التجمع"
+  },
+  "Time of Alarm": {
+    "ar": "وقت التنبيه",
+    "combined": "Time of Alarm / وقت التنبيه"
+  },
+  "Time of Drill": {
+    "ar": "وقت الحفر",
+    "combined": "Time of Drill / وقت الحفر"
+  },
+  "Time of Report:": {
+    "ar": "وقت التقرير:",
+    "combined": "Time of Report: / وقت التقرير:"
+  },
+  "Time to Evacuate": {
+    "ar": "حان الوقت للإخلاء",
+    "combined": "Time to Evacuate / حان الوقت للإخلاء"
+  },
+  "Time(s) to be Administered: _____________________________": {
+    "ar": "الوقت (الأوقات) التي سيتم إدارتها: _____________________________",
+    "combined": "Time(s) to be Administered / الوقت (الأوقات) التي سيتم إدارتها:_____________________________"
+  },
+  "Time:": {
+    "ar": "وقت:",
+    "combined": "Time: / وقت:"
+  },
+  "Time: ______________": {
+    "ar": "وقت: ______________",
+    "combined": "Time / وقت:______________"
+  },
+  "Time: ___________________________": {
+    "ar": "وقت: ___________________________",
+    "combined": "Time / وقت:___________________________"
+  },
+  "To be completed by Registered Manager:": {
+    "ar": "ليتم إكمالها من قبل المدير المسجل:",
+    "combined": "To be completed by Registered Manager: / ليتم إكمالها من قبل المدير المسجل:"
+  },
+  "To be completed by all new staff members working with or around children.": {
+    "ar": "يجب أن يكملها جميع الموظفين الجدد الذين يعملون مع الأطفال أو حولهم.",
+    "combined": "To be completed by all new staff members working with or around children. / يجب أن يكملها جميع الموظفين الجدد الذين يعملون مع الأطفال أو حولهم."
+  },
+  "To be completed by tutors or staff when identifying a possible SEND need": {
+    "ar": "يتم إكماله من قبل المعلمين أو الموظفين عند تحديد حاجة إرسال محتملة",
+    "combined": "To be completed by tutors or staff when identifying a possible SEND need / يتم إكماله من قبل المعلمين أو الموظفين عند تحديد حاجة إرسال محتملة"
+  },
+  "To be issued within 3 working days of receiving a formal complaint.": {
+    "ar": "سيتم إصدارها خلال 3 أيام عمل من تلقي الشكوى الرسمية.",
+    "combined": "To be issued within 3 working days of receiving a formal complaint. / سيتم إصدارها خلال 3 أيام عمل من تلقي الشكوى الرسمية."
+  },
+  "To be signed by all staff, volunteers, and contractors at induction.": {
+    "ar": "ليتم التوقيع عليها من قبل جميع الموظفين والمتطوعين والمقاولين عند التعريف.",
+    "combined": "To be signed by all staff, volunteers, and contractors at induction. / ليتم التوقيع عليها من قبل جميع الموظفين والمتطوعين والمقاولين عند التعريف."
+  },
+  "To record and track individualised support provided for a learner with SEND": {
+    "ar": "لتسجيل وتتبع الدعم الفردي المقدم للمتعلم باستخدام SEND",
+    "combined": "To record and track individualised support provided for a learner with SEND / لتسجيل وتتبع الدعم الفردي المقدم للمتعلم باستخدام SEND"
+  },
+  "To record any requests for access to personal data.": {
+    "ar": "لتسجيل أي طلبات للوصول إلى البيانات الشخصية.",
+    "combined": "To record any requests for access to personal data. / لتسجيل أي طلبات للوصول إلى البيانات الشخصية."
+  },
+  "To record interview panel’s scoring, suitability notes, and safeguarding awareness.": {
+    "ar": "لتسجيل نقاط لجنة المقابلة، وملاحظات الملاءمة، وحماية الوعي.",
+    "combined": "To record interview panel’s scoring, suitability notes, and safeguarding awareness. / لتسجيل نقاط لجنة المقابلة، وملاحظات الملاءمة، وحماية الوعي."
+  },
+  "To request references from previous employers, especially where the role involved working with children.": {
+    "ar": "لطلب المراجع من أصحاب العمل السابقين، خاصة عندما يتعلق الأمر بالعمل مع الأطفال.",
+    "combined": "To request references from previous employers, especially where the role involved working with children. / لطلب المراجع من أصحاب العمل السابقين، خاصة عندما يتعلق الأمر بالعمل مع الأطفال."
+  },
+  "To: [Visitor Full Name]": {
+    "ar": "إلى: [الاسم الكامل للزائر]",
+    "combined": "To: [Visitor Full Name] / إلى: [الاسم الكامل للزائر]"
+  },
+  "Total Score: ______ / 25": {
+    "ar": "مجموع الدرجات: ______ / 25",
+    "combined": "Total Score / مجموع الدرجات:______/ 25 / / 25"
+  },
+  "Trainer Name": {
+    "ar": "إسم المدرب",
+    "combined": "Trainer Name / إسم المدرب"
+  },
+  "Training Date": {
+    "ar": "تاريخ التدريب",
+    "combined": "Training Date / تاريخ التدريب"
+  },
+  "Training Provider": {
+    "ar": "مقدم التدريب",
+    "combined": "Training Provider / مقدم التدريب"
+  },
+  "Training Type (Induction, Annual Refresher)": {
+    "ar": "نوع التدريب (تعريفي، تنشيطي سنوي)",
+    "combined": "Training Type (Induction, Annual Refresher) / نوع التدريب (تعريفي، تنشيطي سنوي)"
+  },
+  "Treatment Given:": {
+    "ar": "العلاج المعطى:",
+    "combined": "Treatment Given: / العلاج المعطى:"
+  },
+  "Triggers Identified:": {
+    "ar": "تم تحديد المشغلات:",
+    "combined": "Triggers Identified: / تم تحديد المشغلات:"
+  },
+  "Tutor Name": {
+    "ar": "اسم المعلم",
+    "combined": "Tutor Name / اسم المعلم"
+  },
+  "Tutor Name: _________________________": {
+    "ar": "اسم المعلم: _________________________",
+    "combined": "Tutor Name / اسم المعلم:_________________________"
+  },
+  "Tutor Name: __________________________": {
+    "ar": "اسم المعلم: __________________________",
+    "combined": "Tutor Name / اسم المعلم:__________________________"
+  },
+  "Tutor Name: _____________________________": {
+    "ar": "اسم المعلم: _____________________________",
+    "combined": "Tutor Name / اسم المعلم:_____________________________"
+  },
+  "Tutor Signature: _________________________": {
+    "ar": "توقيع المعلم: _________________________",
+    "combined": "Tutor Signature / توقيع المعلم:_________________________"
+  },
+  "Tutor/Programme:": {
+    "ar": "المعلم/البرنامج:",
+    "combined": "Tutor/Programme: / المعلم/البرنامج:"
+  },
+  "Tutor/Staff Member Confiscating Device:": {
+    "ar": "مصادرة جهاز المعلم/الموظف:",
+    "combined": "Tutor/Staff Member Confiscating Device: / مصادرة جهاز المعلم/الموظف:"
+  },
+  "Type of Communication (Phone/Email/In Person)": {
+    "ar": "نوع الاتصال (الهاتف/البريد الإلكتروني/شخصيًا)",
+    "combined": "Type of Communication (Phone/Email/In Person) / نوع الاتصال (الهاتف/البريد الإلكتروني/شخصيًا)"
+  },
+  "Type of Emergency (e.g. Fire, Gas Leak)": {
+    "ar": "نوع الطوارئ (مثل الحريق أو تسرب الغاز)",
+    "combined": "Type of Emergency (e.g. Fire, Gas Leak) / نوع الطوارئ (مثل الحريق أو تسرب الغاز)"
+  },
+  "Type of Incident (tick):": {
+    "ar": "نوع الحادث (علامة):",
+    "combined": "Type of Incident (tick): / نوع الحادث (علامة):"
+  },
+  "Type of Qualification": {
+    "ar": "نوع المؤهل",
+    "combined": "Type of Qualification / نوع المؤهل"
+  },
+  "Type of Referral:": {
+    "ar": "نوع الإحالة:",
+    "combined": "Type of Referral: / نوع الإحالة:"
+  },
+  "Unaccompanied Arrival/Departure Consent Form": {
+    "ar": "نموذج الموافقة على الوصول/المغادرة غير المصحوبين",
+    "combined": "Unaccompanied Arrival/Departure Consent Form / نموذج الموافقة على الوصول/المغادرة غير المصحوبين"
+  },
+  "Understanding of safeguarding responsibilities": {
+    "ar": "فهم مسؤوليات الحماية",
+    "combined": "Understanding of safeguarding responsibilities / فهم مسؤوليات الحماية"
+  },
+  "Used daily to confirm safe arrival and departure for each child.": {
+    "ar": "يستخدم يومياً للتأكد من الوصول والمغادرة الآمنة لكل طفل.",
+    "combined": "Used daily to confirm safe arrival and departure for each child. / يستخدم يومياً للتأكد من الوصول والمغادرة الآمنة لكل طفل."
+  },
+  "Used internally to confirm that all steps were completed before the applicant starts work.": {
+    "ar": "يستخدم داخلياً للتأكد من إتمام جميع الخطوات قبل أن يبدأ مقدم الطلب العمل.",
+    "combined": "Used internally to confirm that all steps were completed before the applicant starts work. / يستخدم داخلياً للتأكد من إتمام جميع الخطوات قبل أن يبدأ مقدم الطلب العمل."
+  },
+  "Used to monitor patterns and document steps taken during late collection incidents.": {
+    "ar": "يستخدم لمراقبة الأنماط وتوثيق الخطوات المتخذة أثناء حوادث التحصيل المتأخرة.",
+    "combined": "Used to monitor patterns and document steps taken during late collection incidents. / يستخدم لمراقبة الأنماط وتوثيق الخطوات المتخذة أثناء حوادث التحصيل المتأخرة."
+  },
+  "Used to record all incidents involving online harm, breaches, or digital concerns.": {
+    "ar": "يستخدم لتسجيل جميع الحوادث التي تنطوي على ضرر أو انتهاكات أو مخاوف رقمية عبر الإنترنت.",
+    "combined": "Used to record all incidents involving online harm, breaches, or digital concerns. / يستخدم لتسجيل جميع الحوادث التي تنطوي على ضرر أو انتهاكات أو مخاوف رقمية عبر الإنترنت."
+  },
+  "Used to record and monitor actual or suspected breaches of data security.": {
+    "ar": "يستخدم لتسجيل ومراقبة الانتهاكات الفعلية أو المشتبه بها لأمن البيانات.",
+    "combined": "Used to record and monitor actual or suspected breaches of data security. / يستخدم لتسجيل ومراقبة الانتهاكات الفعلية أو المشتبه بها لأمن البيانات."
+  },
+  "Used to record details of any live or recorded online sessions for safeguarding and quality assurance.": {
+    "ar": "يستخدم لتسجيل تفاصيل أي جلسات مباشرة أو مسجلة عبر الإنترنت للحماية وضمان الجودة.",
+    "combined": "Used to record details of any live or recorded online sessions for safeguarding and quality assurance. / يستخدم لتسجيل تفاصيل أي جلسات مباشرة أو مسجلة عبر الإنترنت للحماية وضمان الجودة."
+  },
+  "Visibility of Room:": {
+    "ar": "رؤية الغرفة:",
+    "combined": "Visibility of Room: / رؤية الغرفة:"
+  },
+  "Visitor Badge Issued (Y/N)": {
+    "ar": "تم إصدار شارة الزائر (نعم/لا)",
+    "combined": "Visitor Badge Issued (Y/N) / تم إصدار شارة الزائر (نعم/لا)"
+  },
+  "Visitor Ban Notification Letter Template": {
+    "ar": "نموذج رسالة إشعار حظر الزائرين",
+    "combined": "Visitor Ban Notification Letter Template / نموذج رسالة إشعار حظر الزائرين"
+  },
+  "Visitor Incident Record Form": {
+    "ar": "نموذج سجل حادثة الزائر",
+    "combined": "Visitor Incident Record Form / نموذج سجل حادثة الزائر"
+  },
+  "Visitor Log Template": {
+    "ar": "قالب سجل الزوار",
+    "combined": "Visitor Log Template / قالب سجل الزوار"
+  },
+  "Visitor’s Name: ___________________________": {
+    "ar": "اسم الزائر: ___________________________",
+    "combined": "Visitor’s Name / اسم الزائر:___________________________"
+  },
+  "Was 999 Called?": {
+    "ar": "هل تم الاتصال بالرقم 999؟",
+    "combined": "Was 999 Called? / هل تم الاتصال بالرقم 999؟"
+  },
+  "Was Emergency Services Contacted?": {
+    "ar": "هل تم الاتصال بخدمات الطوارئ؟",
+    "combined": "Was Emergency Services Contacted? / هل تم الاتصال بخدمات الطوارئ؟"
+  },
+  "Was PPE Used?": {
+    "ar": "هل تم استخدام معدات الوقاية الشخصية؟",
+    "combined": "Was PPE Used? / هل تم استخدام معدات الوقاية الشخصية؟"
+  },
+  "Was a child present or affected?": {
+    "ar": "هل كان الطفل حاضراً أو متأثراً؟",
+    "combined": "Was a child present or affected? / هل كان الطفل حاضراً أو متأثراً؟"
+  },
+  "Was a referral made to an external authority (e.g. Ofsted, Police, LADO)?": {
+    "ar": "هل تمت الإحالة إلى سلطة خارجية (مثل Ofsted، Police، LADO)؟",
+    "combined": "Was a referral made to an external authority (e.g. Ofsted, Police, LADO)? / هل تمت الإحالة إلى سلطة خارجية (مثل Ofsted، Police، LADO)؟"
+  },
+  "Was anyone at risk?": {
+    "ar": "هل كان أي شخص في خطر؟",
+    "combined": "Was anyone at risk? / هل كان أي شخص في خطر؟"
+  },
+  "Was the device returned at end of session?": {
+    "ar": "هل تم إرجاع الجهاز في نهاية الجلسة؟",
+    "combined": "Was the device returned at end of session? / هل تم إرجاع الجهاز في نهاية الجلسة؟"
+  },
+  "We thank you for raising your concern and assure you that your feedback will contribute to improving our service. If you remain dissatisfied, you may request a review under Stage 3 (Appeal Panel) within five working days.": {
+    "ar": "نشكرك على إثارة اهتمامك ونؤكد لك أن تعليقاتك ستساهم في تحسين خدماتنا. إذا كنت لا تزال غير راضٍ، فيمكنك طلب المراجعة بموجب المرحلة 3 (لجنة الاستئناف) في غضون خمسة أيام عمل.",
+    "combined": "We thank you for raising your concern and assure you that your feedback will contribute to improving our service. If you remain dissatisfied, you may request a review under Stage 3 (Appeal Panel) within five working days. / نشكرك على إثارة اهتمامك ونؤكد لك أن تعليقاتك ستساهم في تحسين خدماتنا. إذا كنت لا تزال غير راضٍ، فيمكنك طلب المراجعة بموجب المرحلة 3 (لجنة الاستئناف) في غضون خمسة أيام عمل."
+  },
+  "Weekly Fire Alarm Test Log": {
+    "ar": "سجل اختبار إنذار الحريق الأسبوعي",
+    "combined": "Weekly Fire Alarm Test Log / سجل اختبار إنذار الحريق الأسبوعي"
+  },
+  "Were there any witnesses?": {
+    "ar": "هل كان هناك أي شهود؟",
+    "combined": "Were there any witnesses? / هل كان هناك أي شهود؟"
+  },
+  "What Happened (or almost happened):": {
+    "ar": "ماذا حدث (أو كاد أن يحدث):",
+    "combined": "What Happened (or almost happened): / ماذا حدث (أو كاد أن يحدث):"
+  },
+  "What Happened / How Injury Occurred:": {
+    "ar": "ماذا حدث / كيف حدثت الإصابة:",
+    "combined": "What Happened / How Injury Occurred: / ماذا حدث / كيف حدثت الإصابة:"
+  },
+  "What Went Wrong?": {
+    "ar": "ما الخطأ الذي حدث؟",
+    "combined": "What Went Wrong? / ما الخطأ الذي حدث؟"
+  },
+  "What do we do well?": {
+    "ar": "ماذا نفعل بشكل جيد؟",
+    "combined": "What do we do well? / ماذا نفعل بشكل جيد؟"
+  },
+  "What do you like best about the lessons?": {
+    "ar": "ما الذي يعجبك أكثر في الدروس؟",
+    "combined": "What do you like best about the lessons? / ما الذي يعجبك أكثر في الدروس؟"
+  },
+  "Who Made Referral:": {
+    "ar": "من قام بالإحالة:",
+    "combined": "Who Made Referral: / من قام بالإحالة:"
+  },
+  "Who Made the Allegation?": {
+    "ar": "من الذي قدم هذا الادعاء؟",
+    "combined": "Who Made the Allegation? / من الذي قدم هذا الادعاء؟"
+  },
+  "Why Did It Happen?": {
+    "ar": "لماذا حدث ذلك؟",
+    "combined": "Why Did It Happen? / لماذا حدث ذلك؟"
+  },
+  "Would you re-employ them? If no, please explain.": {
+    "ar": "هل ستعيد توظيفهم؟ إذا كان الجواب لا، يرجى التوضيح.",
+    "combined": "Would you re-employ them? If no, please explain. / هل ستعيد توظيفهم؟ إذا كان الجواب لا، يرجى التوضيح."
+  },
+  "Would you recommend us to other families?": {
+    "ar": "هل تنصحنا للعائلات الأخرى؟",
+    "combined": "Would you recommend us to other families? / هل تنصحنا للعائلات الأخرى؟"
+  },
+  "Yes": {
+    "ar": "نعم",
+    "combined": "Yes / نعم"
+  },
+  "Yours sincerely,": {
+    "ar": "مع خالص التقدير،",
+    "combined": "Yours sincerely, / مع خالص التقدير،"
+  },
+  "[Any actions already taken or planned to address the concern.]": {
+    "ar": "[أي إجراءات تم اتخاذها أو التخطيط لها بالفعل لمعالجة هذه المشكلة.]",
+    "combined": "[Any actions already taken or planned to address the concern.] / [أي إجراءات تم اتخاذها أو التخطيط لها بالفعل لمعالجة هذه المشكلة.]"
+  },
+  "[Brief description of what was reviewed or who was spoken to.]": {
+    "ar": "[وصف موجز لما تمت مراجعته أو لمن تم التحدث إليه.]",
+    "combined": "[Brief description of what was reviewed or who was spoken to.] / [وصف موجز لما تمت مراجعته أو لمن تم التحدث إليه.]"
+  },
+  "[Brief warm-up or recap]": {
+    "ar": "[إحماء مختصر أو ملخص]",
+    "combined": "[Brief warm-up or recap] / [إحماء مختصر أو ملخص]"
+  },
+  "[Community Reform CIC Letterhead]": {
+    "ar": "[ترويسة إصلاح المجتمع CIC]",
+    "combined": "[Community Reform CIC Letterhead] / [ترويسة إصلاح المجتمع CIC]"
+  },
+  "[Date]": {
+    "ar": "[تاريخ]",
+    "combined": "[Date] / [تاريخ]"
+  },
+  "[Description of individual or group activity]": {
+    "ar": "[وصف النشاط الفردي أو الجماعي]",
+    "combined": "[Description of individual or group activity] / [وصف النشاط الفردي أو الجماعي]"
+  },
+  "[Handouts, visual aids, manipulatives, etc.]": {
+    "ar": "[النشرات، المساعدات البصرية، المتلاعبات، الخ.]",
+    "combined": "[Handouts, visual aids, manipulatives, etc.] / [النشرات، المساعدات البصرية، المتلاعبات، الخ.]"
+  },
+  "[How will support be provided for varied ability levels?]": {
+    "ar": "[كيف سيتم تقديم الدعم لمستويات القدرة المتنوعة؟]",
+    "combined": "[How will support be provided for varied ability levels?] / [كيف سيتم تقديم الدعم لمستويات القدرة المتنوعة؟]"
+  },
+  "[How will you check understanding during the session?]": {
+    "ar": "[كيف ستتحقق من الفهم خلال الجلسة؟]",
+    "combined": "[How will you check understanding during the session?] / [كيف ستتحقق من الفهم خلال الجلسة؟]"
+  },
+  "[Key points, concepts, and delivery method]": {
+    "ar": "[النقاط الرئيسية والمفاهيم وطريقة التسليم]",
+    "combined": "[Key points, concepts, and delivery method] / [النقاط الرئيسية والمفاهيم وطريقة التسليم]"
+  },
+  "[Name]": {
+    "ar": "[اسم]",
+    "combined": "[Name] / [اسم]"
+  },
+  "[Recap, reflection, or consolidation]": {
+    "ar": "[خلاصة أو تأمل أو توحيد]",
+    "combined": "[Recap, reflection, or consolidation] / [خلاصة أو تأمل أو توحيد]"
+  },
+  "[Summary of findings and whether the complaint was upheld, partially upheld, or not upheld.]": {
+    "ar": "[ملخص النتائج وما إذا تم تأييد الشكوى أو تأييدها جزئيًا أو عدم تأييدها.]",
+    "combined": "[Summary of findings and whether the complaint was upheld, partially upheld, or not upheld.] / [ملخص النتائج وما إذا تم تأييد الشكوى أو تأييدها جزئيًا أو عدم تأييدها.]"
+  },
+  "[What went well? What needs adjustment next time?]": {
+    "ar": "[ما الذي سار على ما يرام؟ ما الذي يحتاج إلى تعديل في المرة القادمة؟]",
+    "combined": "[What went well? What needs adjustment next time?] / [ما الذي سار على ما يرام؟ ما الذي يحتاج إلى تعديل في المرة القادمة؟]"
+  },
+  "[Yes / No – comments optional]": {
+    "ar": "[نعم / لا - التعليقات اختيارية]",
+    "combined": "[Yes / No – comments optional] / [نعم / لا - التعليقات اختيارية]"
+  },
+  "__________________________________________________________": {
+    "ar": "[ترجمة: ________________________________________...]",
+    "combined": "__________________________________________________________"
+  },
+  "_____________________________________________________________________": {
+    "ar": "_________________________________________",
+    "combined": "_____________________________________________________________________"
+  },
+  "___________________________________________________________________________________________________________________": {
+    "ar": "_________________________________________________________________________",
+    "combined": "___________________________________________________________________________________________________________________"
+  },
+  "_____________________________________________________________________________________________________________________": {
+    "ar": "___________________________________________________________________________",
+    "combined": "_____________________________________________________________________________________________________________________"
+  },
+  "________________________________________________________________________________________________________________________________": {
+    "ar": "________________________________________________________________________",
+    "combined": "________________________________________________________________________________________________________________________________"
+  },
+  "__________________________________________________________________________________________________________________________________________________________________________________": {
+    "ar": "__________________________________________________________________________________________________________________________",
+    "combined": "__________________________________________________________________________________________________________________________________________________________________________________"
+  },
+  "________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________": {
+    "ar": "______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________",
+    "combined": "________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________"
+  },
+  "☐ Accident  ☐ Behavioural Incident  ☐ Safeguarding Concern  ☐ Other: __________": {
+    "ar": "☐ حادث  ☐ حادث سلوكي  ☐ مخاوف تتعلق بالحماية  ☐ أخرى: __________",
+    "combined": "☐ Accident / حادث ☐ Behavioural Incident / حادث سلوكي ☐ Safeguarding Concern / مخاوف تتعلق بالحماية ☐ Other: __________ / أخرى: __________"
+  },
+  "☐ Actioned": {
+    "ar": "☐ تم التصرف",
+    "combined": "☐ Actioned / تم التصرف"
+  },
+  "☐ Arrive unaccompanied": {
+    "ar": "☐ الوصول بدون مرافق",
+    "combined": "☐ Arrive unaccompanied / الوصول بدون مرافق"
+  },
+  "☐ Child moved to safety  ☐ Parents informed  ☐ DSL informed  ☐ Other (please specify): __________________________": {
+    "ar": "☐ تم نقل الطفل إلى مكان آمن  ☐ تم إبلاغ الوالدين  ☐ تم إبلاغ DSL  ☐ أخرى (يرجى التحديد): __________________________",
+    "combined": "☐ Child moved to safety / تم نقل الطفل إلى مكان آمن ☐ Parents informed / تم إبلاغ الوالدين ☐ DSL informed / تم إبلاغ DSL ☐ Other (please specify): __________________________ / أخرى (يرجى التحديد): __________________________"
+  },
+  "☐ Child ☐ Staff": {
+    "ar": "☐ طفل ☐ طاقم العمل",
+    "combined": "☐ Child / طفل ☐ Staff / طاقم العمل"
+  },
+  "☐ Children’s Social Care (MASH) ☐ LADO ☐ Prevent ☐ Police ☐ Other: ___________": {
+    "ar": "☐ الرعاية الاجتماعية للأطفال (MASH) ☐ LADO ☐ منع ☐ الشرطة ☐ أخرى: ___________",
+    "combined": "☐ Children’s Social Care (MASH) / الرعاية الاجتماعية للأطفال (MASH) ☐ LADO / LADO ☐ Prevent / منع ☐ Police / الشرطة ☐ Other: ___________ / أخرى: ___________"
+  },
+  "☐ Child  ☐ Staff  ☐ Visitor": {
+    "ar": "☐ طفل  ☐ طاقم العمل  ☐ زائر",
+    "combined": "☐ Child / طفل ☐ Staff / طاقم العمل ☐ Visitor / زائر"
+  },
+  "☐ Child  ☐ Staff  ☐ Visitor  ☐ Volunteer": {
+    "ar": "☐ طفل  ☐ موظف  ☐ زائر  ☐ متطوع",
+    "combined": "☐ Child / طفل ☐ Staff / موظف ☐ Visitor / زائر ☐ Volunteer / متطوع"
+  },
+  "☐ Child  ☐ Staff  ☐ Volunteer  ☐ Other: _________": {
+    "ar": "☐ طفل  ☐ طاقم عمل  ☐ متطوع  ☐ أخرى: _________",
+    "combined": "☐ Child / طفل ☐ Staff / طاقم عمل ☐ Volunteer / متطوع ☐ Other: _________ / أخرى: _________"
+  },
+  "☐ Child ☐ Parent ☐ Staff ☐ Other (specify): _____________": {
+    "ar": "☐ الطفل ☐ الوالدين ☐ الموظفون ☐ أخرى (حدد): _____________",
+    "combined": "☐ Child / الطفل ☐ Parent / الوالدين ☐ Staff / الموظفون ☐ Other (specify): _____________ / أخرى (حدد): _____________"
+  },
+  "☐ Cleaned wound  ☐ Applied plaster/bandage  ☐ Ice pack  ☐ Monitored symptoms  ☐ Other: __________": {
+    "ar": "☐ الجرح النظيف  ☐ الجبس/الضمادة المطبقة  ☐ كيس الثلج  ☐ الأعراض التي يتم مراقبتها  ☐ أخرى: __________",
+    "combined": "☐ Cleaned wound / الجرح النظيف ☐ Applied plaster/bandage / الجبس/الضمادة المطبقة ☐ Ice pack / كيس الثلج ☐ Monitored symptoms / الأعراض التي يتم مراقبتها ☐ Other: __________ / أخرى: __________"
+  },
+  "☐ Cleaned wound  ☐ Applied plaster/bandage  ☐ Ice pack  ☐ Other: __________": {
+    "ar": "☐ الجرح النظيف  ☐ الجص/الضمادة المطبقة  ☐ كيس الثلج  ☐ أخرى: __________",
+    "combined": "☐ Cleaned wound / الجرح النظيف ☐ Applied plaster/bandage / الجص/الضمادة المطبقة ☐ Ice pack / كيس الثلج ☐ Other: __________ / أخرى: __________"
+  },
+  "☐ Confident": {
+    "ar": "☐ واثق",
+    "combined": "☐ Confident / واثق"
+  },
+  "☐ DSL Notified  ☐ LADO Consulted  ☐ Suspension Considered☐ Parents Informed (if appropriate) ☐ Other: ___________________________": {
+    "ar": "☐ تم إخطار DSL  ☐ استشارة LADO  ☐ تم النظر في التعليق☐ تم إبلاغ أولياء الأمور (إذا كان ذلك مناسبًا) ☐ أخرى: ___________________________",
+    "combined": "☐ DSL Notified / تم إخطار DSL ☐ LADO Consulted / استشارة LADO ☐ Suspension Considered / تم النظر في التعليق ☐ Parents Informed (if appropriate) / تم إبلاغ أولياء الأمور (إذا كان ذلك مناسبًا) ☐ Other: ___________________________ / أخرى: ___________________________"
+  },
+  "☐ DSL aware and approved ☐ Parent consent obtained☐ Timed session ☐ Logs maintained": {
+    "ar": "☐ علم DSL واعتماده ☐ تم الحصول على موافقة الوالدين☐ جلسة محددة التوقيت ☐ الاحتفاظ بالسجلات",
+    "combined": "☐ DSL aware and approved / علم DSL واعتماده ☐ Parent consent obtained / تم الحصول على موافقة الوالدين ☐ Timed session / جلسة محددة التوقيت ☐ Logs maintained / الاحتفاظ بالسجلات"
+  },
+  "☐ DSL – Name: _________________________☐ Other – Specify: _______________________Date/Time Reported: _______________________": {
+    "ar": "☐ DSL - الاسم: _______________________________________☐ أخرى - حدد: _________ تاريخ/وقت الإبلاغ: _______________________",
+    "combined": "☐ DSL – Name: _________________________ / DSL - الاسم: _______________________________________ ☐ Other – Specify: _______________________Date/Time Reported: _______________________ / أخرى - حدد: _________ تاريخ/وقت الإبلاغ: _______________________"
+  },
+  "☐ DSL – Name: _________________________☐ Responsible Individual – Name: _________________________Date/Time: _________________________": {
+    "ar": "☐ DSL - الاسم: _______________________________________☐ الفرد المسؤول - الاسم: ___________ التاريخ/الوقت: _________________________",
+    "combined": "☐ DSL – Name: _________________________ / DSL - الاسم: _______________________________________ ☐ Responsible Individual – Name: _________________________Date/Time: _________________________ / الفرد المسؤول - الاسم: ___________ التاريخ/الوقت: _________________________"
+  },
+  "☐ Dissatisfied": {
+    "ar": "☐ غير راض",
+    "combined": "☐ Dissatisfied / غير راض"
+  },
+  "☐ Escalated": {
+    "ar": "☐ تصاعدت",
+    "combined": "☐ Escalated / تصاعدت"
+  },
+  "☐ Filed for monitoring": {
+    "ar": "☐ قدمت للرصد",
+    "combined": "☐ Filed for monitoring / قدمت للرصد"
+  },
+  "☐ Glass panel on door ☐ Door open ☐ Adjacent supervision☐ Other (describe): ____________________________________________": {
+    "ar": "☐ لوح زجاجي على الباب ☐ الباب مفتوح ☐ الإشراف المجاور☐ أخرى (وصف): ____________________________________________",
+    "combined": "☐ Glass panel on door / لوح زجاجي على الباب ☐ Door open / الباب مفتوح ☐ Adjacent supervision / الإشراف المجاور ☐ Other (describe): ____________________________________________ / أخرى (وصف): ____________________________________________"
+  },
+  "☐ Harmed or may have harmed a child☐ Committed a criminal offence against a child☐ Poses a risk of harm to children☐ Other (please specify): ___________________________": {
+    "ar": "☐ ألحق الأذى بطفل أو ربما أذى ☐ ارتكب جريمة جنائية ضد طفل ☐ يشكل خطرًا على الأطفال ☐ أخرى (يرجى التحديد): ___________________________",
+    "combined": "☐ Harmed or may have harmed a child / ألحق الأذى بطفل أو ربما أذى ☐ Committed a criminal offence against a child / ارتكب جريمة جنائية ضد طفل ☐ Poses a risk of harm to children / يشكل خطرًا على الأطفال ☐ Other (please specify): ___________________________ / أخرى (يرجى التحديد): ___________________________"
+  },
+  "☐ Held for Safeguarding": {
+    "ar": "☐ محفوظ للحماية",
+    "combined": "☐ Held for Safeguarding / محفوظ للحماية"
+  },
+  "☐ I enjoy the lessons☐ I understand what I’m learning☐ I feel more confident☐ My tutor helps me when I’m stuck☐ I want to keep coming": {
+    "ar": "☐ أنا أستمتع بالدروس ☐ أفهم ما أتعلمه ☐ أشعر بثقة أكبر ☐ يساعدني مدرسي عندما أكون عالقاً ☐ أريد الاستمرار في المجيء",
+    "combined": "☐ I enjoy the lessons / أنا أستمتع بالدروس ☐ I understand what I’m learning / أفهم ما أتعلمه ☐ I feel more confident / أشعر بثقة أكبر ☐ My tutor helps me when I’m stuck / يساعدني مدرسي عندما أكون عالقاً ☐ I want to keep coming / أريد الاستمرار في المجيء"
+  },
+  "☐ Initial Meeting Held": {
+    "ar": "☐ عقد الاجتماع الأولي",
+    "combined": "☐ Initial Meeting Held / عقد الاجتماع الأولي"
+  },
+  "☐ Learning difficulty☐ Communication difficulty☐ Sensory or physical need☐ Social, emotional or mental health concern☐ Behavioural concern☐ Possible undiagnosed condition": {
+    "ar": "☐ صعوبة التعلم ☐ صعوبة التواصل ☐ الحاجة الحسية أو الجسدية ☐ القلق الاجتماعي أو العاطفي أو العقلي ☐ القلق السلوكي ☐ حالة محتملة غير مشخصة",
+    "combined": "☐ Learning difficulty / صعوبة التعلم ☐ Communication difficulty / صعوبة التواصل ☐ Sensory or physical need / الحاجة الحسية أو الجسدية ☐ Social, emotional or mental health concern / القلق الاجتماعي أو العاطفي أو العقلي ☐ Behavioural concern / القلق السلوكي ☐ Possible undiagnosed condition / حالة محتملة غير مشخصة"
+  },
+  "☐ Leave and walk home unaccompanied": {
+    "ar": "☐ غادر المنزل وتوجه إليه بدون مرافق",
+    "combined": "☐ Leave and walk home unaccompanied / غادر المنزل وتوجه إليه بدون مرافق"
+  },
+  "☐ Missed Dose☐ Incorrect Dosage☐ Wrong Medication☐ Refusal to Take☐ Side Effects☐ Other: ___________________________": {
+    "ar": "☐ الجرعة المنسية☐ جرعة غير صحيحة☐ دواء خاطئ☐ رفض تناوله☐ آثار جانبية☐ أخرى: ___________________________",
+    "combined": "☐ Missed Dose / الجرعة المنسية ☐ Incorrect Dosage / جرعة غير صحيحة ☐ Wrong Medication / دواء خاطئ ☐ Refusal to Take / رفض تناوله ☐ Side Effects / آثار جانبية ☐ Other: ___________________________ / أخرى: ___________________________"
+  },
+  "☐ Monitoring☐ Discussion with parent/carer☐ Referral to external professional☐ Adjustments needed☐ Other: ____________________": {
+    "ar": "☐ المراقبة ☐ مناقشة مع ولي الأمر/مقدم الرعاية ☐ الإحالة إلى متخصص خارجي ☐ التعديلات اللازمة ☐ أخرى: ______",
+    "combined": "☐ Monitoring / المراقبة ☐ Discussion with parent/carer / مناقشة مع ولي الأمر/مقدم الرعاية ☐ Referral to external professional / الإحالة إلى متخصص خارجي ☐ Adjustments needed / التعديلات اللازمة ☐ Other: ____________________ / أخرى: ______"
+  },
+  "☐ No": {
+    "ar": "☐ لا",
+    "combined": "☐ No / لا"
+  },
+  "☐ None known": {
+    "ar": "☐ لا شيء معروف",
+    "combined": "☐ None known / لا شيء معروف"
+  },
+  "☐ Not Applicable  ☐ Ofsted  ☐ RIDDOR  ☐ LADO  ☐ Emergency Services": {
+    "ar": "☐ غير قابل للتطبيق  ☐ Ofsted  ☐ RIDDOR  ☐ LADO  ☐ خدمات الطوارئ",
+    "combined": "☐ Not Applicable / غير قابل للتطبيق ☐ Ofsted / Ofsted ☐ RIDDOR / RIDDOR ☐ LADO / LADO ☐ Emergency Services / خدمات الطوارئ"
+  },
+  "☐ Not Confident": {
+    "ar": "☐ غير واثق",
+    "combined": "☐ Not Confident / غير واثق"
+  },
+  "☐ Not Sure": {
+    "ar": "☐ غير متأكد",
+    "combined": "☐ Not Sure / غير متأكد"
+  },
+  "☐ Not suitable for appointment": {
+    "ar": "☐ غير مناسب للتعيين",
+    "combined": "☐ Not suitable for appointment / غير مناسب للتعيين"
+  },
+  "☐ Please specify: __________________________": {
+    "ar": "☐ يرجى التحديد: __________________________",
+    "combined": "☐ Please specify: __________________________ / يرجى التحديد: __________________________"
+  },
+  "☐ Referred for further assessment": {
+    "ar": "☐ تمت إحالته لمزيد من التقييم",
+    "combined": "☐ Referred for further assessment / تمت إحالته لمزيد من التقييم"
+  },
+  "☐ Regular Check-Ins Planned": {
+    "ar": "☐ تم التخطيط لعمليات تسجيل الوصول المنتظمة",
+    "combined": "☐ Regular Check-Ins Planned / تم التخطيط لعمليات تسجيل الوصول المنتظمة"
+  },
+  "☐ Returned to Parent": {
+    "ar": "☐ عاد إلى الوالدين",
+    "combined": "☐ Returned to Parent / عاد إلى الوالدين"
+  },
+  "☐ Returned to activity  ☐ Sent home  ☐ Escalated to emergency services": {
+    "ar": "☐ عاد إلى النشاط  ☐ تم إرساله إلى المنزل  ☐ تم تصعيده إلى خدمات الطوارئ",
+    "combined": "☐ Returned to activity / عاد إلى النشاط ☐ Sent home / تم إرساله إلى المنزل ☐ Escalated to emergency services / تم تصعيده إلى خدمات الطوارئ"
+  },
+  "☐ SEND ☐ Behaviour ☐ Academic ☐ Other: ________________": {
+    "ar": "☐ أرسل ☐ السلوك ☐ أكاديمي ☐ أخرى: ________________",
+    "combined": "☐ SEND / أرسل ☐ Behaviour / السلوك ☐ Academic / أكاديمي ☐ Other: ________________ / أخرى: ________________"
+  },
+  "☐ Satisfied": {
+    "ar": "☐ راضي",
+    "combined": "☐ Satisfied / راضي"
+  },
+  "☐ Suitable for appointment": {
+    "ar": "☐ مناسبة للتعيين",
+    "combined": "☐ Suitable for appointment / مناسبة للتعيين"
+  },
+  "☐ Unsure": {
+    "ar": "☐ غير متأكد",
+    "combined": "☐ Unsure / غير متأكد"
+  },
+  "☐ Verbal Warning☐ Written Ban Issued☐ Referral to Safeguarding Lead☐ Police Contacted☐ No Further Action": {
+    "ar": "☐ تحذير شفهي☐ تم إصدار حظر كتابي☐ إحالة إلى قيادة الحماية☐ تم الاتصال بالشرطة☐ لا يوجد أي إجراء آخر",
+    "combined": "☐ Verbal Warning / تحذير شفهي ☐ Written Ban Issued / تم إصدار حظر كتابي ☐ Referral to Safeguarding Lead / إحالة إلى قيادة الحماية ☐ Police Contacted / تم الاتصال بالشرطة ☐ No Further Action / لا يوجد أي إجراء آخر"
+  },
+  "☐ Very Confident": {
+    "ar": "☐ واثق جدًا",
+    "combined": "☐ Very Confident / واثق جدًا"
+  },
+  "☐ Very Satisfied": {
+    "ar": "☐ راضٍ جدًا",
+    "combined": "☐ Very Satisfied / راضٍ جدًا"
+  },
+  "☐ Visitor asked to leave☐ Escorted from premises☐ Incident reported to Registered Manager☐ Other (please specify):": {
+    "ar": "☐ طُلب من الزائر المغادرة ☐ تمت مرافقته من المبنى ☐ تم الإبلاغ عن حادثة إلى المدير المسجل ☐ أخرى (يرجى التحديد):",
+    "combined": "☐ Visitor asked to leave / طُلب من الزائر المغادرة ☐ Escorted from premises / تمت مرافقته من المبنى ☐ Incident reported to Registered Manager / تم الإبلاغ عن حادثة إلى المدير المسجل ☐ Other (please specify): / أخرى (يرجى التحديد):"
+  },
+  "☐ Will be informed following internal review": {
+    "ar": "☐ سيتم إبلاغك بذلك بعد المراجعة الداخلية",
+    "combined": "☐ Will be informed following internal review / سيتم إبلاغك بذلك بعد المراجعة الداخلية"
+  },
+  "☐ Witness  ☐ Recipient  ☐ Third Party  ☐ Anonymous": {
+    "ar": "☐ الشاهد  ☐ المستلم  ☐ طرف ثالث  ☐ مجهول",
+    "combined": "☐ Witness / الشاهد ☐ Recipient / المستلم ☐ Third Party / طرف ثالث ☐ Anonymous / مجهول"
+  },
+  "☐ Yes": {
+    "ar": "☐ نعم",
+    "combined": "☐ Yes / نعم"
+  },
+  "☐ Yes (Date/Method): ____________________": {
+    "ar": "☐ نعم (التاريخ/الطريقة): ____________________",
+    "combined": "☐ Yes (Date/Method): ____________________ / نعم (التاريخ/الطريقة): ____________________"
+  },
+  "☐ Yes (Method: ☐ Phone ☐ In Person ☐ Written Note)  ☐ No": {
+    "ar": "☐ نعم (الطريقة: ☐ الهاتف ☐ شخصيًا ☐ مذكرة مكتوبة)   ☐ لا",
+    "combined": "☐ Yes (Method: / نعم (الطريقة: ☐ Phone / الهاتف ☐ In Person / شخصيًا ☐ Written Note) / مذكرة مكتوبة) ☐ No / لا"
+  },
+  "☐ Yes – Name (initials only): _______☐ No": {
+    "ar": "☐ نعم - الاسم (الأحرف الأولى فقط): _______☐ لا",
+    "combined": "☐ Yes – Name (initials only): _______ / نعم - الاسم (الأحرف الأولى فقط): _______ ☐ No / لا"
+  },
+  "☐ Yes ☐ No": {
+    "ar": "☐ نعم ☐ لا",
+    "combined": "☐ Yes / نعم ☐ No / لا"
+  },
+  "☐ Yes Date/Time: ___________ LADO Name: _______________☐ No Reason: ___________________________________________": {
+    "ar": "☐ نعم التاريخ/الوقت: ___________ اسم LADO: _______________☐ لا السبب: _____________________________",
+    "combined": "☐ Yes Date/Time: ___________ LADO Name: _______________ / نعم التاريخ/الوقت: ___________ اسم LADO: _______________ ☐ No Reason: ___________________________________________ / لا السبب: _____________________________"
+  },
+  "☐ Yes  ☐ No": {
+    "ar": "☐ نعم   ☐ لا",
+    "combined": "☐ Yes / نعم ☐ No / لا"
+  },
+  "☐ Yes  ☐ No  By Whom: _________________________": {
+    "ar": "☐ نعم  ☐ لا  من: _________________________",
+    "combined": "☐ Yes / نعم ☐ No  By Whom: _________________________ / لا  من: _________________________"
+  },
+  "☐ Yes  ☐ No  If yes, describe: __________________________": {
+    "ar": "☐ نعم  ☐ لا  إذا كانت الإجابة بنعم، قم بوصف: __________________________",
+    "combined": "☐ Yes / نعم ☐ No  If yes, describe: __________________________ / لا  إذا كانت الإجابة بنعم، قم بوصف: __________________________"
+  },
+  "☐ Yes  ☐ No  Method: ☐ Phone ☐ In Person ☐ Written": {
+    "ar": "☐ نعم  ☐ لا   الطريقة: ☐ الهاتف ☐ شخصيًا ☐ مكتوب",
+    "combined": "☐ Yes / نعم ☐ No  Method: / لا   الطريقة: ☐ Phone / الهاتف ☐ In Person / شخصيًا ☐ Written / مكتوب"
+  },
+  "☐ Yes  ☐ No  ☐ Unknown": {
+    "ar": "☐ نعم  ☐ لا  ☐ غير معروف",
+    "combined": "☐ Yes / نعم ☐ No / لا ☐ Unknown / غير معروف"
+  },
+  "☐ Yes ☐ No": {
+    "ar": "☐ نعم  ☐ لا",
+    "combined": "☐ Yes / نعم ☐ No / لا"
+  },
+  "☐ Yes ☐ No If yes, time called: ___________": {
+    "ar": "☐ نعم ☐ لا إذا كانت الإجابة بنعم، الوقت المسمى: ___________",
+    "combined": "☐ Yes / نعم ☐ No If yes, time called: ___________ / لا إذا كانت الإجابة بنعم، الوقت المسمى: ___________"
+  }
+}

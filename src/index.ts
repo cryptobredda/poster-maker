@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import express from 'express';
 import { generatePoster, generateTemplatePreview } from './poster.js';
-import { getCurrentMonthData, getSheetTabs, findCurrentMonthTab, ensureHowToTab, ensureConfigTab, readTabColors, readConfig, rewriteTab, readTabGrid } from './sheets.js';
-import { syncMonthlyTabs } from './cron.js';
+import { getCurrentMonthData, getSheetTabs, findCurrentMonthTab, ensureHowToTab, ensureConfigTab, readTabColors, readConfig, rewriteTab, readTabGrid, getTabData, monthTabName } from './sheets.js';
+import { syncMonthlyTabs, regenerateAllTabs } from './cron.js';
 import { buildTitle, getTodaysJumuahTime } from './utils.js';
 
 const app = express();
@@ -27,11 +27,80 @@ function setCached(key: string, data: Buffer): void {
   cache.set(key, { data, ts: Date.now() });
 }
 
+interface KnownConfig {
+  showMaghribStart: boolean;
+  showIshaStart: boolean;
+  calculationMethod: number;
+  school: number;
+  timeOffsets: {
+    fajr: number; sunrise: number; dhuhr: number; asr: number; maghrib: number; isha: number;
+  };
+}
+
+let knownConfig: KnownConfig | null = null;
+let isRegenerating = false;
+
+function configToKnown(config: import('./sheets.js').SheetConfig): KnownConfig {
+  return {
+    showMaghribStart: config.showMaghribStart,
+    showIshaStart: config.showIshaStart,
+    calculationMethod: config.calculationMethod,
+    school: config.school,
+    timeOffsets: { ...config.timeOffsets },
+  };
+}
+
+function configChanged(current: KnownConfig, known: KnownConfig): boolean {
+  return (
+    current.showMaghribStart !== known.showMaghribStart ||
+    current.showIshaStart !== known.showIshaStart ||
+    current.calculationMethod !== known.calculationMethod ||
+    current.school !== known.school ||
+    current.timeOffsets.fajr !== known.timeOffsets.fajr ||
+    current.timeOffsets.sunrise !== known.timeOffsets.sunrise ||
+    current.timeOffsets.dhuhr !== known.timeOffsets.dhuhr ||
+    current.timeOffsets.asr !== known.timeOffsets.asr ||
+    current.timeOffsets.maghrib !== known.timeOffsets.maghrib ||
+    current.timeOffsets.isha !== known.timeOffsets.isha
+  );
+}
+
+async function checkConfigChange(config: import('./sheets.js').SheetConfig): Promise<void> {
+  if (isRegenerating) return;
+  const current = configToKnown(config);
+  if (!knownConfig) {
+    knownConfig = current;
+    return;
+  }
+  if (!configChanged(current, knownConfig)) return;
+
+  isRegenerating = true;
+  try {
+    const regenerated = await regenerateAllTabs();
+    knownConfig = current;
+    cache.delete('poster');
+    console.log(`Config change detected: regenerated ${regenerated.length} tabs`);
+  } catch (err) {
+    console.error('Error during config-change regeneration:', err);
+  } finally {
+    isRegenerating = false;
+  }
+}
+
+// Seed knownConfig on startup so the first request doesn't falsely trigger regeneration
+async function seedKnownConfig(): Promise<void> {
+  try {
+    const { readConfig } = await import('./sheets.js');
+    knownConfig = configToKnown(await readConfig());
+  } catch {}
+}
+
 app.get('/poster', async (req, res) => {
-  const skipCache = req.query.nocache === '1';
+  const skipCache = req.query.nocache === '1' || req.query['no-cache'] === '1';
+  const cacheKey = 'poster';
 
   if (!skipCache) {
-    const cached = getCached('poster');
+    const cached = getCached(cacheKey);
     if (cached) {
       res.set({ 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=3600' });
       res.send(cached);
@@ -40,19 +109,37 @@ app.get('/poster', async (req, res) => {
   }
 
   try {
-    const { times, tabName } = await getCurrentMonthData();
-    const colors = await readTabColors(tabName);
+    const monthParam = req.query.month ? parseInt(req.query.month as string, 10) : NaN;
+    const yearParam = req.query.year ? parseInt(req.query.year as string, 10) : NaN;
+
     const config = await readConfig();
-    const grid = await readTabGrid(tabName);
-    const today = new Date();
-    const monthLabel = today.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase();
-    const title = buildTitle(monthLabel, today.getFullYear(), times);
+    await checkConfigChange(config);
+
+    let times, tabName;
+    let targetDate: Date;
+
+    if (!isNaN(monthParam) && !isNaN(yearParam)) {
+      targetDate = new Date(yearParam, monthParam - 1, 1);
+      const targetTabName = monthTabName(targetDate);
+      times = await getTabData(targetTabName, config);
+      tabName = targetTabName;
+    } else {
+      const data = await getCurrentMonthData(config);
+      times = data.times;
+      tabName = data.tabName;
+      targetDate = new Date();
+    }
+
+    const colors = await readTabColors(tabName, config);
+    const grid = await readTabGrid(tabName, config);
+    const monthLabel = targetDate.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase();
+    const title = buildTitle(monthLabel, targetDate.getFullYear(), times);
     const jumuahTime = getTodaysJumuahTime(times);
 
-    const result = await generatePoster(times, today.getFullYear(), monthLabel, title, jumuahTime, colors, config, grid);
+    const result = await generatePoster(times, targetDate.getFullYear(), monthLabel, title, jumuahTime, colors, config, grid);
     const buf = Buffer.from(result.data);
 
-    setCached('poster', buf);
+    if (!skipCache) setCached(cacheKey, buf);
     res.set({ 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=3600' });
     res.send(buf);
   } catch (error) {
@@ -77,15 +164,32 @@ app.get('/template-preview', async (_req, res) => {
   }
 });
 
-app.get('/table-svg', async (_req, res) => {
+app.get('/table-svg', async (req, res) => {
   try {
-    const { times, tabName } = await getCurrentMonthData();
-    const colors = await readTabColors(tabName);
+    const monthParam = req.query.month ? parseInt(req.query.month as string, 10) : NaN;
+    const yearParam = req.query.year ? parseInt(req.query.year as string, 10) : NaN;
+
     const config = await readConfig();
-    const grid = await readTabGrid(tabName);
+
+    let times, tabName;
+    let targetDate: Date;
+
+    if (!isNaN(monthParam) && !isNaN(yearParam)) {
+      targetDate = new Date(yearParam, monthParam - 1, 1);
+      const targetTabName = monthTabName(targetDate);
+      times = await getTabData(targetTabName, config);
+      tabName = targetTabName;
+    } else {
+      const data = await getCurrentMonthData(config);
+      times = data.times;
+      tabName = data.tabName;
+      targetDate = new Date();
+    }
+
+    const colors = await readTabColors(tabName, config);
+    const grid = await readTabGrid(tabName, config);
     const { buildTableSvg } = await import('./poster.js');
-    const today = new Date();
-    const monthLabel = today.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase();
+    const monthLabel = targetDate.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase();
     const svg = await buildTableSvg(times, monthLabel, colors, config, grid);
     res.set({ 'Content-Type': 'image/svg+xml' });
     res.send(svg);
@@ -134,6 +238,7 @@ app.post('/cron/rewrite', async (req, res) => {
   }
 
   try {
+    const config = await readConfig();
     const tabs = await getSheetTabs();
     const startFilter = (req.query.start as string) || '';
     const endFilter = (req.query.end as string) || '';
@@ -143,7 +248,7 @@ app.post('/cron/rewrite', async (req, res) => {
       if (tab === 'How To' || tab === 'Config') continue;
       if (startFilter && tab.localeCompare(startFilter) < 0) continue;
       if (endFilter && tab.localeCompare(endFilter) > 0) continue;
-      await rewriteTab(tab);
+      await rewriteTab(tab, config);
       rewritten.push(tab);
     }
     res.type('text').send(`Rewrote tabs: ${rewritten.join(', ') || 'none'}`);
@@ -206,7 +311,18 @@ async function start() {
     console.warn('Startup tab sync skipped:', err);
   }
 
+  // Seed known config so first check doesn't false-trigger
+  await seedKnownConfig();
+
+  // Check for config changes and regenerate tabs if needed
   setInterval(async () => {
+    try {
+      const config = await readConfig();
+      await checkConfigChange(config);
+    } catch (err) {
+      console.error('Auto-config-check error:', err);
+    }
+
     const now = new Date();
     if (now.getDate() >= 25) {
       try {

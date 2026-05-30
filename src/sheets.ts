@@ -21,21 +21,64 @@ const auth = new google.auth.JWT({
 
 const sheets: sheets_v4.Sheets = google.sheets({ version: 'v4', auth });
 
-// 12 columns matching the poster layout exactly
-const COL = {
-  DATE: 0,           // Day number only (1, 2, 3...)
-  DAY: 1,            // 3-letter day name
-  ISLAMIC: 2,        // Hijri day or month name when it changes
-  FAJR_START: 3,
-  FAJR_JAMAT: 4,
-  SUNRISE: 5,
-  DHUHR_START: 6,
-  DHUHR_JAMAT: 7,
-  ASR_START: 8,
-  ASR_JAMAT: 9,
-  MAGHRIB_JAMAT: 10,
-  ISHA_JAMAT: 11,
-} as const;
+interface ColumnLayout {
+  DATE: number;
+  DAY: number;
+  ISLAMIC: number;
+  FAJR_START: number;
+  FAJR_JAMAT: number;
+  SUNRISE: number;
+  DHUHR_START: number;
+  DHUHR_JAMAT: number;
+  ASR_START: number;
+  ASR_JAMAT: number;
+  MAGHRIB_START: number;
+  MAGHRIB_JAMAT: number;
+  ISHA_START: number;
+  ISHA_JAMAT: number;
+  totalColumns: number;
+  showMaghribStart: boolean;
+  showIshaStart: boolean;
+}
+
+function getColumnLayout(config?: SheetConfig): ColumnLayout {
+  const showMaghribStart = config?.showMaghribStart ?? false;
+  const showIshaStart = config?.showIshaStart ?? false;
+
+  const DATE = 0;
+  const DAY = 1;
+  const ISLAMIC = 2;
+  const FAJR_START = 3;
+  const FAJR_JAMAT = 4;
+  const SUNRISE = 5;
+  const DHUHR_START = 6;
+  const DHUHR_JAMAT = 7;
+  const ASR_START = 8;
+  const ASR_JAMAT = 9;
+
+  let idx = 10;
+  const MAGHRIB_START = showMaghribStart ? idx++ : -1;
+  const MAGHRIB_JAMAT = idx++;
+  const ISHA_START = showIshaStart ? idx++ : -1;
+  const ISHA_JAMAT = idx++;
+
+  return {
+    DATE, DAY, ISLAMIC, FAJR_START, FAJR_JAMAT, SUNRISE,
+    DHUHR_START, DHUHR_JAMAT, ASR_START, ASR_JAMAT,
+    MAGHRIB_START, MAGHRIB_JAMAT, ISHA_START, ISHA_JAMAT,
+    totalColumns: idx, showMaghribStart, showIshaStart,
+  };
+}
+
+function colToLetter(n: number): string {
+  let s = '';
+  while (n > 0) {
+    n--;
+    s = String.fromCharCode(65 + (n % 26)) + s;
+    n = Math.floor(n / 26);
+  }
+  return s;
+}
 
 export interface SheetColorScheme {
   headerBg: string;
@@ -84,8 +127,37 @@ export async function createTab(name: string): Promise<void> {
   });
 }
 
+export async function renameTab(oldName: string, newName: string): Promise<void> {
+  const sheetsRes = await sheets.spreadsheets.get({ spreadsheetId: SHEET_ID });
+  const sheet = sheetsRes.data.sheets?.find(s => s.properties?.title === oldName);
+  const sheetId = sheet?.properties?.sheetId;
+  if (sheetId == null) return;
+  await sheets.spreadsheets.batchUpdate({
+    spreadsheetId: SHEET_ID,
+    requestBody: {
+      requests: [{
+        updateSheetProperties: {
+          properties: { sheetId, title: newName },
+          fields: 'title',
+        },
+      }],
+    },
+  });
+}
+
+export function correctTabName(tabName: string): string | null {
+  const { month, year } = parseMonthYearFromTab(tabName);
+  if (year < 100) {
+    const corrected = `${MONTH_NAMES_FULL[month - 1]} ${2000 + year}`;
+    if (corrected !== tabName) return corrected;
+  }
+  return null;
+}
+
+const MONTH_NAMES_FULL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
 export function monthTabName(date: Date): string {
-  return date.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+  return `${MONTH_NAMES_FULL[date.getMonth()]} ${date.getFullYear()}`;
 }
 
 export function findCurrentMonthTab(tabs: string[]): string | null {
@@ -101,15 +173,20 @@ export function parseMonthYearFromTab(tabName: string): { month: number; year: n
   const parts = tabName.split(' ');
   const year = parseInt(parts[parts.length - 1], 10);
   const monthName = parts.slice(0, -1).join(' ');
-  const monthNames = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
-  const month = monthNames.indexOf(monthName.toLowerCase()) + 1;
-  return { month, year };
+  const month = MONTH_NAMES_FULL.findIndex(
+    n => n.toLowerCase() === monthName.toLowerCase()
+  ) + 1;
+  return { month: month > 0 ? month : 1, year: isNaN(year) ? 2000 : year };
 }
 
-export async function readTab(name: string): Promise<PrayerTime[]> {
+export async function readTab(name: string, config?: SheetConfig): Promise<PrayerTime[]> {
+  const cfg = config ?? await readConfig();
+  const col = getColumnLayout(cfg);
+  const rangeEnd = colToLetter(col.totalColumns);
+
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: SHEET_ID,
-    range: `${name}!A:L`,
+    range: `${name}!A:${rangeEnd}`,
   });
   const rows = res.data.values || [];
   if (rows.length < 2) return [];
@@ -117,16 +194,16 @@ export async function readTab(name: string): Promise<PrayerTime[]> {
   // Detect header format
   const hasTwoHeaders = rows.length > 1 && ['Date', 'DATE', 'Day', 'DAY'].includes(rows[1][0]);
   const dataStartIndex = hasTwoHeaders ? 2 : 1;
-  const dataRows = rows.slice(dataStartIndex).filter(r => r[COL.DATE] && String(r[COL.DATE]).trim());
+  const dataRows = rows.slice(dataStartIndex).filter(r => r[col.DATE] && String(r[col.DATE]).trim());
 
   const { month: tabMonth, year: tabYear } = parseMonthYearFromTab(name);
   const hijriYear = await getTabHijriYear(name);
 
   return dataRows.map((r, idx) => {
-    const dayStr = String(r[COL.DATE] || '').trim().split('-')[0];
+    const dayStr = String(r[col.DATE] || '').trim().split('-')[0];
     const dayNum = parseInt(dayStr, 10) || 1;
     const dateStr = `${String(dayNum).padStart(2, '0')}-${String(tabMonth).padStart(2, '0')}-${tabYear}`;
-    const islamicVal = (r[COL.ISLAMIC] || '').trim();
+    const islamicVal = (r[col.ISLAMIC] || '').trim();
 
     // Determine if Islamic value is a day number or month name
     const isMonthName = isNaN(Number(islamicVal));
@@ -137,7 +214,7 @@ export async function readTab(name: string): Promise<PrayerTime[]> {
     let hijriMonthName = hijriMonth;
     if (!hijriMonthName && idx > 0) {
       for (let i = idx - 1; i >= 0; i--) {
-        const val = (dataRows[i][COL.ISLAMIC] || '').trim();
+        const val = (dataRows[i][col.ISLAMIC] || '').trim();
         if (isNaN(Number(val))) {
           hijriMonthName = val;
           break;
@@ -147,7 +224,7 @@ export async function readTab(name: string): Promise<PrayerTime[]> {
 
     return {
       date: dateStr,
-      dayName: (r[COL.DAY] || '').trim(),
+      dayName: (r[col.DAY] || '').trim(),
       dayNumber: String(dayNum),
       gregorianDate: `${dayNum} ${['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][tabMonth - 1] || ''}`,
       hijriDate: `${hijriDay || islamicVal}`,
@@ -156,26 +233,29 @@ export async function readTab(name: string): Promise<PrayerTime[]> {
       hijriMonthEn: (hijriMonthName || islamicVal).toUpperCase(),
       hijriMonthNumber: 1,
       hijriYear: hijriYear,
-      fajrStart: (r[COL.FAJR_START] || '').trim(),
-      fajrJamat: (r[COL.FAJR_JAMAT] || '').trim(),
-      sunrise: (r[COL.SUNRISE] || '').trim(),
-      dhuhrStart: (r[COL.DHUHR_START] || '').trim(),
-      dhuhrJamat: (r[COL.DHUHR_JAMAT] || '').trim(),
-      asrStart: (r[COL.ASR_START] || '').trim(),
-      asrJamat: (r[COL.ASR_JAMAT] || '').trim(),
-      maghribStart: '',
-      maghribJamat: (r[COL.MAGHRIB_JAMAT] || '').trim(),
-      ishaStart: '',
-      ishaJamat: (r[COL.ISHA_JAMAT] || '').trim(),
+      fajrStart: (r[col.FAJR_START] || '').trim(),
+      fajrJamat: (r[col.FAJR_JAMAT] || '').trim(),
+      sunrise: (r[col.SUNRISE] || '').trim(),
+      dhuhrStart: (r[col.DHUHR_START] || '').trim(),
+      dhuhrJamat: (r[col.DHUHR_JAMAT] || '').trim(),
+      asrStart: (r[col.ASR_START] || '').trim(),
+      asrJamat: (r[col.ASR_JAMAT] || '').trim(),
+      maghribStart: col.MAGHRIB_START >= 0 ? (r[col.MAGHRIB_START] || '').trim() : '',
+      maghribJamat: (r[col.MAGHRIB_JAMAT] || '').trim(),
+      ishaStart: col.ISHA_START >= 0 ? (r[col.ISHA_START] || '').trim() : '',
+      ishaJamat: (r[col.ISHA_JAMAT] || '').trim(),
     };
   });
 }
 
-export async function readTabColors(name: string): Promise<SheetColorScheme> {
+export async function readTabColors(name: string, config?: SheetConfig): Promise<SheetColorScheme> {
   try {
+    const cfg = config ?? await readConfig();
+    const col = getColumnLayout(cfg);
+    const rangeEnd = colToLetter(Math.max(col.totalColumns, 12));
     const res = await sheets.spreadsheets.get({
       spreadsheetId: SHEET_ID,
-      ranges: [`${name}!A1:L15`],
+      ranges: [`${name}!A1:${rangeEnd}15`],
       includeGridData: true,
     });
     
@@ -245,13 +325,18 @@ function getIslamicDisplayValue(t: PrayerTime, prevT: PrayerTime | null): string
   return t.hijriDay;
 }
 
-export async function rewriteTab(name: string): Promise<void> {
-  const times = await readTab(name);
+export async function rewriteTab(name: string, config?: SheetConfig): Promise<void> {
+  const cfg = config ?? await readConfig();
+  const times = await readTab(name, cfg);
   if (times.length === 0) return;
-  await writeTab(name, times);
+  await writeTab(name, times, cfg);
 }
 
-export async function writeTab(name: string, times: PrayerTime[]): Promise<void> {
+export async function writeTab(name: string, times: PrayerTime[], config?: SheetConfig): Promise<void> {
+  const cfg = config ?? await readConfig();
+  const col = getColumnLayout(cfg);
+  const { showMaghribStart, showIshaStart } = cfg;
+
   // Get Islamic month name for header (scan for first non-numeric month name)
   const firstMonthName = times.find(t => t.hijriMonth && isNaN(Number(t.hijriMonth)))?.hijriMonth || '';
 
@@ -274,7 +359,7 @@ export async function writeTab(name: string, times: PrayerTime[]): Promise<void>
 
   const rows = times.map((t, i) => {
     const prevT = i > 0 ? times[i - 1] : null;
-    return [
+    const row: string[] = [
       t.dayNumber,
       t.dayName,
       getIslamicDisplayValue(t, prevT),
@@ -285,30 +370,39 @@ export async function writeTab(name: string, times: PrayerTime[]): Promise<void>
       t.dhuhrJamat,
       t.asrStart,
       t.asrJamat,
-      t.maghribJamat,
-      t.ishaJamat,
     ];
+    if (showMaghribStart) row.push(t.maghribStart);
+    row.push(t.maghribJamat);
+    if (showIshaStart) row.push(t.ishaStart);
+    row.push(t.ishaJamat);
+    return row;
   });
 
+  // Extract month name from tab name for header (e.g., "May 2026" → "MAY")
+  const { month: headerMonth } = parseMonthYearFromTab(name);
+  const monthNameHeader = MONTH_NAMES_FULL[headerMonth - 1].toUpperCase();
+
   // Row 1: Prayer group names (matching poster)
-  const headerRow1 = [
-    'MAY', '', '',
-    'FAJR', '', '',
-    'DHUHR', '',
-    'ASR', '',
-    'MAGHRIB',
-    'ISHA',
-  ];
+  const headerRow1: string[] = [];
+  headerRow1.push(monthNameHeader, '', '');
+  headerRow1.push('FAJR', '', '');
+  headerRow1.push('DHUHR', '');
+  headerRow1.push('ASR', '');
+  headerRow1.push('MAGHRIB');
+  if (showMaghribStart) headerRow1.push('');
+  headerRow1.push('ISHA');
+  if (showIshaStart) headerRow1.push('');
 
   // Row 2: Column labels (matching poster)
-  const headerRow2 = [
-    'DATE', 'DAY', firstMonthName.toUpperCase(),
-    'START', 'JAMAT', 'SUNRISE',
-    'START', 'JAMAT',
-    'START', 'JAMAT',
-    'JAMAT',
-    'JAMAT',
-  ];
+  const headerRow2: string[] = [];
+  headerRow2.push('DATE', 'DAY', firstMonthName.toUpperCase());
+  headerRow2.push('START', 'JAMAT', 'SUNRISE');
+  headerRow2.push('START', 'JAMAT');
+  headerRow2.push('START', 'JAMAT');
+  if (showMaghribStart) headerRow2.push('START');
+  headerRow2.push('JAMAT');
+  if (showIshaStart) headerRow2.push('START');
+  headerRow2.push('JAMAT');
 
   // Save hijri year to Config tab before clearing (so readTab can find it)
   const firstHijriYear = times.find(t => t.hijriYear)?.hijriYear || '';
@@ -320,6 +414,7 @@ export async function writeTab(name: string, times: PrayerTime[]): Promise<void>
     range: `${name}!A:Z`,
   });
 
+  const rangeEnd = colToLetter(col.totalColumns);
   await sheets.spreadsheets.values.update({
     spreadsheetId: SHEET_ID,
     range: `${name}!A1`,
@@ -333,14 +428,28 @@ export async function writeTab(name: string, times: PrayerTime[]): Promise<void>
   const requests: sheets_v4.Schema$Request[] = [];
 
   // Merge cells for prayer groups in row 1
-  const merges = [
+  const merges: { start: number; end: number }[] = [
     { start: 0, end: 3 },   // MAY spans DATE, DAY, ISLAMIC
     { start: 3, end: 6 },   // FAJR spans START, JAMAT, SUNRISE
     { start: 6, end: 8 },   // DHUHR spans START, JAMAT
     { start: 8, end: 10 },  // ASR spans START, JAMAT
-    { start: 10, end: 11 }, // MAGHRIB (single column)
-    { start: 11, end: 12 }, // ISHA (single column)
   ];
+  let mg = 10;
+  if (showMaghribStart) {
+    merges.push({ start: mg, end: mg + 2 }); // MAGHRIB spans START + JAMAT
+    mg += 2;
+  } else {
+    merges.push({ start: mg, end: mg + 1 }); // MAGHRIB (JAMAT only)
+    mg += 1;
+  }
+  if (showIshaStart) {
+    merges.push({ start: mg, end: mg + 2 }); // ISHA spans START + JAMAT
+    mg += 2;
+  } else {
+    merges.push({ start: mg, end: mg + 1 }); // ISHA (JAMAT only)
+    mg += 1;
+  }
+
   for (const m of merges) {
     requests.push({
       mergeCells: {
@@ -353,7 +462,7 @@ export async function writeTab(name: string, times: PrayerTime[]): Promise<void>
   // Format row 1 (prayer group names)
   requests.push({
     repeatCell: {
-      range: { sheetId, startRowIndex: 0, endRowIndex: 1, startColumnIndex: 0, endColumnIndex: 12 },
+      range: { sheetId, startRowIndex: 0, endRowIndex: 1, startColumnIndex: 0, endColumnIndex: col.totalColumns },
       cell: {
         userEnteredFormat: {
           backgroundColor: { red: 0.384, green: 0.071, blue: 0.106 },
@@ -369,7 +478,7 @@ export async function writeTab(name: string, times: PrayerTime[]): Promise<void>
   // Format row 2 (sub-headers)
   requests.push({
     repeatCell: {
-      range: { sheetId, startRowIndex: 1, endRowIndex: 2, startColumnIndex: 0, endColumnIndex: 12 },
+      range: { sheetId, startRowIndex: 1, endRowIndex: 2, startColumnIndex: 0, endColumnIndex: col.totalColumns },
       cell: {
         userEnteredFormat: {
           backgroundColor: { red: 0.384, green: 0.071, blue: 0.106 },
@@ -390,7 +499,7 @@ export async function writeTab(name: string, times: PrayerTime[]): Promise<void>
     if (isFriday) {
       requests.push({
         repeatCell: {
-          range: { sheetId, startRowIndex: rowIndex, endRowIndex: rowIndex + 1, startColumnIndex: 0, endColumnIndex: 12 },
+          range: { sheetId, startRowIndex: rowIndex, endRowIndex: rowIndex + 1, startColumnIndex: 0, endColumnIndex: col.totalColumns },
           cell: {
             userEnteredFormat: {
               backgroundColor: { red: 0.384, green: 0.071, blue: 0.106 },
@@ -408,11 +517,11 @@ export async function writeTab(name: string, times: PrayerTime[]): Promise<void>
         : { red: 0.91, green: 0.91, blue: 0.91 };
       requests.push({
         repeatCell: {
-          range: { sheetId, startRowIndex: rowIndex, endRowIndex: rowIndex + 1, startColumnIndex: 0, endColumnIndex: 12 },
+          range: { sheetId, startRowIndex: rowIndex, endRowIndex: rowIndex + 1, startColumnIndex: 0, endColumnIndex: col.totalColumns },
           cell: {
             userEnteredFormat: {
               backgroundColor: bg,
-              textFormat: { foregroundColor: { red: 0.384, green: 0.071, blue: 0.106 } },
+              textFormat: { bold: true, foregroundColor: { red: 0.384, green: 0.071, blue: 0.106 } },
               horizontalAlignment: 'CENTER',
               verticalAlignment: 'MIDDLE',
             },
@@ -426,7 +535,7 @@ export async function writeTab(name: string, times: PrayerTime[]): Promise<void>
   // Add borders
   requests.push({
     updateBorders: {
-      range: { sheetId, startRowIndex: 0, endRowIndex: 2 + times.length, startColumnIndex: 0, endColumnIndex: 12 },
+      range: { sheetId, startRowIndex: 0, endRowIndex: 2 + times.length, startColumnIndex: 0, endColumnIndex: col.totalColumns },
       top: { style: 'SOLID', width: 2, color: { red: 0.384, green: 0.071, blue: 0.106 } },
       bottom: { style: 'SOLID', width: 2, color: { red: 0.384, green: 0.071, blue: 0.106 } },
       left: { style: 'SOLID', width: 2, color: { red: 0.384, green: 0.071, blue: 0.106 } },
@@ -439,14 +548,14 @@ export async function writeTab(name: string, times: PrayerTime[]): Promise<void>
   // Auto-resize columns
   requests.push({
     autoResizeDimensions: {
-      dimensions: { sheetId, dimension: 'COLUMNS', startIndex: 0, endIndex: 12 },
+      dimensions: { sheetId, dimension: 'COLUMNS', startIndex: 0, endIndex: col.totalColumns },
     },
   });
 
-  // Clear formatting on columns beyond the table (13+) to remove leftover borders/colors from old format
+  // Clear formatting on columns beyond the table to remove leftover borders/colors from old format
   requests.push({
     repeatCell: {
-      range: { sheetId, startRowIndex: 0, endRowIndex: 2 + times.length, startColumnIndex: 12, endColumnIndex: 26 },
+      range: { sheetId, startRowIndex: 0, endRowIndex: 2 + times.length, startColumnIndex: col.totalColumns, endColumnIndex: 26 },
       cell: { userEnteredFormat: { backgroundColor: { red: 1, green: 1, blue: 1 } } },
       fields: 'userEnteredFormat.backgroundColor',
     },
@@ -516,10 +625,14 @@ function cellFormatFromGrid(cell?: sheets_v4.Schema$CellData): SheetCellFormat {
   return { bgColor: bg, textColor: fg, bold, fontSize, horizontalAlignment: ha, verticalText };
 }
 
-export async function readTabGrid(name: string): Promise<SheetGrid> {
+export async function readTabGrid(name: string, config?: SheetConfig): Promise<SheetGrid> {
+  const cfg = config ?? await readConfig();
+  const col = getColumnLayout(cfg);
+  const rangeEnd = colToLetter(col.totalColumns);
+
   const res = await sheets.spreadsheets.get({
     spreadsheetId: SHEET_ID,
-    ranges: [`${name}!A1:L40`],
+    ranges: [`${name}!A1:${rangeEnd}40`],
     includeGridData: true,
   });
 
@@ -539,7 +652,7 @@ export async function readTabGrid(name: string): Promise<SheetGrid> {
     const row = rowData[i];
     const vals: string[] = [];
     if (row?.values) {
-      for (let c = 0; c < 12; c++) {
+      for (let c = 0; c < col.totalColumns; c++) {
         vals.push(row.values[c]?.formattedValue || row.values[c]?.effectiveValue?.stringValue || '');
       }
     }
@@ -552,7 +665,7 @@ export async function readTabGrid(name: string): Promise<SheetGrid> {
     const vals: string[] = [];
     const fmts: SheetCellFormat[] = [];
     if (row?.values) {
-      for (let c = 0; c < 12; c++) {
+      for (let c = 0; c < col.totalColumns; c++) {
         const cell = row.values[c];
         vals.push(cell?.formattedValue || cell?.effectiveValue?.stringValue || '');
         fmts.push(cellFormatFromGrid(cell));
@@ -587,22 +700,48 @@ export async function readTabGrid(name: string): Promise<SheetGrid> {
   return { headers, rows: dataRows, merges: sheetMerges };
 }
 
-export async function getCurrentMonthData(): Promise<{ times: PrayerTime[]; tabName: string }> {
+export async function getTabData(tabName: string, config?: SheetConfig): Promise<PrayerTime[]> {
+  const tabs = await getSheetTabs();
+  if (!tabs.includes(tabName)) throw new Error(`Tab "${tabName}" not found`);
+  return await readTab(tabName, config);
+}
+
+export async function getCurrentMonthData(config?: SheetConfig): Promise<{ times: PrayerTime[]; tabName: string }> {
   const tabs = await getSheetTabs();
   const tab = findCurrentMonthTab(tabs);
   if (!tab) throw new Error('No current month tab found');
-  const times = await readTab(tab);
+  const times = await readTab(tab, config);
   return { times, tabName: tab };
 }
 
 export interface SheetConfig {
   showMaghribStart: boolean;
   showIshaStart: boolean;
+  calculationMethod: number;
+  school: number;
+  timeOffsets: {
+    fajr: number;
+    sunrise: number;
+    dhuhr: number;
+    asr: number;
+    maghrib: number;
+    isha: number;
+  };
 }
 
 const DEFAULT_CONFIG: SheetConfig = {
   showMaghribStart: false,
   showIshaStart: false,
+  calculationMethod: 15,
+  school: 0,
+  timeOffsets: {
+    fajr: 0,
+    sunrise: 0,
+    dhuhr: 0,
+    asr: 0,
+    maghrib: 0,
+    isha: 0,
+  },
 };
 
 export interface SheetCellFormat {
@@ -634,6 +773,13 @@ function parseConfigValue(value: string): boolean {
   return v === 'true' || v === 'yes' || v === '1' || v === 'on';
 }
 
+function parseNumericConfig(value: string): number {
+  const trimmed = value.trim();
+  if (trimmed === '') return 0;
+  const parsed = parseInt(trimmed, 10);
+  return isNaN(parsed) ? 0 : parsed;
+}
+
 export async function readConfig(): Promise<SheetConfig> {
   try {
     const res = await sheets.spreadsheets.values.get({
@@ -643,12 +789,26 @@ export async function readConfig(): Promise<SheetConfig> {
     const rows = res.data.values || [];
     if (rows.length < 2) return DEFAULT_CONFIG;
 
-    const config: SheetConfig = { ...DEFAULT_CONFIG };
+    const config: SheetConfig = {
+      showMaghribStart: DEFAULT_CONFIG.showMaghribStart,
+      showIshaStart: DEFAULT_CONFIG.showIshaStart,
+      calculationMethod: DEFAULT_CONFIG.calculationMethod,
+      school: DEFAULT_CONFIG.school,
+      timeOffsets: { ...DEFAULT_CONFIG.timeOffsets },
+    };
     for (const row of rows.slice(1)) {
       const key = (row[0] || '').trim().toLowerCase();
       const value = (row[1] || '').trim();
       if (key === 'showmaghribstart') config.showMaghribStart = parseConfigValue(value);
       if (key === 'showishastart') config.showIshaStart = parseConfigValue(value);
+      if (key === 'calculationmethod') { const n = parseNumericConfig(value); if (n > 0) config.calculationMethod = n; }
+      if (key === 'school') { const n = parseNumericConfig(value); if (n >= 0) config.school = n; }
+      if (key === 'fajroffset') config.timeOffsets.fajr = parseNumericConfig(value);
+      if (key === 'sunriseoffset') config.timeOffsets.sunrise = parseNumericConfig(value);
+      if (key === 'dhiroffset') config.timeOffsets.dhuhr = parseNumericConfig(value);
+      if (key === 'asroffset') config.timeOffsets.asr = parseNumericConfig(value);
+      if (key === 'maghriboffset') config.timeOffsets.maghrib = parseNumericConfig(value);
+      if (key === 'ishaoffset') config.timeOffsets.isha = parseNumericConfig(value);
     }
     return config;
   } catch (err) {
@@ -657,24 +817,55 @@ export async function readConfig(): Promise<SheetConfig> {
   }
 }
 
+const CONFIG_DEFAULTS: [string, string][] = [
+  ['showMaghribStart', 'FALSE'],
+  ['showIshaStart', 'FALSE'],
+  ['calculationMethod', '15'],
+  ['school', '0'],
+  ['fajrOffset', '0'],
+  ['sunriseOffset', '0'],
+  ['dhuhrOffset', '0'],
+  ['asrOffset', '0'],
+  ['maghribOffset', '0'],
+  ['ishaOffset', '0'],
+];
+
 export async function ensureConfigTab(): Promise<void> {
   const tabs = await getSheetTabs();
-  if (tabs.includes('Config')) return;
+  if (!tabs.includes('Config')) {
+    await createTab('Config');
+    const content: string[][] = [['Setting', 'Value', 'HijriYear']];
+    for (const [setting, value] of CONFIG_DEFAULTS) {
+      content.push([setting, value, '']);
+    }
+    await sheets.spreadsheets.values.update({
+      spreadsheetId: SHEET_ID,
+      range: 'Config!A1',
+      valueInputOption: 'RAW',
+      requestBody: { values: content },
+    });
+    return;
+  }
 
-  await createTab('Config');
-
-  const content = [
-    ['Setting', 'Value', 'HijriYear'],
-    ['showMaghribStart', 'FALSE', ''],
-    ['showIshaStart', 'FALSE', ''],
-  ];
-
-  await sheets.spreadsheets.values.update({
-    spreadsheetId: SHEET_ID,
-    range: 'Config!A1',
-    valueInputOption: 'RAW',
-    requestBody: { values: content },
-  });
+  // Sync missing settings into existing Config tab
+  const existing = await getExistingConfigRows();
+  const existingKeys = new Set(existing.slice(1).map(r => (r[0] || '').trim().toLowerCase()));
+  const missing: string[][] = [];
+  for (const [setting, value] of CONFIG_DEFAULTS) {
+    if (!existingKeys.has(setting.toLowerCase())) {
+      missing.push([setting, value, '']);
+    }
+  }
+  if (missing.length > 0) {
+    const nextRow = existing.length + 1;
+    const rangeEnd = `A${nextRow}`;
+    await sheets.spreadsheets.values.update({
+      spreadsheetId: SHEET_ID,
+      range: `Config!${rangeEnd}`,
+      valueInputOption: 'RAW',
+      requestBody: { values: missing },
+    });
+  }
 }
 
 async function getExistingConfigRows(): Promise<string[][]> {

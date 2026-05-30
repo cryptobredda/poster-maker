@@ -491,7 +491,7 @@ function findMerge(row: number, col: number, merges: SheetMerge[]): SheetMerge |
   return merges.find(m => row >= m.startRow && row < m.endRow && col >= m.startCol && col < m.endCol) || null;
 }
 
-function buildTableFromGrid(grid: SheetGrid, monthName: string, sheetColors?: SheetColorScheme, config?: SheetConfig): string {
+function buildTableFromGrid(grid: SheetGrid, monthName: string, sheetColors?: SheetColorScheme, config?: SheetConfig, times?: PrayerTime[]): string {
   const C = buildColors(sheetColors);
   const f = FONTS.inter;
   const p: string[] = [];
@@ -598,7 +598,7 @@ function buildTableFromGrid(grid: SheetGrid, monthName: string, sheetColors?: Sh
           if (mergeH > ROW_H * 2) fs = 8;
           if (mergeW < 40) fs = 5.5;
 
-          const font = merge.format.bold ? f.bold : f.regular;
+          const font = f.bold;
 
           // Render vertical text for tall narrow merges (height > width * 1.5)
           const shouldRotate = merge.format.verticalText || (mergeH > mergeW * 1.5);
@@ -611,11 +611,14 @@ function buildTableFromGrid(grid: SheetGrid, monthName: string, sheetColors?: Sh
         continue;
       }
 
-      const val = row.values[c] || '';
+      let val = row.values[c] || '';
+      if (!val && times && r < times.length && col.key) {
+        val = String((times[r] as any)[col.key] || '');
+      }
       if (!val) continue;
       const fmt = row.formats[c] || { bgColor: '', textColor: '', bold: false };
       const textC = fmt.textColor || C.text;
-      const font = fmt.bold ? f.bold : f.regular;
+      const font = f.bold;
       let fs = fmt.fontSize ? Math.min(fmt.fontSize, 7) : 7;
       if (val.length > 10) fs = 5.5;
 
@@ -641,7 +644,7 @@ export async function buildTableSvg(times: PrayerTime[], monthLabel: string, col
   const dataRowCount = grid?.rows.length ?? times.length;
   const tableH = HEADER_H + dataRowCount * ROW_H;
   const content = grid
-    ? buildTableFromGrid(grid, monthLabel, colors, config)
+    ? buildTableFromGrid(grid, monthLabel, colors, config, times)
     : buildTable(times, monthLabel, colors, config);
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${layout.tableW}" height="${tableH}" viewBox="0 0 ${layout.tableW} ${tableH}">${content}</svg>`;
 }
@@ -689,7 +692,7 @@ export async function generatePoster(
   const dataRowCount = grid?.rows.length ?? times.length;
   const tableH = HEADER_H + dataRowCount * ROW_H;
   const tableContent = grid
-    ? buildTableFromGrid(grid, monthLabel, colors, config)
+    ? buildTableFromGrid(grid, monthLabel, colors, config, times)
     : buildTable(times, monthLabel, colors, config);
   const layout = buildTableLayout(config);
   const scaledW = Math.ceil(tableArea.width);
