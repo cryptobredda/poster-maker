@@ -177,10 +177,10 @@ function buildColors(scheme?: SheetColorScheme): ColorScheme {
   };
 }
 
-const H1 = 20;
-const H2 = 14;
+const H1 = 24;
+const H2 = 18;
 const HEADER_H = H1 + H2;
-const ROW_H = 14;
+const ROW_H = 18;
 
 interface TableColumn {
   x: number;
@@ -229,6 +229,7 @@ function buildTableLayout(config?: SheetConfig): TableLayout {
   columns.push({ x, w: 48, key: 'ishaJamat', label: 'JAMAT', headerLabel: 'ISHA' }); x += 48;
 
   const groups: { name: string; x: number; w: number; headerSub?: string }[] = [
+    { name: 'MONTH', x: 0, w: 36 + 36 + 70 },
     { name: 'FAJR', x: 142, w: 48 + 48 + 48 },
     { name: 'DHUHR', x: 286, w: 48 + 48 },
     { name: 'ASR', x: 382, w: 48 + 48 },
@@ -313,6 +314,28 @@ function svgText(
   return paths.join('\n');
 }
 
+function measureText(text: string, fontSize: number, font: any): number {
+  const meta = font._meta;
+  if (!meta) return 0;
+  const scale = fontSize / meta.unitsPerEm;
+  let totalWidth = 0;
+  for (const char of text) {
+    const glyph = getGlyphPaths(char, font);
+    let adv: number;
+    if (glyph && glyph.aw) {
+      adv = glyph.aw * scale;
+    } else if (char === ' ') {
+      adv = fontSize * 0.25;
+    } else if (glyph) {
+      adv = (glyph.x2 - glyph.x1) * scale;
+    } else {
+      adv = fontSize * 0.3;
+    }
+    totalWidth += adv;
+  }
+  return totalWidth;
+}
+
 function svgTextRotated(
   text: string,
   x: number,
@@ -344,10 +367,10 @@ function getCellValue(current: string, previous: string | null, key: string): st
 function getIslamicDateCell(t: PrayerTime, prevT: PrayerTime | null): { text: string; fontSize: number } {
   if (prevT && t.hijriMonthNumber !== prevT.hijriMonthNumber) {
     const monthName = t.hijriMonth;
-    const fontSize = monthName.length > 8 ? 5.5 : 7;
+    const fontSize = monthName.length > 8 ? 7 : 9;
     return { text: monthName, fontSize };
   }
-  return { text: t.hijriDay, fontSize: 7 };
+  return { text: t.hijriDay, fontSize: 9 };
 }
 
 function buildTable(times: PrayerTime[], monthName: string, sheetColors?: SheetColorScheme, config?: SheetConfig): string {
@@ -365,17 +388,24 @@ function buildTable(times: PrayerTime[], monthName: string, sheetColors?: SheetC
 
   p.push(el('rect', { x: 0, y: 0, width: TABLE_W, height: HEADER_H, fill: C.maroon }));
 
-  p.push(svgText(monthName, 72, H1 / 2, 8, C.white, f.bold, 'middle'));
-
   for (const g of layout.groups) {
     const cx = g.x + g.w / 2;
-    p.push(svgText(g.name, cx, H1 / 2, 8, C.headerText, f.bold, 'middle'));
+    const text = g.name === 'MONTH' ? monthName : g.name;
+    const color = g.name === 'MONTH' ? C.white : C.headerText;
+    let fs = 10;
+    if (measureText(text, fs, f.bold) > g.w - 4) {
+      fs = 8;
+      if (measureText(text, fs, f.bold) > g.w - 2) {
+        fs = 7;
+      }
+    }
+    p.push(svgText(text, cx, H1 / 2, fs, color, f.bold, 'middle'));
   }
 
   for (const col of layout.columns) {
     if (col.label) {
       const label = col.key === 'islamic' ? islamicMonthHeader : col.label;
-      const fs = col.key === 'islamic' ? 5.5 : 6;
+      const fs = col.key === 'islamic' ? 7 : 8;
       p.push(svgText(label, col.x + col.w / 2, H1 + H2 / 2, fs, C.headerText, f.bold, 'middle'));
     }
   }
@@ -400,10 +430,10 @@ function buildTable(times: PrayerTime[], monthName: string, sheetColors?: SheetC
     p.push(el('line', { x1: 0, y1: ry + ROW_H, x2: TABLE_W, y2: ry + ROW_H, stroke: C.border, 'stroke-width': 0.75 }));
 
     const dateCol = layout.columns.find(c => c.key === 'date')!;
-    p.push(svgText(String(t.dayNumber), dateCol.x + 8, ry + ROW_H / 2, 7, textC, f.bold, 'left'));
+    p.push(svgText(String(t.dayNumber), dateCol.x + 8, ry + ROW_H / 2, 9, textC, f.bold, 'left'));
 
     const dayCol = layout.columns.find(c => c.key === 'day')!;
-    p.push(svgText(t.dayName, dayCol.x + dayCol.w / 2, ry + ROW_H / 2, 7, textC, f.bold, 'middle'));
+    p.push(svgText(t.dayName, dayCol.x + dayCol.w / 2, ry + ROW_H / 2, 9, textC, f.bold, 'middle'));
 
     const islamicCol = layout.columns.find(c => c.key === 'islamic')!;
     const islamicVal = getIslamicDateCell(t, prevT);
@@ -415,14 +445,20 @@ function buildTable(times: PrayerTime[], monthName: string, sheetColors?: SheetC
       const currentVal = String((t as any)[col.key] || '');
       const val = getCellValue(currentVal, prevVal, col.key);
       if (!val) continue;
-      p.push(svgText(val, col.x + col.w / 2, ry + ROW_H / 2, 7, textC, f.bold, 'middle'));
+      p.push(svgText(val, col.x + col.w / 2, ry + ROW_H / 2, 9, textC, f.bold, 'middle'));
     }
   }
 
+  // Vertical lines: group boundaries go through entire table; inner columns only from H1 down
+  const groupBoundaries = new Set<number>(layout.groups.map(g => g.x + g.w));
   for (const col of layout.columns) {
     const bx = col.x + col.w;
     if (bx >= TABLE_W) continue;
-    p.push(el('line', { x1: bx, y1: H1, x2: bx, y2: tableH, stroke: C.border, 'stroke-width': 0.75 }));
+    if (groupBoundaries.has(bx)) {
+      p.push(el('line', { x1: bx, y1: 0, x2: bx, y2: tableH, stroke: C.border, 'stroke-width': 0.75 }));
+    } else {
+      p.push(el('line', { x1: bx, y1: H1, x2: bx, y2: tableH, stroke: C.border, 'stroke-width': 0.75 }));
+    }
   }
 
   p.push(el('line', { x1: 0, y1: HEADER_H, x2: TABLE_W, y2: HEADER_H, stroke: C.border, 'stroke-width': 0.75 }));
@@ -513,12 +549,21 @@ function buildTableFromGrid(grid: SheetGrid, monthName: string, sheetColors?: Sh
   // Header background
   p.push(el('rect', { x: 0, y: 0, width: TABLE_W, height: HEADER_H, fill: C.maroon }));
 
-  // Render header row 1 (group names)
-  for (let c = 0; c < layout.columns.length; c++) {
-    const val = headerRow1[c] || '';
-    if (!val) continue;
-    const col = layout.columns[c];
-    p.push(svgText(val, col.x + col.w / 2, H1 / 2, 8, C.headerText, f.bold, 'middle'));
+  // Render header row 1 (group names) at group centers
+  for (const g of layout.groups) {
+    const colIdx = layout.columns.findIndex(c => c.x === g.x);
+    const val = colIdx >= 0 ? headerRow1[colIdx] : '';
+    const text = g.name === 'MONTH' ? (val || monthName) : (val || g.name);
+    if (!text) continue;
+    const color = g.name === 'MONTH' ? C.white : C.headerText;
+    let fs = 10;
+    if (measureText(text, fs, f.bold) > g.w - 4) {
+      fs = 8;
+      if (measureText(text, fs, f.bold) > g.w - 2) {
+        fs = 7;
+      }
+    }
+    p.push(svgText(text, g.x + g.w / 2, H1 / 2, fs, color, f.bold, 'middle'));
   }
 
   // Render header row 2 (column labels)
@@ -526,7 +571,7 @@ function buildTableFromGrid(grid: SheetGrid, monthName: string, sheetColors?: Sh
     const val = headerRow2[c] || '';
     if (!val) continue;
     const col = layout.columns[c];
-    const fs = val.length > 8 ? 5.5 : 6;
+    const fs = val.length > 8 ? 7 : 8;
     p.push(svgText(val, col.x + col.w / 2, H1 + H2 / 2, fs, C.headerText, f.bold, 'middle'));
   }
 
@@ -594,9 +639,9 @@ function buildTableFromGrid(grid: SheetGrid, monthName: string, sheetColors?: Sh
           const cy = ry + mergeH / 2;
           const textC = merge.format.textColor || C.text;
 
-          let fs = 7;
-          if (mergeH > ROW_H * 2) fs = 8;
-          if (mergeW < 40) fs = 5.5;
+          let fs = 9;
+          if (mergeH > ROW_H * 2) fs = 10;
+          if (mergeW < 40) fs = 7;
 
           const font = f.bold;
 
@@ -619,18 +664,23 @@ function buildTableFromGrid(grid: SheetGrid, monthName: string, sheetColors?: Sh
       const fmt = row.formats[c] || { bgColor: '', textColor: '', bold: false };
       const textC = fmt.textColor || C.text;
       const font = f.bold;
-      let fs = fmt.fontSize ? Math.min(fmt.fontSize, 7) : 7;
-      if (val.length > 10) fs = 5.5;
+      let fs = fmt.fontSize ? Math.min(fmt.fontSize, 9) : 9;
+      if (val.length > 10) fs = 7;
 
       p.push(svgText(val, col.x + col.w / 2, ry + ROW_H / 2, fs, textC, font, 'middle'));
     }
   }
 
-  // Vertical column lines
+  // Vertical lines: group boundaries go through entire table; inner columns only from H1 down
+  const groupBoundaries = new Set<number>(layout.groups.map(g => g.x + g.w));
   for (const col of layout.columns) {
     const bx = col.x + col.w;
     if (bx >= TABLE_W) continue;
-    p.push(el('line', { x1: bx, y1: H1, x2: bx, y2: tableH, stroke: C.border, 'stroke-width': 0.75 }));
+    if (groupBoundaries.has(bx)) {
+      p.push(el('line', { x1: bx, y1: 0, x2: bx, y2: tableH, stroke: C.border, 'stroke-width': 0.75 }));
+    } else {
+      p.push(el('line', { x1: bx, y1: H1, x2: bx, y2: tableH, stroke: C.border, 'stroke-width': 0.75 }));
+    }
   }
 
   p.push(el('line', { x1: 0, y1: HEADER_H, x2: TABLE_W, y2: HEADER_H, stroke: C.border, 'stroke-width': 0.75 }));

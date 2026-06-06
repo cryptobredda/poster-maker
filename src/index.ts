@@ -3,7 +3,7 @@ import express from 'express';
 import { generatePoster, generateTemplatePreview } from './poster.js';
 import { getCurrentMonthData, getSheetTabs, findCurrentMonthTab, ensureHowToTab, ensureConfigTab, readTabColors, readConfig, rewriteTab, readTabGrid, getTabData, monthTabName } from './sheets.js';
 import { syncMonthlyTabs, regenerateAllTabs } from './cron.js';
-import { buildTitle, getTodaysJumuahTime } from './utils.js';
+import { buildTitle, getJumuahTime } from './utils.js';
 
 const app = express();
 const PORT = parseInt(process.env.PORT || '3000', 10);
@@ -134,7 +134,7 @@ app.get('/poster', async (req, res) => {
     const grid = await readTabGrid(tabName, config);
     const monthLabel = targetDate.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase();
     const title = buildTitle(monthLabel, targetDate.getFullYear(), times);
-    const jumuahTime = getTodaysJumuahTime(times);
+    const jumuahTime = getJumuahTime(times);
 
     const result = await generatePoster(times, targetDate.getFullYear(), monthLabel, title, jumuahTime, colors, config, grid);
     const buf = Buffer.from(result.data);

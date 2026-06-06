@@ -4,14 +4,14 @@ export const TEMPLATE_CONFIG = {
 
   tableArea: {
     x: 20,
-    y: 372,
+    y: 315,
     width: 1008,
   },
 
   titlePosition: {
     x: 520,
-    y: 305,
-    fontSize: 28,
+    y: 245,
+    fontSize: 36,
   },
 
   location: {

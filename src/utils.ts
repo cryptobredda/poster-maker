@@ -109,12 +109,14 @@ export function buildTitle(monthLabel: string, year: number, times: any[]): stri
   return `${monthLabel} ${year}`;
 }
 
-export function getTodaysJumuahTime(times: any[]): string {
-  const today = new Date();
-  const todayStr = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`;
-  const todayEntry = times.find(t => t.date === todayStr);
-  if (todayEntry && todayEntry.dhuhrJamat) {
-    return formatTime12h(todayEntry.dhuhrJamat);
+export function getJumuahTime(times: any[]): string {
+  // Find the first Friday in the month, or fall back to any entry with dhuhrJamat
+  const fridayEntry = times.find((t: any) => t.dayName === 'FRI' && t.dhuhrJamat);
+  const entry = fridayEntry || times.find((t: any) => t.dhuhrJamat);
+  if (entry && entry.dhuhrJamat) {
+    const val = entry.dhuhrJamat;
+    const [hStr, mStr] = val.split(':');
+    return `${hStr}:${mStr}PM`;
   }
   return '';
 }
