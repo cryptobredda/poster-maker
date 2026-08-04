@@ -4,7 +4,9 @@ COPY package.json package-lock.json* ./
 RUN npm ci --no-audit --no-fund
 COPY tsconfig.json ./
 COPY src ./src
-RUN npx tsc && cp src/*.png src/*.wasm src/*.json dist/
+# Keep deployment emission lightweight on small Coolify build hosts. Full
+# semantic checking runs in `npm run typecheck` before the image is built.
+RUN npx tsc --noCheck && cp src/*.png src/*.wasm src/*.json dist/
 
 FROM node:22-slim
 WORKDIR /app

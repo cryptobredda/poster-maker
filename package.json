@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit --noUnusedLocals --noUnusedParameters && tsc -p test/tsconfig.json",
+    "test": "node --import tsx --test --test-concurrency=1 test/*.test.ts",
     "build": "tsc && cp src/*.png src/*.wasm src/*.json dist/",
     "start": "node dist/index.js",
     "deploy": "echo 'Deploy via Docker or Fly.io'"

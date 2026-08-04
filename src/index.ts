@@ -1,12 +1,64 @@
 import 'dotenv/config';
-import express from 'express';
+import express, { type NextFunction, type Request, type Response } from 'express';
+import { fetchMaghribStartForDate } from './api.js';
 import { generatePoster, generateTemplatePreview } from './poster.js';
-import { getCurrentMonthData, getSheetTabs, findCurrentMonthTab, ensureHowToTab, ensureConfigTab, readTabColors, readConfig, rewriteTab, readTabGrid, getTabData, monthTabName } from './sheets.js';
+import { getCurrentMonthData, getSheetTabs, ensureHowToTab, ensureConfigTab, readTabColors, readConfig, rewriteTab, readTabGrid, getTabData, monthTabName, parseMonthYearFromTab, sortMonthTabsChronologically } from './sheets.js';
 import { syncMonthlyTabs, regenerateAllTabs } from './cron.js';
-import { buildTitle, getJumuahTime } from './utils.js';
+import { buildTitle, getJumuahTime, getLondonDateParts } from './utils.js';
+import { fillMissingMaghribStart, HttpError, normalizePrayerTime, parseMonthYear, parsePrayerDate, posterCacheKey, posterFilename } from './service.js';
 
 const app = express();
 const PORT = parseInt(process.env.PORT || '3000', 10);
+const PUBLIC_CORS_PATHS = new Set(['/prayer-times', '/poster', '/table-svg', '/health']);
+
+function sendStructuredError(res: Response, error: unknown): void {
+  if (error instanceof HttpError) {
+    res.status(error.status).json({
+      error: {
+        code: error.code,
+        message: error.message,
+        ...(error.details ? { details: error.details } : {}),
+      },
+    });
+    return;
+  }
+
+  res.status(500).json({
+    error: {
+      code: 'INTERNAL_ERROR',
+      message: 'The request could not be completed.',
+    },
+  });
+}
+
+app.use((req, res, next) => {
+  if (!PUBLIC_CORS_PATHS.has(req.path)) {
+    next();
+    return;
+  }
+
+  const allowedOrigin = process.env.CORS_ALLOWED_ORIGIN?.trim();
+  const requestOrigin = req.headers.origin;
+  res.vary('Origin');
+  if (allowedOrigin && requestOrigin === allowedOrigin) {
+    res.set({
+      'Access-Control-Allow-Origin': allowedOrigin,
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    });
+  }
+
+  if (req.method === 'OPTIONS') {
+    if (requestOrigin && allowedOrigin && requestOrigin !== allowedOrigin) {
+      res.status(403).json({ error: { code: 'ORIGIN_NOT_ALLOWED', message: 'Origin is not allowed.' } });
+      return;
+    }
+    res.sendStatus(204);
+    return;
+  }
+
+  next();
+});
 
 interface CacheEntry {
   data: Buffer;
@@ -65,6 +117,40 @@ function configChanged(current: KnownConfig, known: KnownConfig): boolean {
   );
 }
 
+async function getSelectedMonth(
+  req: Request,
+  config: import('./sheets.js').SheetConfig,
+): Promise<{ times: import('./api.js').PrayerTime[]; tabName: string; year: number; month: number }> {
+  const explicitSelection = req.query.month !== undefined || req.query.year !== undefined;
+  const selection = parseMonthYear(req.query.month, req.query.year);
+
+  if (explicitSelection) {
+    const targetDate = new Date(selection.year, selection.month - 1, 1);
+    const tabName = monthTabName(targetDate);
+    try {
+      return {
+        times: await getTabData(tabName, config),
+        tabName,
+        ...selection,
+      };
+    } catch (error) {
+      if (error instanceof Error && error.message === `Tab "${tabName}" not found`) {
+        throw new HttpError(404, 'MONTH_NOT_FOUND', `No maintained prayer timetable was found for ${tabName}.`);
+      }
+      throw error;
+    }
+  }
+
+  const data = await getCurrentMonthData(config);
+  const selectedTab = parseMonthYearFromTab(data.tabName);
+  return {
+    times: data.times,
+    tabName: data.tabName,
+    year: selectedTab.year,
+    month: selectedTab.month,
+  };
+}
+
 async function checkConfigChange(config: import('./sheets.js').SheetConfig): Promise<void> {
   if (isRegenerating) return;
   const current = configToKnown(config);
@@ -78,7 +164,7 @@ async function checkConfigChange(config: import('./sheets.js').SheetConfig): Pro
   try {
     const regenerated = await regenerateAllTabs();
     knownConfig = current;
-    cache.delete('poster');
+    cache.clear();
     console.log(`Config change detected: regenerated ${regenerated.length} tabs`);
   } catch (err) {
     console.error('Error during config-change regeneration:', err);
@@ -95,56 +181,94 @@ async function seedKnownConfig(): Promise<void> {
   } catch {}
 }
 
+app.get('/prayer-times', async (req, res) => {
+  try {
+    const date = parsePrayerDate(req.query.date);
+    const config = await readConfig();
+    const [year, month, day] = date.split('-').map(Number);
+    const tabName = monthTabName(new Date(year, month - 1, 1));
+    let monthTimes: import('./api.js').PrayerTime[];
+    try {
+      monthTimes = await getTabData(tabName, config);
+    } catch (error) {
+      if (error instanceof Error && error.message === `Tab "${tabName}" not found`) {
+        throw new HttpError(404, 'PRAYER_TIMES_NOT_FOUND', `No maintained prayer times were found for ${date}.`, { date });
+      }
+      throw error;
+    }
+
+    const sheetDate = `${String(day).padStart(2, '0')}-${String(month).padStart(2, '0')}-${year}`;
+    const maintainedTime = monthTimes.find(time => time.date === sheetDate);
+    if (!maintainedTime) {
+      throw new HttpError(404, 'PRAYER_TIMES_NOT_FOUND', `No maintained prayer times were found for ${date}.`, { date });
+    }
+
+    const maghribStartSource = maintainedTime.maghribStart.trim() ? 'sheet' : 'calculated';
+    const prayerTime = await fillMissingMaghribStart(maintainedTime, async () => {
+      try {
+        return await fetchMaghribStartForDate(date, {
+          calculationMethod: config.calculationMethod,
+          school: config.school,
+          timeOffsets: { ...config.timeOffsets },
+        });
+      } catch {
+        throw new HttpError(502, 'MAGHRIB_CALCULATION_FAILED', 'The missing Maghrib start time could not be calculated.', { date });
+      }
+    });
+
+    res.set('Cache-Control', 'no-store').json(normalizePrayerTime(prayerTime, {
+      isoDate: date,
+      monthTimes,
+      maghribStartSource,
+    }));
+  } catch (error) {
+    console.error('Error reading prayer times:', error instanceof HttpError ? error.code : error);
+    sendStructuredError(res, error);
+  }
+});
+
 app.get('/poster', async (req, res) => {
   const skipCache = req.query.nocache === '1' || req.query['no-cache'] === '1';
-  const cacheKey = 'poster';
-
-  if (!skipCache) {
-    const cached = getCached(cacheKey);
-    if (cached) {
-      res.set({ 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=3600' });
-      res.send(cached);
-      return;
-    }
-  }
 
   try {
-    const monthParam = req.query.month ? parseInt(req.query.month as string, 10) : NaN;
-    const yearParam = req.query.year ? parseInt(req.query.year as string, 10) : NaN;
+    const requestedMonth = parseMonthYear(req.query.month, req.query.year);
+    const cacheKey = posterCacheKey(requestedMonth.year, requestedMonth.month);
+    const filename = posterFilename(requestedMonth.year, requestedMonth.month);
+    const responseHeaders = {
+      'Content-Type': 'image/png',
+      'Cache-Control': skipCache ? 'no-store' : 'public, max-age=1800',
+      'Content-Disposition': req.query.download === '1'
+        ? `attachment; filename="${filename}"`
+        : `inline; filename="${filename}"`,
+    };
+    if (skipCache) res.set('Cache-Control', 'no-store');
+
+    if (!skipCache) {
+      const cached = getCached(cacheKey);
+      if (cached) {
+        res.set(responseHeaders).send(cached);
+        return;
+      }
+    }
 
     const config = await readConfig();
     await checkConfigChange(config);
-
-    let times, tabName;
-    let targetDate: Date;
-
-    if (!isNaN(monthParam) && !isNaN(yearParam)) {
-      targetDate = new Date(yearParam, monthParam - 1, 1);
-      const targetTabName = monthTabName(targetDate);
-      times = await getTabData(targetTabName, config);
-      tabName = targetTabName;
-    } else {
-      const data = await getCurrentMonthData(config);
-      times = data.times;
-      tabName = data.tabName;
-      targetDate = new Date();
-    }
-
+    const { times, tabName, year, month } = await getSelectedMonth(req, config);
+    const targetDate = new Date(year, month - 1, 1);
     const colors = await readTabColors(tabName, config);
     const grid = await readTabGrid(tabName, config);
-    const monthLabel = targetDate.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase();
-    const title = buildTitle(monthLabel, targetDate.getFullYear(), times);
+    const monthLabel = targetDate.toLocaleDateString('en-GB', { month: 'short', timeZone: 'Europe/London' }).toUpperCase();
+    const title = buildTitle(monthLabel, year, times);
     const jumuahTime = getJumuahTime(times);
 
-    const result = await generatePoster(times, targetDate.getFullYear(), monthLabel, title, jumuahTime, colors, config, grid);
+    const result = await generatePoster(times, year, monthLabel, title, jumuahTime, colors, config, grid);
     const buf = Buffer.from(result.data);
 
     if (!skipCache) setCached(cacheKey, buf);
-    res.set({ 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=3600' });
-    res.send(buf);
+    res.set(responseHeaders).send(buf);
   } catch (error) {
-    console.error('Error generating poster:', error);
-    res.status(500).type('text').send(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    console.error('Error generating poster:', error instanceof HttpError ? error.code : error);
+    sendStructuredError(res, error);
   }
 });
 
@@ -166,45 +290,43 @@ app.get('/template-preview', async (_req, res) => {
 
 app.get('/table-svg', async (req, res) => {
   try {
-    const monthParam = req.query.month ? parseInt(req.query.month as string, 10) : NaN;
-    const yearParam = req.query.year ? parseInt(req.query.year as string, 10) : NaN;
-
+    parseMonthYear(req.query.month, req.query.year);
     const config = await readConfig();
-
-    let times, tabName;
-    let targetDate: Date;
-
-    if (!isNaN(monthParam) && !isNaN(yearParam)) {
-      targetDate = new Date(yearParam, monthParam - 1, 1);
-      const targetTabName = monthTabName(targetDate);
-      times = await getTabData(targetTabName, config);
-      tabName = targetTabName;
-    } else {
-      const data = await getCurrentMonthData(config);
-      times = data.times;
-      tabName = data.tabName;
-      targetDate = new Date();
-    }
-
+    const { times, tabName, year, month } = await getSelectedMonth(req, config);
+    const targetDate = new Date(year, month - 1, 1);
     const colors = await readTabColors(tabName, config);
     const grid = await readTabGrid(tabName, config);
     const { buildTableSvg } = await import('./poster.js');
-    const monthLabel = targetDate.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase();
+    const monthLabel = targetDate.toLocaleDateString('en-GB', { month: 'short', timeZone: 'Europe/London' }).toUpperCase();
     const svg = await buildTableSvg(times, monthLabel, colors, config, grid);
     res.set({ 'Content-Type': 'image/svg+xml' });
     res.send(svg);
   } catch (error) {
-    res.status(500).type('text').send(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    console.error('Error generating table SVG:', error instanceof HttpError ? error.code : error);
+    sendStructuredError(res, error);
   }
 });
 
-app.get('/cron/sync', async (req, res) => {
-  const secret = (req.query.secret as string) || req.headers['x-cron-secret'] as string;
-  if (secret !== process.env.CRON_SECRET) {
-    res.status(401).type('text').send('Unauthorized');
+function requireCronSecret(req: Request, res: Response, next: NextFunction): void {
+  const configuredSecret = process.env.CRON_SECRET;
+  if (!configuredSecret) {
+    res.status(503).json({ error: { code: 'CRON_SECRET_NOT_CONFIGURED', message: 'Cron endpoints are unavailable.' } });
     return;
   }
 
+  const querySecret = typeof req.query.secret === 'string' ? req.query.secret : undefined;
+  const headerSecret = typeof req.headers['x-cron-secret'] === 'string' ? req.headers['x-cron-secret'] : undefined;
+  if (querySecret !== configuredSecret && headerSecret !== configuredSecret) {
+    res.status(401).json({ error: { code: 'UNAUTHORIZED', message: 'Unauthorized.' } });
+    return;
+  }
+
+  next();
+}
+
+app.use('/cron', requireCronSecret);
+
+app.get('/cron/sync', async (_req, res) => {
   try {
     const result = await syncMonthlyTabs();
     res.type('text').send(`Synced. Created tabs: ${result.created.join(', ') || 'none'}`);
@@ -214,13 +336,7 @@ app.get('/cron/sync', async (req, res) => {
   }
 });
 
-app.post('/cron/sync', async (req, res) => {
-  const secret = (req.query.secret as string) || req.headers['x-cron-secret'] as string;
-  if (secret !== process.env.CRON_SECRET) {
-    res.status(401).type('text').send('Unauthorized');
-    return;
-  }
-
+app.post('/cron/sync', async (_req, res) => {
   try {
     const result = await syncMonthlyTabs();
     res.type('text').send(`Synced. Created tabs: ${result.created.join(', ') || 'none'}`);
@@ -231,23 +347,22 @@ app.post('/cron/sync', async (req, res) => {
 });
 
 app.post('/cron/rewrite', async (req, res) => {
-  const secret = (req.query.secret as string) || req.headers['x-cron-secret'] as string;
-  if (secret !== process.env.CRON_SECRET) {
-    res.status(401).type('text').send('Unauthorized');
-    return;
-  }
-
   try {
     const config = await readConfig();
     const tabs = await getSheetTabs();
     const startFilter = (req.query.start as string) || '';
     const endFilter = (req.query.end as string) || '';
 
+    const monthTabs = sortMonthTabsChronologically(tabs);
+    const startIndex = startFilter ? monthTabs.indexOf(startFilter) : 0;
+    const endIndex = endFilter ? monthTabs.indexOf(endFilter) : monthTabs.length - 1;
+    if ((startFilter && startIndex < 0) || (endFilter && endIndex < 0) || startIndex > endIndex) {
+      res.status(400).type('text').send('Invalid chronological start/end tab range');
+      return;
+    }
+
     const rewritten: string[] = [];
-    for (const tab of tabs) {
-      if (tab === 'How To' || tab === 'Config') continue;
-      if (startFilter && tab.localeCompare(startFilter) < 0) continue;
-      if (endFilter && tab.localeCompare(endFilter) > 0) continue;
+    for (const tab of monthTabs.slice(startIndex, endIndex + 1)) {
       await rewriteTab(tab, config);
       rewritten.push(tab);
     }
@@ -259,12 +374,6 @@ app.post('/cron/rewrite', async (req, res) => {
 });
 
 app.post('/cron/regenerate', async (req, res) => {
-  const secret = (req.query.secret as string) || req.headers['x-cron-secret'] as string;
-  if (secret !== process.env.CRON_SECRET) {
-    res.status(401).type('text').send('Unauthorized');
-    return;
-  }
-
   const tabName = (req.query.tab as string) || '';
   if (!tabName) {
     res.status(400).type('text').send('Missing ?tab= parameter (e.g. ?tab=May%202026)');
@@ -323,8 +432,8 @@ async function start() {
       console.error('Auto-config-check error:', err);
     }
 
-    const now = new Date();
-    if (now.getDate() >= 25) {
+    const now = getLondonDateParts();
+    if (now.day >= 25) {
       try {
         const result = await syncMonthlyTabs();
         if (result.created.length > 0) {
@@ -341,4 +450,8 @@ async function start() {
   });
 }
 
-start();
+export { app };
+
+if (process.env.NODE_ENV !== 'test') {
+  start();
+}

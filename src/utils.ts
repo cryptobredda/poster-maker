@@ -1,3 +1,36 @@
+export interface LondonDateParts {
+  year: number;
+  month: number;
+  day: number;
+  isoDate: string;
+}
+
+const londonDateFormatter = new Intl.DateTimeFormat('en-GB', {
+  timeZone: 'Europe/London',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+});
+
+export function getLondonDateParts(date = new Date()): LondonDateParts {
+  const parts = londonDateFormatter.formatToParts(date);
+  const year = Number(parts.find(part => part.type === 'year')?.value);
+  const month = Number(parts.find(part => part.type === 'month')?.value);
+  const day = Number(parts.find(part => part.type === 'day')?.value);
+
+  return {
+    year,
+    month,
+    day,
+    isoDate: `${String(year).padStart(4, '0')}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
+  };
+}
+
+export function getLondonMonthDate(date = new Date()): Date {
+  const { year, month } = getLondonDateParts(date);
+  return new Date(year, month - 1, 1);
+}
+
 export function getUKTimezone(date: Date): string {
   const year = date.getFullYear();
   const marchLastSunday = new Date(year, 2, 31);
@@ -64,9 +97,7 @@ export function getDayNumber(dateStr: string): string {
   return day;
 }
 
-export function getHijriYear(dateStr: string): string {
-  const [day, month, year] = dateStr.split('-').map(Number);
-  const date = new Date(year, month - 1, day);
+export function getHijriYear(_dateStr: string): string {
   return '';
 }
 

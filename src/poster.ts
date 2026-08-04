@@ -519,14 +519,6 @@ function drawRect(
   }
 }
 
-function isCellMerged(row: number, col: number, merges: SheetMerge[]): boolean {
-  return merges.some(m => row >= m.startRow && row < m.endRow && col >= m.startCol && col < m.endCol);
-}
-
-function findMerge(row: number, col: number, merges: SheetMerge[]): SheetMerge | null {
-  return merges.find(m => row >= m.startRow && row < m.endRow && col >= m.startCol && col < m.endCol) || null;
-}
-
 function buildTableFromGrid(grid: SheetGrid, monthName: string, sheetColors?: SheetColorScheme, config?: SheetConfig, times?: PrayerTime[]): string {
   const C = buildColors(sheetColors);
   const f = FONTS.inter;
@@ -727,7 +719,7 @@ function buildJumuahTimeSvg(timeText: string, fontSize: number): string {
 
 export async function generatePoster(
   times: PrayerTime[],
-  year: number,
+  _year: number,
   monthLabel: string,
   titleText: string,
   jumuahTimeText: string,

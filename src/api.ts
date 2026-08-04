@@ -196,6 +196,15 @@ async function fetchSingleMonth(year: number, month: number, options?: FetchOpti
   });
 }
 
+export async function fetchMaghribStartForDate(isoDate: string, options?: FetchOptions): Promise<string> {
+  const [year, month, day] = isoDate.split('-').map(Number);
+  const times = await fetchSingleMonth(year, month, options);
+  const targetDate = `${String(day).padStart(2, '0')}-${String(month).padStart(2, '0')}-${year}`;
+  const prayerTime = times.find(time => time.date === targetDate);
+  if (!prayerTime) throw new Error(`No calculated prayer time found for ${isoDate}`);
+  return prayerTime.maghribStart;
+}
+
 export async function fetchPrayerTimesForRange(startDate: Date, endDate: Date, options?: FetchOptions): Promise<{ times: PrayerTime[]; monthLabel: string }> {
   // Determine which months we need to fetch
   const monthsToFetch: Array<{ year: number; month: number }> = [];
@@ -248,7 +257,7 @@ export async function fetchPrayerTimesForRange(startDate: Date, endDate: Date, o
 // Calculate Jamat times based on the Zawia pipeline model
 export function calculateJamaatTimes(times: PrayerTime[]): PrayerTime[] {
   return times.map((t) => {
-    const [day, month, year] = t.date.split('-').map(Number);
+    const [, month] = t.date.split('-').map(Number);
     const summer = isSummer(month);
 
     const fajrStartM = timeToMinutes(t.fajrStart);

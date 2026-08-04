@@ -1,5 +1,6 @@
 import { fetchPrayerTimesForRange, calculateJamaatTimes } from './api.js';
-import { getSheetTabs, getSheetId, createTab, writeTab, monthTabName, parseMonthYearFromTab, readConfig, correctTabName, renameTab } from './sheets.js';
+import { getSheetTabs, getSheetId, createTab, writeTab, monthTabName, parseMonthYearFromTab, readConfig, correctTabName, renameTab, sortMonthTabsChronologically } from './sheets.js';
+import { getLondonMonthDate } from './utils.js';
 
 function configToFetchOptions(config: { calculationMethod: number; school: number; timeOffsets: { fajr: number; sunrise: number; dhuhr: number; asr: number; maghrib: number; isha: number } }) {
   return {
@@ -11,7 +12,7 @@ function configToFetchOptions(config: { calculationMethod: number; school: numbe
 
 export async function syncMonthlyTabs(): Promise<{ created: string[] }> {
   const created: string[] = [];
-  const today = new Date();
+  const today = getLondonMonthDate();
   const tabs = await getSheetTabs();
   const config = await readConfig();
   const fetchOpts = configToFetchOptions(config);
@@ -64,8 +65,7 @@ export async function syncMonthlyTabs(): Promise<{ created: string[] }> {
 export async function regenerateAllTabs(): Promise<string[]> {
   const tabs = await getSheetTabs();
   const regenerated: string[] = [];
-  for (const tab of tabs) {
-    if (tab === 'How To' || tab === 'Config') continue;
+  for (const tab of sortMonthTabsChronologically(tabs)) {
     await regenerateTab(tab);
     regenerated.push(tab);
   }

@@ -1,7 +1,8 @@
 import { google, sheets_v4 } from 'googleapis';
 import type { PrayerTime } from './api.js';
+import { getLondonMonthDate } from './utils.js';
 
-function cleanPrivateKey(raw: string): string {
+function cleanPrivateKey(raw = ''): string {
   let key = raw;
   if (key.startsWith('"')) key = key.slice(1);
   if (key.endsWith('",')) key = key.slice(0, -2);
@@ -160,13 +161,27 @@ export function monthTabName(date: Date): string {
   return `${MONTH_NAMES_FULL[date.getMonth()]} ${date.getFullYear()}`;
 }
 
-export function findCurrentMonthTab(tabs: string[]): string | null {
-  const today = new Date();
-  const currentName = monthTabName(today);
+function monthTabSortValue(tabName: string): number | null {
+  const match = tabName.match(/^([A-Za-z]+) (\d{2}|\d{4})$/);
+  if (!match) return null;
+  const month = MONTH_NAMES_FULL.findIndex(name => name.toLowerCase() === match[1].toLowerCase());
+  if (month < 0) return null;
+  const parsedYear = Number(match[2]);
+  const year = match[2].length === 2 ? 2000 + parsedYear : parsedYear;
+  return year * 12 + month;
+}
+
+export function sortMonthTabsChronologically(tabs: string[]): string[] {
+  return tabs
+    .filter(tab => monthTabSortValue(tab) !== null)
+    .sort((a, b) => monthTabSortValue(a)! - monthTabSortValue(b)!);
+}
+
+export function findCurrentMonthTab(tabs: string[], now = new Date()): string | null {
+  const currentName = monthTabName(getLondonMonthDate(now));
   if (tabs.includes(currentName)) return currentName;
-  const monthTabs = tabs.filter(t => t !== 'How To' && t !== 'Config').sort();
-  if (monthTabs.length === 0) return null;
-  return monthTabs[monthTabs.length - 1];
+  const monthTabs = sortMonthTabsChronologically(tabs);
+  return monthTabs.length > 0 ? monthTabs[monthTabs.length - 1] : null;
 }
 
 export function parseMonthYearFromTab(tabName: string): { month: number; year: number } {
@@ -355,7 +370,7 @@ export async function writeTab(name: string, times: PrayerTime[], config?: Sheet
       if (oldVal && !/^(19|20|21)\d{2}$/.test(oldVal)) hijriYear = oldVal;
     } catch {}
   }
-  if (hijriYear) await saveTabMetadata(name, 'hijriYear', hijriYear);
+  if (hijriYear) await saveTabMetadata(name, hijriYear);
 
   const rows = times.map((t, i) => {
     const prevT = i > 0 ? times[i - 1] : null;
@@ -406,7 +421,7 @@ export async function writeTab(name: string, times: PrayerTime[], config?: Sheet
 
   // Save hijri year to Config tab before clearing (so readTab can find it)
   const firstHijriYear = times.find(t => t.hijriYear)?.hijriYear || '';
-  if (firstHijriYear) await saveTabMetadata(name, 'hijriYear', firstHijriYear);
+  if (firstHijriYear) await saveTabMetadata(name,firstHijriYear);
 
   // Clear old data beyond column L to remove leftover columns M+ from previous format
   await sheets.spreadsheets.values.clear({
@@ -414,7 +429,6 @@ export async function writeTab(name: string, times: PrayerTime[], config?: Sheet
     range: `${name}!A:Z`,
   });
 
-  const rangeEnd = colToLetter(col.totalColumns);
   await sheets.spreadsheets.values.update({
     spreadsheetId: SHEET_ID,
     range: `${name}!A1`,
@@ -706,6 +720,17 @@ export async function getTabData(tabName: string, config?: SheetConfig): Promise
   return await readTab(tabName, config);
 }
 
+export async function getPrayerTimeForDate(isoDate: string, config?: SheetConfig): Promise<PrayerTime | null> {
+  const [year, month, day] = isoDate.split('-').map(Number);
+  const tabName = monthTabName(new Date(year, month - 1, 1));
+  const tabs = await getSheetTabs();
+  if (!tabs.includes(tabName)) return null;
+
+  const sheetDate = `${String(day).padStart(2, '0')}-${String(month).padStart(2, '0')}-${year}`;
+  const times = await readTab(tabName, config);
+  return times.find(time => time.date === sheetDate) ?? null;
+}
+
 export async function getCurrentMonthData(config?: SheetConfig): Promise<{ times: PrayerTime[]; tabName: string }> {
   const tabs = await getSheetTabs();
   const tab = findCurrentMonthTab(tabs);
@@ -780,40 +805,50 @@ function parseNumericConfig(value: string): number {
   return isNaN(parsed) ? 0 : parsed;
 }
 
+function defaultConfig(): SheetConfig {
+  return {
+    showMaghribStart: DEFAULT_CONFIG.showMaghribStart,
+    showIshaStart: DEFAULT_CONFIG.showIshaStart,
+    calculationMethod: DEFAULT_CONFIG.calculationMethod,
+    school: DEFAULT_CONFIG.school,
+    timeOffsets: { ...DEFAULT_CONFIG.timeOffsets },
+  };
+}
+
+export function parseSheetConfigRows(rows: string[][]): SheetConfig {
+  const config = defaultConfig();
+  if (rows.length < 2) return config;
+
+  const values = new Map<string, string>();
+  for (const row of rows.slice(1)) {
+    values.set((row[0] || '').trim().toLowerCase(), (row[1] || '').trim());
+  }
+  for (const [key, value] of values) {
+    if (key === 'showmaghribstart') config.showMaghribStart = parseConfigValue(value);
+    if (key === 'showishastart') config.showIshaStart = parseConfigValue(value);
+    if (key === 'calculationmethod') { const n = parseNumericConfig(value); if (n > 0) config.calculationMethod = n; }
+    if (key === 'school') { const n = parseNumericConfig(value); if (n >= 0) config.school = n; }
+    if (key === 'fajroffset') config.timeOffsets.fajr = parseNumericConfig(value);
+    if (key === 'sunriseoffset') config.timeOffsets.sunrise = parseNumericConfig(value);
+    if (key === 'asroffset') config.timeOffsets.asr = parseNumericConfig(value);
+    if (key === 'maghriboffset') config.timeOffsets.maghrib = parseNumericConfig(value);
+    if (key === 'ishaoffset') config.timeOffsets.isha = parseNumericConfig(value);
+  }
+  const dhuhrOffset = values.get('dhuhroffset') ?? values.get('dhiroffset');
+  if (dhuhrOffset !== undefined) config.timeOffsets.dhuhr = parseNumericConfig(dhuhrOffset);
+  return config;
+}
+
 export async function readConfig(): Promise<SheetConfig> {
   try {
     const res = await sheets.spreadsheets.values.get({
       spreadsheetId: SHEET_ID,
       range: 'Config!A:B',
     });
-    const rows = res.data.values || [];
-    if (rows.length < 2) return DEFAULT_CONFIG;
-
-    const config: SheetConfig = {
-      showMaghribStart: DEFAULT_CONFIG.showMaghribStart,
-      showIshaStart: DEFAULT_CONFIG.showIshaStart,
-      calculationMethod: DEFAULT_CONFIG.calculationMethod,
-      school: DEFAULT_CONFIG.school,
-      timeOffsets: { ...DEFAULT_CONFIG.timeOffsets },
-    };
-    for (const row of rows.slice(1)) {
-      const key = (row[0] || '').trim().toLowerCase();
-      const value = (row[1] || '').trim();
-      if (key === 'showmaghribstart') config.showMaghribStart = parseConfigValue(value);
-      if (key === 'showishastart') config.showIshaStart = parseConfigValue(value);
-      if (key === 'calculationmethod') { const n = parseNumericConfig(value); if (n > 0) config.calculationMethod = n; }
-      if (key === 'school') { const n = parseNumericConfig(value); if (n >= 0) config.school = n; }
-      if (key === 'fajroffset') config.timeOffsets.fajr = parseNumericConfig(value);
-      if (key === 'sunriseoffset') config.timeOffsets.sunrise = parseNumericConfig(value);
-      if (key === 'dhiroffset') config.timeOffsets.dhuhr = parseNumericConfig(value);
-      if (key === 'asroffset') config.timeOffsets.asr = parseNumericConfig(value);
-      if (key === 'maghriboffset') config.timeOffsets.maghrib = parseNumericConfig(value);
-      if (key === 'ishaoffset') config.timeOffsets.isha = parseNumericConfig(value);
-    }
-    return config;
+    return parseSheetConfigRows(res.data.values || []);
   } catch (err) {
     console.warn('Could not read Config tab, using defaults:', err);
-    return DEFAULT_CONFIG;
+    return defaultConfig();
   }
 }
 
@@ -878,7 +913,7 @@ async function getExistingConfigRows(): Promise<string[][]> {
   } catch { return []; }
 }
 
-async function saveTabMetadata(tabName: string, key: string, value: string): Promise<void> {
+async function saveTabMetadata(tabName: string, value: string): Promise<void> {
   const rows = await getExistingConfigRows();
   const existingIdx = rows.findIndex(r => r[0] === tabName);
   if (existingIdx >= 0) {
