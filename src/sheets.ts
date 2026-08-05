@@ -1,18 +1,11 @@
 import { google, sheets_v4 } from 'googleapis';
 import type { PrayerTime } from './api.js';
+import { getPrivateKeyFromEnvironment } from './credentials.js';
 import { getLondonMonthDate } from './utils.js';
-
-function cleanPrivateKey(raw = ''): string {
-  let key = raw;
-  if (key.startsWith('"')) key = key.slice(1);
-  if (key.endsWith('",')) key = key.slice(0, -2);
-  else if (key.endsWith('"')) key = key.slice(0, -1);
-  return key.replace(/\\n/g, '\n');
-}
 
 const SHEET_ID = process.env.GOOGLE_SHEET_ID!;
 const CLIENT_EMAIL = process.env.GOOGLE_CLIENT_EMAIL!;
-const PRIVATE_KEY = cleanPrivateKey(process.env.GOOGLE_PRIVATE_KEY!);
+const PRIVATE_KEY = getPrivateKeyFromEnvironment();
 
 const auth = new google.auth.JWT({
   email: CLIENT_EMAIL,
