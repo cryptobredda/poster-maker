@@ -40,6 +40,21 @@ test('public endpoints expose CORS only to the configured exact origin', async (
   assert.equal(other.headers.get('access-control-allow-origin'), null);
 });
 
+test('public endpoints allow the production WordPress origin by default', async () => {
+  const previousOrigin = process.env.CORS_ALLOWED_ORIGIN;
+  delete process.env.CORS_ALLOWED_ORIGIN;
+  try {
+    const response = await fetch(`${baseUrl}/health`, {
+      headers: { Origin: 'https://zawia.org' },
+    });
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get('access-control-allow-origin'), 'https://zawia.org');
+  } finally {
+    if (previousOrigin === undefined) delete process.env.CORS_ALLOWED_ORIGIN;
+    else process.env.CORS_ALLOWED_ORIGIN = previousOrigin;
+  }
+});
+
 test('disallowed CORS preflight receives a structured error', async () => {
   const response = await fetch(`${baseUrl}/prayer-times`, {
     method: 'OPTIONS',

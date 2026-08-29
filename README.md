@@ -21,10 +21,10 @@ GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----"
 # Optional alternative when a deployment UI changes multiline values:
 GOOGLE_PRIVATE_KEY_BASE64=<base64-encoded-private-key>
 CRON_SECRET=<a-secret-string-for-secured-endpoints>
-CORS_ALLOWED_ORIGIN=https://www.example.org
+CORS_ALLOWED_ORIGIN=https://zawia.org
 ```
 
-`GOOGLE_PRIVATE_KEY` accepts a PEM value with real line breaks or escaped `\n` sequences. `GOOGLE_PRIVATE_KEY_BASE64` is an optional alternative and takes precedence when set. `CORS_ALLOWED_ORIGIN` is optional. When set, `/prayer-times`, `/poster`, `/table-svg`, and `/health` emit CORS headers only when the request `Origin` exactly matches this value. `CRON_SECRET` is required for cron endpoints; if it is unset, every `/cron/*` request fails closed with HTTP 503.
+`GOOGLE_PRIVATE_KEY` accepts a PEM value with real line breaks or escaped `\n` sequences. `GOOGLE_PRIVATE_KEY_BASE64` is an optional alternative and takes precedence when set. `CORS_ALLOWED_ORIGIN` defaults to `https://zawia.org` and can be overridden for another exact origin. The public endpoints `/prayer-times`, `/poster`, `/table-svg`, and `/health` emit CORS headers only when the request `Origin` exactly matches the allowed origin. `CRON_SECRET` is required for cron endpoints; if it is unset, every `/cron/*` request fails closed with HTTP 503.
 
 ### Install & Run
 

@@ -11,6 +11,7 @@ import { fillMissingMaghribStart, HttpError, normalizePrayerTime, parseMonthYear
 const app = express();
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const PUBLIC_CORS_PATHS = new Set(['/prayer-times', '/poster', '/table-svg', '/health']);
+const DEFAULT_CORS_ALLOWED_ORIGIN = 'https://zawia.org';
 
 function listenOnAvailablePort(initialPort: number): Promise<Server> {
   return new Promise((resolve, reject) => {
@@ -73,7 +74,8 @@ app.use((req, res, next) => {
     return;
   }
 
-  const allowedOrigin = process.env.CORS_ALLOWED_ORIGIN?.trim();
+  const configuredOrigin = process.env.CORS_ALLOWED_ORIGIN?.trim();
+  const allowedOrigin = configuredOrigin || DEFAULT_CORS_ALLOWED_ORIGIN;
   const requestOrigin = req.headers.origin;
   res.vary('Origin');
   if (allowedOrigin && requestOrigin === allowedOrigin) {
