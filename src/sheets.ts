@@ -1,5 +1,5 @@
 import { google, sheets_v4 } from 'googleapis';
-import type { PrayerTime } from './api.js';
+import { getDhuhrJamatForDate, type PrayerTime } from './api.js';
 import { getPrivateKeyFromEnvironment } from './credentials.js';
 import { getLondonMonthDate } from './utils.js';
 
@@ -245,7 +245,7 @@ export async function readTab(name: string, config?: SheetConfig): Promise<Praye
       fajrJamat: (r[col.FAJR_JAMAT] || '').trim(),
       sunrise: (r[col.SUNRISE] || '').trim(),
       dhuhrStart: (r[col.DHUHR_START] || '').trim(),
-      dhuhrJamat: (r[col.DHUHR_JAMAT] || '').trim(),
+      dhuhrJamat: getDhuhrJamatForDate(dateStr),
       asrStart: (r[col.ASR_START] || '').trim(),
       asrJamat: (r[col.ASR_JAMAT] || '').trim(),
       maghribStart: col.MAGHRIB_START >= 0 ? (r[col.MAGHRIB_START] || '').trim() : '',
@@ -254,6 +254,36 @@ export async function readTab(name: string, config?: SheetConfig): Promise<Praye
       ishaJamat: (r[col.ISHA_JAMAT] || '').trim(),
     };
   });
+}
+
+export async function fixDhuhrJamatColumn(name: string): Promise<boolean> {
+  const res = await sheets.spreadsheets.values.get({
+    spreadsheetId: SHEET_ID,
+    range: `${name}!A:H`,
+  });
+  const rows = res.data.values || [];
+  if (rows.length < 2) return false;
+
+  const hasTwoHeaders = ['Date', 'DATE', 'Day', 'DAY'].includes(String(rows[1]?.[0] || '').trim());
+  const dataStartIndex = hasTwoHeaders ? 2 : 1;
+  const { month, year } = parseMonthYearFromTab(name);
+  const dhuhrValues = rows.slice(dataStartIndex).map(row => {
+    const day = String(row[0] || '').trim().split('-')[0];
+    if (!day) return [''];
+    const date = `${day.padStart(2, '0')}-${String(month).padStart(2, '0')}-${year}`;
+    return [getDhuhrJamatForDate(date)];
+  });
+
+  const changed = dhuhrValues.some((value, index) => value[0] !== String(rows[dataStartIndex + index]?.[7] || '').trim());
+  if (!changed) return false;
+
+  await sheets.spreadsheets.values.update({
+    spreadsheetId: SHEET_ID,
+    range: `${name}!H${dataStartIndex + 1}:H${rows.length}`,
+    valueInputOption: 'RAW',
+    requestBody: { values: dhuhrValues },
+  });
+  return true;
 }
 
 export async function readTabColors(name: string, config?: SheetConfig): Promise<SheetColorScheme> {
@@ -596,7 +626,8 @@ export async function ensureHowToTab(): Promise<void> {
     ['4. You can also change the colors of any row and the poster will pick them up'],
     [''],
     ['JAMAT COLUMNS YOU CAN EDIT:'],
-    ['- Fajr Jamat, Dhuhr Jamat, Asr Jamat, Maghrib Jamat, Isha Jamat'],
+    ['- Fajr Jamat, Asr Jamat, Maghrib Jamat, Isha Jamat'],
+    ['- Dhuhr Jamat is automatic: 1:25 during UK BST and 12:25 during UK GMT'],
     [''],
     ['COLOR CUSTOMIZATION:'],
     ['- Change the background or text color of any row in the sheet'],

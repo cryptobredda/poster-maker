@@ -1,5 +1,5 @@
 import { fetchPrayerTimesForRange, calculateJamaatTimes } from './api.js';
-import { getSheetTabs, getSheetId, createTab, writeTab, monthTabName, parseMonthYearFromTab, readConfig, correctTabName, renameTab, sortMonthTabsChronologically } from './sheets.js';
+import { getSheetTabs, getSheetId, createTab, writeTab, monthTabName, parseMonthYearFromTab, readConfig, correctTabName, renameTab, sortMonthTabsChronologically, type SheetConfig } from './sheets.js';
 import { getLondonMonthDate } from './utils.js';
 
 function configToFetchOptions(config: { calculationMethod: number; school: number; timeOffsets: { fajr: number; sunrise: number; dhuhr: number; asr: number; maghrib: number; isha: number } }) {
@@ -10,12 +10,50 @@ function configToFetchOptions(config: { calculationMethod: number; school: numbe
   };
 }
 
+const pendingMonthGenerations = new Map<string, Promise<boolean>>();
+
+async function createMissingMonthTab(tabName: string, config?: SheetConfig): Promise<boolean> {
+  if ((await getSheetId(tabName)) !== null) return false;
+
+  const cfg = config ?? await readConfig();
+  const { month, year } = parseMonthYearFromTab(tabName);
+  const startDate = new Date(year, month - 1, 1);
+  const endDate = new Date(year, month, 0);
+  const { times } = await fetchPrayerTimesForRange(startDate, endDate, configToFetchOptions(cfg));
+  const timesWithJamaat = calculateJamaatTimes(times);
+
+  // Another request or process may have created the tab while the API request was running.
+  if ((await getSheetId(tabName)) !== null) return false;
+
+  try {
+    await createTab(tabName);
+  } catch (error) {
+    // A separate process may have created the tab between the existence check and create.
+    if ((await getSheetId(tabName)) !== null) return false;
+    throw error;
+  }
+  await writeTab(tabName, timesWithJamaat, cfg);
+  console.log(`Created month tab: ${tabName}`);
+  return true;
+}
+
+export function ensureMonthTab(tabName: string, config?: SheetConfig): Promise<boolean> {
+  const pending = pendingMonthGenerations.get(tabName);
+  if (pending) return pending;
+
+  const generation = createMissingMonthTab(tabName, config);
+  pendingMonthGenerations.set(tabName, generation);
+  void generation.finally(() => {
+    if (pendingMonthGenerations.get(tabName) === generation) pendingMonthGenerations.delete(tabName);
+  }).catch(() => undefined);
+  return generation;
+}
+
 export async function syncMonthlyTabs(): Promise<{ created: string[] }> {
   const created: string[] = [];
   const today = getLondonMonthDate();
   const tabs = await getSheetTabs();
   const config = await readConfig();
-  const fetchOpts = configToFetchOptions(config);
 
   // Fix any tabs with 2-digit years (e.g., "June 26" → "June 2026")
   const renamed: string[] = [];
@@ -30,34 +68,13 @@ export async function syncMonthlyTabs(): Promise<{ created: string[] }> {
     console.log('Fixed tab names:', renamed.join(', '));
   }
 
-  // Re-fetch tabs after potential renames
-  const currentTabs = await getSheetTabs();
   const currentName = monthTabName(today);
 
   const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
   const nextName = monthTabName(nextMonth);
 
-  if (!currentTabs.includes(currentName)) {
-    const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-    const endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-    const { times } = await fetchPrayerTimesForRange(startDate, endDate, fetchOpts);
-    const timesWithJamaat = calculateJamaatTimes(times);
-
-    await createTab(currentName);
-    await writeTab(currentName, timesWithJamaat, config);
-    created.push(currentName);
-  }
-
-  if (!currentTabs.includes(nextName)) {
-    const endDate = new Date(nextMonth.getFullYear(), nextMonth.getMonth() + 1, 0);
-    const startDate = new Date(nextMonth);
-    const { times } = await fetchPrayerTimesForRange(startDate, endDate, fetchOpts);
-    const timesWithJamaat = calculateJamaatTimes(times);
-
-    await createTab(nextName);
-    await writeTab(nextName, timesWithJamaat, config);
-    created.push(nextName);
-  }
+  if (await ensureMonthTab(currentName, config)) created.push(currentName);
+  if (await ensureMonthTab(nextName, config)) created.push(nextName);
 
   return { created };
 }

@@ -4,7 +4,7 @@ export const TEMPLATE_CONFIG = {
 
   tableArea: {
     x: 20,
-    y: 315,
+    y: 290,
     width: 1008,
   },
 
@@ -30,12 +30,13 @@ export const TEMPLATE_CONFIG = {
   calculationMethod: 2, // 2 = ISNA (Fajr 15°, Isha 15°)
   school: 0, // 0 = Shafi, 1 = Hanafi
 
-  // Summer months (April-September)
+  // Used for local Maghrib/Isha rules. Fajr uses the monthly offsets below.
   summerMonths: [4, 5, 6, 7, 8, 9],
 
   // Time offsets in minutes (applied to API start times)
   timeOffsets: {
     fajr: { summer: 6, winter: 0 },
+    fajrMonthlyOffsets: { 4: 0, 5: 6, 6: 6, 7: 6, 8: 4, 9: 2, 10: 0 },
     sunrise: 0,
     dhuhr: 0,
     asr: 0,
@@ -47,8 +48,12 @@ export const TEMPLATE_CONFIG = {
   // Minutes to add to Start time to derive Jamat
   jamatIntervals: {
     fajr: 43,
-    dhuhr: 24,
     asr: 46,
+  },
+  // Dhuhr Jamat is fixed by the UK civil-time season, not by Dhuhr start time.
+  dhuhrJamatTimes: {
+    summer: '13:25',
+    winter: '12:25',
   },
   // Fajr Jamat rounding (nearest N minutes)
   fajrRounding: 5,

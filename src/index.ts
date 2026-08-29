@@ -1,15 +1,51 @@
 import 'dotenv/config';
 import express, { type NextFunction, type Request, type Response } from 'express';
+import { createServer, type Server } from 'node:http';
 import { fetchMaghribStartForDate } from './api.js';
 import { generatePoster, generateTemplatePreview } from './poster.js';
-import { getCurrentMonthData, getSheetTabs, ensureHowToTab, ensureConfigTab, readTabColors, readConfig, rewriteTab, readTabGrid, getTabData, monthTabName, parseMonthYearFromTab, sortMonthTabsChronologically } from './sheets.js';
-import { syncMonthlyTabs, regenerateAllTabs } from './cron.js';
+import { getSheetTabs, ensureHowToTab, ensureConfigTab, readTabColors, readConfig, rewriteTab, readTabGrid, getTabData, monthTabName, sortMonthTabsChronologically, fixDhuhrJamatColumn } from './sheets.js';
+import { ensureMonthTab, syncMonthlyTabs } from './cron.js';
 import { buildTitle, getJumuahTime, getLondonDateParts } from './utils.js';
 import { fillMissingMaghribStart, HttpError, normalizePrayerTime, parseMonthYear, parsePrayerDate, posterCacheKey, posterFilename } from './service.js';
 
 const app = express();
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const PUBLIC_CORS_PATHS = new Set(['/prayer-times', '/poster', '/table-svg', '/health']);
+
+function listenOnAvailablePort(initialPort: number): Promise<Server> {
+  return new Promise((resolve, reject) => {
+    const server = createServer(app);
+    let port = initialPort;
+    let errorHandler: ((error: NodeJS.ErrnoException) => void) | null = null;
+
+    server.once('listening', () => {
+      if (errorHandler) server.removeListener('error', errorHandler);
+      const address = server.address();
+      const actualPort = address && typeof address !== 'string' ? address.port : port;
+      console.log(`Server running on http://localhost:${actualPort}`);
+      resolve(server);
+    });
+
+    const tryListen = (): void => {
+      errorHandler = (error: NodeJS.ErrnoException) => {
+        if (error.code !== 'EADDRINUSE') {
+          reject(error);
+          return;
+        }
+
+        const unavailablePort = port;
+        port += 1;
+        console.warn(`Port ${unavailablePort} is already in use; trying port ${port}`);
+        tryListen();
+      };
+
+      server.once('error', errorHandler);
+      server.listen(port);
+    };
+
+    tryListen();
+  });
+}
 
 function sendStructuredError(res: Response, error: unknown): void {
   if (error instanceof HttpError) {
@@ -90,7 +126,6 @@ interface KnownConfig {
 }
 
 let knownConfig: KnownConfig | null = null;
-let isRegenerating = false;
 
 function configToKnown(config: import('./sheets.js').SheetConfig): KnownConfig {
   return {
@@ -117,6 +152,24 @@ function configChanged(current: KnownConfig, known: KnownConfig): boolean {
   );
 }
 
+async function getOrGenerateMonthData(
+  tabName: string,
+  config: import('./sheets.js').SheetConfig,
+): Promise<import('./api.js').PrayerTime[]> {
+  try {
+    return await getTabData(tabName, config);
+  } catch (error) {
+    if (!(error instanceof Error) || error.message !== `Tab "${tabName}" not found`) throw error;
+
+    try {
+      await ensureMonthTab(tabName, config);
+      return await getTabData(tabName, config);
+    } catch {
+      throw new HttpError(502, 'MONTH_GENERATION_FAILED', `The prayer timetable for ${tabName} could not be generated.`, { tab: tabName });
+    }
+  }
+}
+
 async function getSelectedMonth(
   req: Request,
   config: import('./sheets.js').SheetConfig,
@@ -127,32 +180,24 @@ async function getSelectedMonth(
   if (explicitSelection) {
     const targetDate = new Date(selection.year, selection.month - 1, 1);
     const tabName = monthTabName(targetDate);
-    try {
-      return {
-        times: await getTabData(tabName, config),
-        tabName,
-        ...selection,
-      };
-    } catch (error) {
-      if (error instanceof Error && error.message === `Tab "${tabName}" not found`) {
-        throw new HttpError(404, 'MONTH_NOT_FOUND', `No maintained prayer timetable was found for ${tabName}.`);
-      }
-      throw error;
-    }
+    return {
+      times: await getOrGenerateMonthData(tabName, config),
+      tabName,
+      ...selection,
+    };
   }
 
-  const data = await getCurrentMonthData(config);
-  const selectedTab = parseMonthYearFromTab(data.tabName);
+  const now = getLondonDateParts();
+  const tabName = monthTabName(new Date(now.year, now.month - 1, 1));
   return {
-    times: data.times,
-    tabName: data.tabName,
-    year: selectedTab.year,
-    month: selectedTab.month,
+    times: await getOrGenerateMonthData(tabName, config),
+    tabName,
+    year: now.year,
+    month: now.month,
   };
 }
 
-async function checkConfigChange(config: import('./sheets.js').SheetConfig): Promise<void> {
-  if (isRegenerating) return;
+function checkConfigChange(config: import('./sheets.js').SheetConfig): void {
   const current = configToKnown(config);
   if (!knownConfig) {
     knownConfig = current;
@@ -160,20 +205,12 @@ async function checkConfigChange(config: import('./sheets.js').SheetConfig): Pro
   }
   if (!configChanged(current, knownConfig)) return;
 
-  isRegenerating = true;
-  try {
-    const regenerated = await regenerateAllTabs();
-    knownConfig = current;
-    cache.clear();
-    console.log(`Config change detected: regenerated ${regenerated.length} tabs`);
-  } catch (err) {
-    console.error('Error during config-change regeneration:', err);
-  } finally {
-    isRegenerating = false;
-  }
+  knownConfig = current;
+  cache.clear();
+  console.log('Config change detected; existing tabs were not overwritten automatically.');
 }
 
-// Seed knownConfig on startup so the first request doesn't falsely trigger regeneration
+// Seed knownConfig on startup so the first request doesn't falsely report a config change.
 async function seedKnownConfig(): Promise<void> {
   try {
     const { readConfig } = await import('./sheets.js');
@@ -187,15 +224,7 @@ app.get('/prayer-times', async (req, res) => {
     const config = await readConfig();
     const [year, month, day] = date.split('-').map(Number);
     const tabName = monthTabName(new Date(year, month - 1, 1));
-    let monthTimes: import('./api.js').PrayerTime[];
-    try {
-      monthTimes = await getTabData(tabName, config);
-    } catch (error) {
-      if (error instanceof Error && error.message === `Tab "${tabName}" not found`) {
-        throw new HttpError(404, 'PRAYER_TIMES_NOT_FOUND', `No maintained prayer times were found for ${date}.`, { date });
-      }
-      throw error;
-    }
+    const monthTimes = await getOrGenerateMonthData(tabName, config);
 
     const sheetDate = `${String(day).padStart(2, '0')}-${String(month).padStart(2, '0')}-${year}`;
     const maintainedTime = monthTimes.find(time => time.date === sheetDate);
@@ -373,6 +402,20 @@ app.post('/cron/rewrite', async (req, res) => {
   }
 });
 
+app.post('/cron/fix-dhuhr', async (_req, res) => {
+  try {
+    const tabs = sortMonthTabsChronologically(await getSheetTabs());
+    const fixed: string[] = [];
+    for (const tab of tabs) {
+      if (await fixDhuhrJamatColumn(tab)) fixed.push(tab);
+    }
+    res.type('text').send(`Fixed Dhuhr Jamat in: ${fixed.join(', ') || 'none'}`);
+  } catch (error) {
+    console.error('Error fixing Dhuhr Jamat:', error);
+    res.status(500).type('text').send(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+});
+
 app.post('/cron/regenerate', async (req, res) => {
   const tabName = (req.query.tab as string) || '';
   if (!tabName) {
@@ -423,7 +466,7 @@ async function start() {
   // Seed known config so first check doesn't false-trigger
   await seedKnownConfig();
 
-  // Check for config changes and regenerate tabs if needed
+  // Track config changes without overwriting existing tabs automatically.
   setInterval(async () => {
     try {
       const config = await readConfig();
@@ -445,9 +488,7 @@ async function start() {
     }
   }, 6 * 60 * 60 * 1000);
 
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
+  await listenOnAvailablePort(PORT);
 }
 
 export { app };

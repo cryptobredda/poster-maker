@@ -649,7 +649,9 @@ function buildTableFromGrid(grid: SheetGrid, monthName: string, sheetColors?: Sh
       }
 
       let val = row.values[c] || '';
-      if (!val && times && r < times.length && col.key) {
+      if (times && r < times.length && col.key === 'dhuhrJamat') {
+        val = times[r].dhuhrJamat;
+      } else if (!val && times && r < times.length && col.key) {
         val = String((times[r] as any)[col.key] || '');
       }
       if (!val) continue;

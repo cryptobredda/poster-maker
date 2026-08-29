@@ -51,17 +51,17 @@ export function getUKTimezone(date: Date): string {
 }
 
 export function isBST(date: Date): boolean {
-  const year = date.getFullYear();
-  const marchLastSunday = new Date(year, 2, 31);
-  while (marchLastSunday.getDay() !== 0) {
-    marchLastSunday.setDate(marchLastSunday.getDate() - 1);
+  const year = date.getUTCFullYear();
+  const marchLastSunday = new Date(Date.UTC(year, 2, 31));
+  while (marchLastSunday.getUTCDay() !== 0) {
+    marchLastSunday.setUTCDate(marchLastSunday.getUTCDate() - 1);
   }
-  marchLastSunday.setHours(1, 0, 0, 0);
-  const octLastSunday = new Date(year, 9, 31);
-  while (octLastSunday.getDay() !== 0) {
-    octLastSunday.setDate(octLastSunday.getDate() - 1);
+  marchLastSunday.setUTCHours(1, 0, 0, 0);
+  const octLastSunday = new Date(Date.UTC(year, 9, 31));
+  while (octLastSunday.getUTCDay() !== 0) {
+    octLastSunday.setUTCDate(octLastSunday.getUTCDate() - 1);
   }
-  octLastSunday.setHours(1, 0, 0, 0);
+  octLastSunday.setUTCHours(1, 0, 0, 0);
   return date >= marchLastSunday && date < octLastSunday;
 }
 

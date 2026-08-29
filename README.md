@@ -35,7 +35,7 @@ npm run build        # compile + copy assets to dist/
 node dist/index.js   # production start
 ```
 
-The server listens on `http://localhost:3000` by default (override with `PORT` env var).
+The server starts at `http://localhost:3000` by default (override with the `PORT` env var). If that port is already in use, it automatically tries the next available port and logs the URL it selected.
 
 ---
 
@@ -58,7 +58,7 @@ Response:
 
 ### `GET /prayer-times?date=YYYY-MM-DD`
 
-Returns the maintained Google Sheet row for one London calendar date as normalized JSON. If `date` is omitted, the current date in `Europe/London` is used. Existing Sheet start and jamaah values are preserved exactly; only a blank Maghrib start is calculated from Aladhan using the Sheet configuration. Jumu’ah is the first nonblank maintained Dhuhr jamaah value from a Friday in the same month.
+Returns the Google Sheet row for one London calendar date as normalized JSON. If the requested month does not exist, it is generated from the Aladhan API and written to Google Sheets before the response is served. If `date` is omitted, the current date in `Europe/London` is used. Existing Sheet start and jamaah values are preserved exactly; only a blank Maghrib start is calculated from Aladhan using the Sheet configuration. Jumu’ah is the first nonblank maintained Dhuhr jamaah value from a Friday in the same month.
 
 ```bash
 curl "localhost:3000/prayer-times?date=2026-07-25"
@@ -97,13 +97,13 @@ Blank maintained values are returned as `null`. `prayers.maghrib.startSource` is
 }
 ```
 
-Possible error codes include `INVALID_DATE` (400), `PRAYER_TIMES_NOT_FOUND` (404), `MAGHRIB_CALCULATION_FAILED` (502), and `INTERNAL_ERROR` (500).
+Possible error codes include `INVALID_DATE` (400), `PRAYER_TIMES_NOT_FOUND` (404), `MONTH_GENERATION_FAILED` (502), `MAGHRIB_CALCULATION_FAILED` (502), and `INTERNAL_ERROR` (500).
 
 ---
 
 ### `GET /poster`
 
-Generate the prayer timetable poster as PNG. Without query parameters, the current month is determined in `Europe/London`. Poster buffers are cached independently by `year-month` for 30 minutes.
+Generate the prayer timetable poster as PNG. Without query parameters, the current month is determined in `Europe/London`. If a requested month tab does not exist, it is generated from the Aladhan API and written to Google Sheets before the poster is served. Existing tabs are never overwritten by this public endpoint. Poster buffers are cached independently by `year-month` for 30 minutes.
 
 `month` and `year` must either both be omitted or both be present. Month is `1`-`12` and year must be between `1900` and `2199`.
 
@@ -137,7 +137,7 @@ curl -o poster.png "localhost:3000/poster?nocache=1"
 
 ### `GET /table-svg`
 
-Returns the SVG source of the prayer table (without the background template). Useful for debugging or embedding. It accepts the same strict, paired `month` and `year` parameters as `/poster`.
+Returns the SVG source of the prayer table (without the background template). Useful for debugging or embedding. It accepts the same strict, paired `month` and `year` parameters as `/poster`; missing month tabs are generated before the response is served.
 
 ```bash
 curl -o table.svg localhost:3000/table-svg
@@ -214,6 +214,16 @@ Regenerated May 2026
 
 ---
 
+### `POST /cron/fix-dhuhr`
+
+Updates only the Dhuhr Jamat column in every existing month tab. This endpoint is authenticated because it changes existing Google Sheet data. It sets Dhuhr Jamat to `1:25` during UK BST and `12:25` during UK GMT without regenerating the other prayer times.
+
+```bash
+curl -X POST "localhost:3000/cron/fix-dhuhr?secret=zawia"
+```
+
+---
+
 ## Google Sheet Structure
 
 ### Month Tabs
@@ -234,6 +244,8 @@ Each month tab (e.g. `May 2026`) uses a **two-row header** with exactly **12 col
 | J   |          | JAMAT    | Asr jamat time |
 | K   | MAGHRIB  | JAMAT    | Maghrib jamat time |
 | L   | ISHA     | JAMAT    | Isha jamat time |
+
+Dhuhr Jamat is fixed at `1:25` during UK BST and `12:25` during UK GMT. It does not follow the calculated Dhuhr start time.
 
 ### How To Tab
 

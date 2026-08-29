@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import type { PrayerTime } from '../src/api.js';
+import { calculateJamaatTimes, getDhuhrJamatForDate, type PrayerTime } from '../src/api.js';
 import { fillMissingMaghribStart, getJumuahJamaah, HttpError, normalizePrayerTime, parseMonthYear, parsePrayerDate, posterCacheKey, posterFilename } from '../src/service.js';
 import { getLondonDateParts } from '../src/utils.js';
 
@@ -53,6 +53,20 @@ test('prayer date validation rejects malformed and impossible dates', () => {
     });
   }
   assert.equal(parsePrayerDate('2028-02-29'), '2028-02-29');
+});
+
+test('Dhuhr Jamat uses the fixed UK seasonal times', () => {
+  assert.equal(getDhuhrJamatForDate('01-09-2026'), '1:25');
+  assert.equal(getDhuhrJamatForDate('24-10-2026'), '1:25');
+  assert.equal(getDhuhrJamatForDate('25-10-2026'), '12:25');
+  assert.equal(getDhuhrJamatForDate('01-11-2026'), '12:25');
+
+  const [summer, winter] = calculateJamaatTimes([
+    prayerTime({ date: '01-09-2026', dhuhrJamat: '1:32' }),
+    prayerTime({ date: '01-11-2026', dhuhrJamat: '1:22' }),
+  ]);
+  assert.equal(summer.dhuhrJamat, '1:25');
+  assert.equal(winter.dhuhrJamat, '12:25');
 });
 
 test('month and year must be supplied as a strict pair', () => {

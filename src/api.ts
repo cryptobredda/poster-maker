@@ -1,4 +1,4 @@
-import { formatTimeHHMM } from './utils.js';
+import { formatTimeHHMM, isBST } from './utils.js';
 import { TEMPLATE_CONFIG } from './template-config.js';
 
 // Hijri month names indexed by month number (1-12)
@@ -113,6 +113,10 @@ function isSummer(month: number): boolean {
   return TEMPLATE_CONFIG.summerMonths.includes(month);
 }
 
+function getFajrOffset(month: number): number {
+  return (TEMPLATE_CONFIG.timeOffsets.fajrMonthlyOffsets as Record<number, number>)[month] ?? 0;
+}
+
 function getIshaRuleOffset(month: number): number {
   const offsets = TEMPLATE_CONFIG.ishaRuleOffsets as Record<string, number>;
   return offsets[String(month)] ?? offsets.default ?? 75;
@@ -120,6 +124,15 @@ function getIshaRuleOffset(month: number): number {
 
 function roundToNearest(value: number, nearest: number): number {
   return Math.round(value / nearest) * nearest;
+}
+
+export function getDhuhrJamatForDate(dateStr: string): string {
+  const [day, month, year] = dateStr.split('-').map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day, 12));
+  const configuredTime = isBST(date)
+    ? TEMPLATE_CONFIG.dhuhrJamatTimes.summer
+    : TEMPLATE_CONFIG.dhuhrJamatTimes.winter;
+  return formatTimeHHMM(configuredTime);
 }
 
 async function fetchSingleMonth(year: number, month: number, options?: FetchOptions): Promise<PrayerTime[]> {
@@ -133,11 +146,6 @@ async function fetchSingleMonth(year: number, month: number, options?: FetchOpti
     maghrib: options?.timeOffsets?.maghrib ?? 0,
     isha: options?.timeOffsets?.isha ?? 0,
   };
-
-  // Seasonal Fajr offset from template config (not from sheet)
-  const seasonFajrOffset = isSummer(month)
-    ? (TEMPLATE_CONFIG.timeOffsets.fajr as any).summer ?? 0
-    : (TEMPLATE_CONFIG.timeOffsets.fajr as any).winter ?? 0;
 
   const url = new URL('https://api.aladhan.com/v1/calendar');
   url.searchParams.set('latitude', String(TEMPLATE_CONFIG.location.latitude));
@@ -168,7 +176,7 @@ async function fetchSingleMonth(year: number, month: number, options?: FetchOpti
     const hijriDayNum = String(parseInt(hijri.day, 10));
 
     // Apply offsets: seasonal Fajr offset + sheet/template offsets
-    const fajrMins = timeToMinutes(t.Fajr) + seasonFajrOffset + offsets.fajr;
+      const fajrMins = timeToMinutes(t.Fajr) + getFajrOffset(month) + offsets.fajr;
 
     return {
       date: gregorian.date,
@@ -261,7 +269,6 @@ export function calculateJamaatTimes(times: PrayerTime[]): PrayerTime[] {
     const summer = isSummer(month);
 
     const fajrStartM = timeToMinutes(t.fajrStart);
-    const dhuhrStartM = timeToMinutes(t.dhuhrStart);
     const asrStartM = timeToMinutes(t.asrStart);
     const maghribStartM = timeToMinutes(t.maghribStart);
 
@@ -281,9 +288,6 @@ export function calculateJamaatTimes(times: PrayerTime[]): PrayerTime[] {
       TEMPLATE_CONFIG.fajrRounding,
     );
 
-    // Dhuhr Jamat = Dhuhr Start + interval
-    const dhuhrJamatM = dhuhrStartM + TEMPLATE_CONFIG.jamatIntervals.dhuhr;
-
     // Asr Jamat = Asr Start + interval
     const asrJamatM = asrStartM + TEMPLATE_CONFIG.jamatIntervals.asr;
 
@@ -296,7 +300,7 @@ export function calculateJamaatTimes(times: PrayerTime[]): PrayerTime[] {
     return {
       ...t,
       fajrJamat: formatTimeHHMM(minutesToTimeStr(fajrJamatM)),
-      dhuhrJamat: formatTimeHHMM(minutesToTimeStr(dhuhrJamatM)),
+      dhuhrJamat: getDhuhrJamatForDate(t.date),
       asrJamat: formatTimeHHMM(minutesToTimeStr(asrJamatM)),
       maghribJamat: formatTimeHHMM(minutesToTimeStr(maghribJamatM)),
       ishaStart: formatTimeHHMM(minutesToTimeStr(ishaStartM)),
