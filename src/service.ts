@@ -1,4 +1,4 @@
-import type { PrayerTime } from './api.js';
+import { getDhuhrJamatForDate, type PrayerTime } from './api.js';
 import { getLondonDateParts } from './utils.js';
 
 export class HttpError extends Error {
@@ -82,9 +82,10 @@ function formatLondonDate(isoDate: string, options: Intl.DateTimeFormatOptions):
   }).format(date);
 }
 
-export function getJumuahJamaah(monthTimes: PrayerTime[]): string | null {
+export function getJumuahJamaah(monthTimes: PrayerTime[], dateStr: string): string | null {
   const friday = monthTimes.find(time => time.dayName === 'FRI' && time.dhuhrJamat.trim());
-  return friday ? cleanTime(friday.dhuhrJamat) : null;
+  // Follow the requested date's UK season, not the month's first Friday.
+  return friday ? getDhuhrJamatForDate(dateStr) : null;
 }
 
 export async function fillMissingMaghribStart(
@@ -128,6 +129,6 @@ export function normalizePrayerTime(
       },
       isha: { start: cleanTime(prayerTime.ishaStart), jamaah: cleanTime(prayerTime.ishaJamat) },
     },
-    jumuah: { jamaah: getJumuahJamaah(monthTimes) },
+    jumuah: { jamaah: getJumuahJamaah(monthTimes, prayerTime.date) },
   };
 }

@@ -627,7 +627,7 @@ export async function ensureHowToTab(): Promise<void> {
     [''],
     ['JAMAT COLUMNS YOU CAN EDIT:'],
     ['- Fajr Jamat, Asr Jamat, Maghrib Jamat, Isha Jamat'],
-    ['- Dhuhr Jamat is automatic: 1:25 during UK BST and 12:25 during UK GMT'],
+    ['- Dhuhr and Jumu\'ah Jamat are automatic: 1:30 during UK BST and 12:30 during UK GMT'],
     [''],
     ['COLOR CUSTOMIZATION:'],
     ['- Change the background or text color of any row in the sheet'],

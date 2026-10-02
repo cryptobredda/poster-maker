@@ -52,8 +52,8 @@ export const TEMPLATE_CONFIG = {
   },
   // Dhuhr Jamat is fixed by the UK civil-time season, not by Dhuhr start time.
   dhuhrJamatTimes: {
-    summer: '13:25',
-    winter: '12:25',
+    summer: '13:30',
+    winter: '12:30',
   },
   // Fajr Jamat rounding (nearest N minutes)
   fajrRounding: 5,

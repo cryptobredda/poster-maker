@@ -58,7 +58,7 @@ Response:
 
 ### `GET /prayer-times?date=YYYY-MM-DD`
 
-Returns the Google Sheet row for one London calendar date as normalized JSON. If the requested month does not exist, it is generated from the Aladhan API and written to Google Sheets before the response is served. If `date` is omitted, the current date in `Europe/London` is used. Existing Sheet start and jamaah values are preserved exactly; only a blank Maghrib start is calculated from Aladhan using the Sheet configuration. Jumu’ah is the first nonblank maintained Dhuhr jamaah value from a Friday in the same month.
+Returns the Google Sheet row for one London calendar date as normalized JSON. If the requested month does not exist, it is generated from the Aladhan API and written to Google Sheets before the response is served. If `date` is omitted, the current date in `Europe/London` is used. Existing Sheet start and jamaah values are preserved except for Dhuhr jamaah, which is fixed at `1:30` during UK BST and `12:30` during UK GMT. A blank Maghrib start is calculated from Aladhan using the Sheet configuration. Jumu’ah follows the same fixed seasonal time for the requested date, including months when the clocks change.
 
 ```bash
 curl "localhost:3000/prayer-times?date=2026-07-25"
@@ -85,7 +85,7 @@ Response:
 }
 ```
 
-Blank maintained values are returned as `null`. `prayers.maghrib.startSource` is `sheet` when the maintained row supplied the start and `calculated` only when the fallback supplied it. `jumuah.jamaah` remains in the Sheet’s original time format and is `null` when no Friday Dhuhr jamaah is maintained. Errors use a structured body:
+Blank maintained values are returned as `null`. `prayers.maghrib.startSource` is `sheet` when the maintained row supplied the start and `calculated` only when the fallback supplied it. `jumuah.jamaah` uses the same `h:mm` format as automatic Dhuhr jamaah and is `null` when the month has no Friday with a Dhuhr jamaah value. Errors use a structured body:
 
 ```json
 {
@@ -216,7 +216,7 @@ Regenerated May 2026
 
 ### `POST /cron/fix-dhuhr`
 
-Updates only the Dhuhr Jamat column in every existing month tab. This endpoint is authenticated because it changes existing Google Sheet data. It sets Dhuhr Jamat to `1:25` during UK BST and `12:25` during UK GMT without regenerating the other prayer times.
+Updates only the Dhuhr Jamat column in every existing month tab. This endpoint is authenticated because it changes existing Google Sheet data. It sets Dhuhr Jamat to `1:30` during UK BST and `12:30` during UK GMT without regenerating the other prayer times.
 
 ```bash
 curl -X POST "localhost:3000/cron/fix-dhuhr?secret=zawia"
@@ -245,11 +245,11 @@ Each month tab (e.g. `May 2026`) uses a **two-row header** with exactly **12 col
 | K   | MAGHRIB  | JAMAT    | Maghrib jamat time |
 | L   | ISHA     | JAMAT    | Isha jamat time |
 
-Dhuhr Jamat is fixed at `1:25` during UK BST and `12:25` during UK GMT. It does not follow the calculated Dhuhr start time.
+Dhuhr Jamat is fixed at `1:30` during UK BST and `12:30` during UK GMT. It does not follow the calculated Dhuhr start time. In October 2026, this means `1:30` on 1–24 October and `12:30` from 25 October onward. The API uses this rule even before existing Sheet values are updated.
 
 ### How To Tab
 
-Created automatically. Contains usage instructions.
+Created automatically. Contains usage instructions. An existing How To tab is not overwritten; update its seasonal Dhuhr/Jumu’ah instructions manually if they still show the old times.
 
 ### Config Tab
 
